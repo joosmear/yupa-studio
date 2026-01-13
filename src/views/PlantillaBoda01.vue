@@ -3,13 +3,22 @@ import CuentaRegresiva from '../components/CuentaRegresiva.vue'
 import BotonAccion from '../components/BotonAccion.vue'
 import ReproductorMusica from '../components/ReproductorMusica.vue'
 import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift } from '@phosphor-icons/vue'
+import { onMounted, onUnmounted } from 'vue'
 
-const props = defineProps({
-  datos: {
-    type: Object,
-    required: true
-  }
-})
+  const props = defineProps({
+    datos: {
+      type: Object,
+      required: true
+    }
+  })
+
+  onMounted(() => {
+  document.title = `Boda de ${props.datos.nombres} | Yupa Studio`
+  })
+
+  onUnmounted(() => {
+  document.title = 'Yupa Studio | Invitaciones Digitales'
+  })
 </script>
 
 <template>
