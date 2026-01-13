@@ -2,18 +2,14 @@
 import CuentaRegresiva from '../components/CuentaRegresiva.vue'
 import BotonAccion from '../components/BotonAccion.vue'
 import ReproductorMusica from '../components/ReproductorMusica.vue'
-
-// Importamos los iconos necesarios
 import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift } from '@phosphor-icons/vue'
 
-// Datos "Simulados"
-const novios = {
-  nombres: "Carlos & Sofía",
-  fecha: "2026-02-14T16:00:00",
-  frase: "El amor no se mira, se siente, y más aún cuando ella está junto a ti.",
-  fotoPortada: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1080&auto=format&fit=crop",
-  fotoSegunda: "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1080&auto=format&fit=crop"
-}
+const props = defineProps({
+  datos: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
@@ -21,14 +17,14 @@ const novios = {
 
     <header 
       class="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
-      :style="`background-image: url(${novios.fotoPortada})`"
+      :style="`background-image: url(${datos.fotoPortada})`"
     >
       <div class="absolute inset-0 bg-black/40"></div>
 
       <div class="relative z-10 text-center text-white px-4 animate-bounce-slow">
         <p class="font-elegante tracking-[0.2em] uppercase text-sm mb-4">¡Nos Casamos!</p>
         <h1 class="font-boda text-6xl md:text-8xl mb-6 drop-shadow-lg">
-          {{ novios.nombres }}
+          {{ datos.nombres }}
         </h1>
         <div class="inline-block border-y border-white/80 py-2 px-6 backdrop-blur-sm">
           <p class="font-elegante text-xl">14 . Febrero . 2026</p>
@@ -38,34 +34,34 @@ const novios = {
 
     <section class="py-16 px-6 max-w-2xl mx-auto text-center space-y-8">
       <p class="font-elegante text-xl italic text-stone-600 leading-relaxed">
-        "{{ novios.frase }}"
+        "{{ datos.frase }}"
       </p>
       
       <div class="py-8">
         <p class="uppercase tracking-widest text-xs font-bold mb-6 text-stone-400">Solo faltan</p>
-        <CuentaRegresiva :fechaObjetivo="novios.fecha" />
+        <CuentaRegresiva :fechaObjetivo="datos.fecha" />
       </div>
     </section>
 
     <section class="py-16 bg-white shadow-inner">
       <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
         <div class="rounded-t-full overflow-hidden border-4 border-stone-100 shadow-xl h-96">
-          <img :src="novios.fotoSegunda" class="w-full h-full object-cover" alt="Pareja">
+          <img :src="datos.fotoSegunda" class="w-full h-full object-cover" alt="Pareja">
         </div>
 
         <div class="space-y-6 text-center md:text-left">
           <h2 class="font-elegante text-3xl text-rose-900">Ceremonia Religiosa</h2>
           <p class="text-stone-600">
             Acompáñanos a celebrar nuestra unión ante Dios.<br>
-            <strong>Parroquia San Miguel</strong><br>
-            Av. Principal #123, La Paz
+            <strong>{{ datos.ubicacion.nombreLugar }}</strong><br>
+            {{ datos.ubicacion.direccion }}
           </p>
           
           <div class="flex flex-col gap-3">
             <BotonAccion 
               texto="Ver Ubicación GPS" 
               :icono="PhMapPin" 
-              url="#" 
+              url="datos.ubicacion.linkGps" 
               color="bg-stone-800"
             />
             <BotonAccion 
@@ -96,7 +92,7 @@ const novios = {
         <BotonAccion 
           texto="Confirmar por WhatsApp" 
           :icono="PhWhatsappLogo" 
-          url="https://wa.me/591XXXXXXXX" 
+          url="`https://wa.me/${datos.contacto.whatsapp}`" 
           color="bg-green-600"
         />
       </div>
@@ -106,7 +102,7 @@ const novios = {
       <p>Invitación creada con ❤️ por <span class="text-white font-bold">Yupa Studio</span></p>
     </footer>
 
-    <ReproductorMusica songUrl="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+    <ReproductorMusica songUrl="datos.musica" />
 
   </div>
 </template>
