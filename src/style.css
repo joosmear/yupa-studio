@@ -1,1 +1,27 @@
+/* Fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Motor de Tailwind */
 @import "tailwindcss";
+
+/* Clases personalizadas */
+@layer utilities {
+  .font-boda {
+    font-family: 'Great Vibes', cursive;
+  }
+  
+  .font-elegante {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  /* Animación suave para el rebote */
+  .animate-bounce-slow {
+    animation: bounce 3s infinite;
+  }
+}
+
+/* Opcional: Para definir la animación si no la toma por defecto */
+@keyframes bounce {
+  0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+}

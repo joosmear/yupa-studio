@@ -1,3 +1,7 @@
+<script setup>
+import PlantillaBoda01 from './views/PlantillaBoda01.vue'
+</script>
+
 <template>
-  Hello word
+  <PlantillaBoda01 />
 </template>
