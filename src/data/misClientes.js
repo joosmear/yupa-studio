@@ -24,6 +24,23 @@ export const bodaJuan = {
     banco: "BNB - Caja de Ahorro - 123456789"
   },
 
+regalos: [
+  {
+    nombre: "Cuenta Novia", // Título de la pestaña
+    qr: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg", // URL imagen
+    banco: "Banco Unión",
+    cuenta: "111-222-333",
+    titular: "Ana García"
+  },
+  {
+    nombre: "Cuenta Novio",
+    qr: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg", // URL imagen
+    banco: "BNB",
+    cuenta: "999-888-777",
+    titular: "Juan Pérez"
+  }
+],
+
   musica: "/songs/mi-persona-favorita.mp3"
 }
 

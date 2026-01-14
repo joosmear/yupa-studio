@@ -4,6 +4,8 @@ import BotonAccion from '../components/BotonAccion.vue'
 import ReproductorMusica from '../components/ReproductorMusica.vue'
 import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift } from '@phosphor-icons/vue'
 import { onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
+import ModalRegalos from '../components/ModalRegalos.vue'
 
   const props = defineProps({
     datos: {
@@ -11,6 +13,8 @@ import { onMounted, onUnmounted } from 'vue'
       required: true
     }
   })
+
+  const modalAbierto = ref(false)
 
   onMounted(() => {
   document.title = `Boda de ${props.datos.nombres} | Yupa Studio`
@@ -91,7 +95,11 @@ import { onMounted, onUnmounted } from 'vue'
         <p class="text-sm text-stone-500">
           Nuestro mejor regalo es tu presencia. Pero si deseas tener un detalle con nosotros...
         </p>
-        <button class="text-rose-600 font-bold underline">Ver Datos Bancarios</button>
+        <button
+          @click="modalAbierto = true"
+          class="text-rose-600 font-bold underline">
+            Ver Datos Bancarios
+        </button>
         
         <hr class="border-stone-200">
 
@@ -112,6 +120,12 @@ import { onMounted, onUnmounted } from 'vue'
     </footer>
 
     <ReproductorMusica :songUrl="datos.musica" />
+
+    <ModalRegalos 
+      :mostrar="modalAbierto" 
+      :cuentas="datos.regalos" 
+      @cerrar="modalAbierto = false"
+    />
 
   </div>
 </template>
