@@ -16,6 +16,8 @@ export const bodaJuan = {
     direccion: "Av. Principal #123, Zona Sur",
     linkGps: "https://maps.app.goo.gl/CK5j3kXuYeJJq3Ms6" // Aquí iría el link real de Google Maps
   },
+
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
   
   contacto: {
     whatsapp: "59170000000", // Sin el '+' para que funcione el link directo

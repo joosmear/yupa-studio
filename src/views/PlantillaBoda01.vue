@@ -70,13 +70,13 @@ import { onMounted, onUnmounted } from 'vue'
             <BotonAccion 
               texto="Ver Ubicación GPS" 
               :icono="PhMapPin" 
-              url="datos.ubicacion.linkGps" 
+              :url="datos.ubicacion.linkGps" 
               color="bg-stone-800"
             />
             <BotonAccion 
               texto="Agendar Fecha" 
               :icono="PhCalendarCheck" 
-              url="#" 
+              :url="datos.linkCalendario" 
               color="bg-rose-600"
             />
           </div>
@@ -101,7 +101,7 @@ import { onMounted, onUnmounted } from 'vue'
         <BotonAccion 
           texto="Confirmar por WhatsApp" 
           :icono="PhWhatsappLogo" 
-          url="`https://wa.me/${datos.contacto.whatsapp}`" 
+          :url="`https://wa.me/${datos.contacto.whatsapp}`" 
           color="bg-green-600"
         />
       </div>
@@ -111,7 +111,7 @@ import { onMounted, onUnmounted } from 'vue'
       <p>Invitación creada con ❤️ por <span class="text-white font-bold">Yupa Studio</span></p>
     </footer>
 
-    <ReproductorMusica songUrl="datos.musica" />
+    <ReproductorMusica :songUrl="datos.musica" />
 
   </div>
 </template>
