@@ -9,12 +9,12 @@ export const bodaJuan = {
   
   // Fotos (Usamos links de Unsplash por ahora)
   fotoPortada: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1080",
-  fotoSegunda: "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1080",
+  fotoSegunda: "https://images.unsplash.com/photo-1606216794079-73f85bbd57d5?q=80&w=1974",
   
   ubicacion: {
     nombreLugar: "Parroquia San Miguel",
     direccion: "Av. Principal #123, Zona Sur",
-    linkGps: "https://goo.gl/maps/..." // Aquí iría el link real de Google Maps
+    linkGps: "https://maps.app.goo.gl/CK5j3kXuYeJJq3Ms6" // Aquí iría el link real de Google Maps
   },
   
   contacto: {
@@ -22,7 +22,7 @@ export const bodaJuan = {
     banco: "BNB - Caja de Ahorro - 123456789"
   },
 
-  musica: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  musica: "/songs/mi-persona-favorita.mp3"
 }
 
 // CLIENTE 2: Pedro y María (Boda Moderna)
