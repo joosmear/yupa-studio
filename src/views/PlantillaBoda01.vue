@@ -4,8 +4,12 @@ import BotonAccion from '../components/BotonAccion.vue'
 import ReproductorMusica from '../components/ReproductorMusica.vue'
 import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift } from '@phosphor-icons/vue'
 import { onMounted, onUnmounted } from 'vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import ModalRegalos from '../components/ModalRegalos.vue'
+import Cronograma from '../components/Cronograma.vue'
+import CodigoVestimenta from '../components/CodigoVestimenta.vue'
+import GaleriaFotos from '../components/GaleriaFotos.vue'
+import SeccionPadrinos from '../components/SeccionPadrinos.vue'
 
   const props = defineProps({
     datos: {
@@ -22,6 +26,17 @@ import ModalRegalos from '../components/ModalRegalos.vue'
 
   onUnmounted(() => {
   document.title = 'Yupa Studio | Invitaciones Digitales'
+  })
+
+  // LÓGICA DE NIVELES
+  // 1. ¿Es Gold o Superior? (Incluye Gold y Premium)
+  const esGold = computed(() => {
+    return ['gold', 'premium'].includes(props.datos.plan)
+  })
+
+  // 2. ¿Es Premium? (Solo Premium)
+  const esPremium = computed(() => {
+    return props.datos.plan === 'premium'
   })
 </script>
 
@@ -88,10 +103,34 @@ import ModalRegalos from '../components/ModalRegalos.vue'
       </div>
     </section>
 
+    <section v-if="esGold" class="bg-white py-10">
+      
+      <Cronograma 
+        v-if="datos.agenda" 
+        :eventos="datos.agenda" 
+      />
+
+      <CodigoVestimenta 
+        v-if="datos.vestimenta" 
+        :tipo="datos.vestimenta.tipo" 
+        :nota="datos.vestimenta.nota" 
+      />
+    </section>
+
+    <GaleriaFotos
+      v-if="esGold && datos.galeria" 
+      :fotos="datos.galeria" 
+    />
+
+    <SeccionPadrinos 
+      v-if="esPremium && datos.cortejo" 
+      :padrinos="datos.cortejo" 
+    />
+
     <section class="py-20 px-4 text-center bg-stone-100">
       <div class="max-w-md mx-auto space-y-8 bg-white p-8 rounded-2xl shadow-xl">
         <PhGift :size="48" class="text-rose-400 mx-auto" />
-        <h3 class="font-elegante text-2xl">Lluvia de Sobres</h3>
+        <h3 class="font-elegante text-2xl">Regalo de Bodas</h3>
         <p class="text-sm text-stone-500">
           Nuestro mejor regalo es tu presencia. Pero si deseas tener un detalle con nosotros...
         </p>
