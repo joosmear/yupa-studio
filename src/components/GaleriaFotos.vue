@@ -1,87 +1,139 @@
 <script setup>
-import { ref } from 'vue'
-import { PhX, PhCamera } from '@phosphor-icons/vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { PhX, PhCaretLeft, PhCaretRight, PhCamera } from '@phosphor-icons/vue'
 
-defineProps({
+const props = defineProps({
   fotos: {
     type: Array,
     required: true
   }
 })
 
-// Estado para saber qué foto está abierta en grande (null = ninguna)
-const fotoSeleccionada = ref(null)
+// --- LÓGICA DEL SLIDER (Igual que antes) ---
+const indiceActual = ref(-1)
 
-const abrirFoto = (url) => {
-  fotoSeleccionada.value = url
-  // Bloquear el scroll del cuerpo para que no se mueva la página de fondo
+const abrirGaleria = (index) => {
+  indiceActual.value = index
   document.body.style.overflow = 'hidden'
 }
 
-const cerrarFoto = () => {
-  fotoSeleccionada.value = null
-  // Reactivar el scroll
+const cerrarGaleria = () => {
+  indiceActual.value = -1
   document.body.style.overflow = 'auto'
 }
+
+const siguienteFoto = () => {
+  if (indiceActual.value < props.fotos.length - 1) {
+    indiceActual.value++
+  } else {
+    indiceActual.value = 0
+  }
+}
+
+const anteriorFoto = () => {
+  if (indiceActual.value > 0) {
+    indiceActual.value--
+  } else {
+    indiceActual.value = props.fotos.length - 1
+  }
+}
+
+const manejarTeclado = (e) => {
+  if (indiceActual.value === -1) return
+  if (e.key === 'Escape') cerrarGaleria()
+  if (e.key === 'ArrowRight') siguienteFoto()
+  if (e.key === 'ArrowLeft') anteriorFoto()
+}
+
+onMounted(() => window.addEventListener('keydown', manejarTeclado))
+onUnmounted(() => window.removeEventListener('keydown', manejarTeclado))
 </script>
 
 <template>
-  <div class="py-12 bg-white">
+  <div class="py-16 bg-white" id="galeria">
     <div class="max-w-4xl mx-auto px-4">
       
-      <div class="text-center mb-8">
-        <PhCamera :size="32" class="mx-auto text-rose-500 mb-2" />
-        <h3 class="font-elegante text-3xl text-stone-800">Nuestra Historia</h3>
-        <p class="text-stone-500 text-sm mt-2">Momentos inolvidables juntos</p>
+      <div class="text-center mb-10">
+        <PhCamera :size="32" weight="light" class="mx-auto text-rose-500 mb-3" />
+        
+        <h3 class="font-elegante text-4xl text-stone-800">Nuestra Historia</h3>
+        <p class="text-stone-500 text-sm mt-2 tracking-wide font-light">
+          Momentos inolvidables juntos
+        </p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+      <div class="columns-2 md:columns-3 gap-3 space-y-3">
         <div 
           v-for="(foto, index) in fotos" 
           :key="index"
-          class="aspect-square overflow-hidden rounded-lg cursor-pointer group relative"
-          @click="abrirFoto(foto)"
+          class="relative cursor-pointer break-inside-avoid group rounded-lg overflow-hidden shadow-sm"
+          @click="abrirGaleria(index)"
         >
           <img 
             :src="foto" 
-            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-            alt="Foto de los novios" 
+            class="w-full h-auto transition-transform duration-700 group-hover:scale-105" 
             loading="lazy"
+            alt="Foto Boda"
           >
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+          <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500"></div>
         </div>
       </div>
 
     </div>
 
-    <div 
-      v-if="fotoSeleccionada" 
-      class="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
-      @click.self="cerrarFoto"
-    >
-      <button 
-        @click="cerrarFoto"
-        class="absolute top-6 right-6 text-white/70 hover:text-white bg-black/50 rounded-full p-2 transition"
+    <Transition name="fade">
+      <div 
+        v-if="indiceActual !== -1" 
+        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm" 
+        @click.self="cerrarGaleria"
       >
-        <PhX :size="32" weight="bold" />
-      </button>
+        <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center text-white/90 z-20">
+          <span class="font-light tracking-widest text-sm font-mono">
+            {{ indiceActual + 1 }} / {{ fotos.length }}
+          </span>
+          <button @click="cerrarGaleria" class="p-2 hover:text-white hover:scale-110 transition">
+            <PhX size="28" weight="light" />
+          </button>
+        </div>
 
-      <img 
-        :src="fotoSeleccionada" 
-        class="max-w-full max-h-[90vh] object-contain rounded-md shadow-2xl animate-fade-in"
-        alt="Foto ampliada"
-      >
-    </div>
+        <button 
+          @click.stop="anteriorFoto"
+          class="absolute left-1 md:left-4 p-3 text-white/60 hover:text-white transition z-20"
+        >
+          <PhCaretLeft size="48" weight="thin" />
+        </button>
+
+        <div class="relative max-w-6xl max-h-[90vh] p-2">
+          <img 
+            :key="indiceActual"
+            :src="fotos[indiceActual]" 
+            class="max-h-[85vh] w-auto max-w-full object-contain shadow-2xl animate-fade-in rounded-sm"
+            draggable="false"
+          >
+        </div>
+
+        <button 
+          @click.stop="siguienteFoto"
+          class="absolute right-1 md:right-4 p-3 text-white/60 hover:text-white transition z-20"
+        >
+          <PhCaretRight size="48" weight="thin" />
+        </button>
+
+      </div>
+    </Transition>
+
   </div>
 </template>
 
 <style scoped>
-/* Animación suave para cuando aparece la foto grande */
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
+/* Animaciones */
+.fade-enter-active,
+.fade-leave-active { transition: opacity 0.3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.animate-fade-in { animation: fadeInPhoto 0.4s ease-out; }
+@keyframes fadeInPhoto {
+  from { opacity: 0.5; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
 }
 </style>

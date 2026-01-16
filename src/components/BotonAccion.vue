@@ -18,7 +18,7 @@ defineProps({
     class="flex items-center justify-center gap-3 px-6 py-4 rounded-full shadow-lg text-white font-medium transition-transform hover:scale-105 active:scale-95"
     :class="color"
   >
-    <component :is="icono" size="24" weight="bold" />
+    <component :is="icono" size="24" weight="regular" />
     <span>{{ texto }}</span>
   </a>
 </template>

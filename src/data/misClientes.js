@@ -10,7 +10,7 @@ export const bodaJuan = {
   
   // Fotos (Usamos links de Unsplash por ahora)
   fotoPortada: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1080",
-  fotoSegunda: "https://images.unsplash.com/photo-1606216794079-73f85bbd57d5?q=80&w=1974",
+  fotoSegunda: "https://images.unsplash.com/photo-1729603370374-76cea21829b8?q=80&w=688&auto",
   
   ubicacion: {
     nombreLugar: "Parroquia San Miguel",
@@ -60,12 +60,13 @@ regalos: [
 
   // Array de fotos para la galería
   galeria: [
-    "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=600&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1705088013553-46199f8b4ecc?q=80&w=687&auto",
+    "https://images.unsplash.com/photo-1705088014389-cdd8afdc0f2f?q=80&w=1170&auto",
+    "https://images.unsplash.com/photo-1705088013485-00c24753747c?q=80&w=2070&auto",
+    "https://images.unsplash.com/photo-1705088013581-c40e14a0420f?q=80&w=2070&auto",
+    "https://images.unsplash.com/photo-1705088014632-3f0c9799ab6a?q=80&w=2070&auto",
+    "https://images.unsplash.com/photo-1705088014762-0c457f3b99fc?q=80&w=1974&auto",
+    "https://images.unsplash.com/photo-1705088014726-d8dd9113ee03?q=80&w=2071&auto"
   ],
   cortejo: {
     padresNovia: [

@@ -12,7 +12,7 @@ defineProps({
     <div class="bg-stone-50 rounded-2xl p-8 border border-stone-100 shadow-sm">
       
       <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-stone-700">
-        <PhCoatHanger size="32" weight="duotone" />
+        <PhCoatHanger size="32" weight="light" />
       </div>
 
       <h3 class="font-elegante text-2xl text-stone-800 mb-2">Código de Vestimenta</h3>
