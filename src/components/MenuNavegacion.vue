@@ -49,9 +49,11 @@ const modelos = [
       >
         
         <div class="w-full max-w-md p-6 flex justify-between items-center border-b border-white/5">
-           <h2 class="text-2xl font-bold text-white tracking-tighter">
-            Yupa Studio<span class="text-rose-500">.</span>
-          </h2>
+           <img 
+     src="/logo.png" 
+     alt="Yupa Studio" 
+     class="h-8 md:h-10 w-auto object-contain" 
+   />
           <button 
             @click="toggleMenu"
             class="text-white/50 hover:text-rose-500 p-2 rounded-full hover:bg-white/5 transition"

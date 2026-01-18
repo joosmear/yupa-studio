@@ -162,7 +162,11 @@ onUnmounted(() => {
       </div>
 
       <nav class="absolute top-0 left-0 w-full z-50 p-6 flex justify-between items-center text-white">
-        <div class="font-bold text-2xl tracking-tighter">Yupa Studio<span class="text-rose-500">.</span></div>
+        <img 
+    src="/logo.png" 
+    alt="Yupa Studio" 
+    class="h-10 md:h-12 w-auto object-contain" 
+  />
         <a href="https://wa.me/59164042420" class="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full text-sm font-bold hover:bg-white hover:text-stone-900 transition">
           Contactar
         </a>
