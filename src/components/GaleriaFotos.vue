@@ -6,8 +6,13 @@ const props = defineProps({
   fotos: {
     type: Array,
     required: true
-  }
+  },
+  colorIcono: { type: String, default: 'text-rose-400' },
+  colorTitulo: { type: String, default: 'text-stone-800' },
+  colorFondo: { type: String, default: 'bg-white' }
 })
+
+const emit = defineEmits(['cambioEstado'])
 
 // --- LÓGICA DEL SLIDER (Igual que antes) ---
 const indiceActual = ref(-1)
@@ -15,11 +20,13 @@ const indiceActual = ref(-1)
 const abrirGaleria = (index) => {
   indiceActual.value = index
   document.body.style.overflow = 'hidden'
+  emit('cambioEstado', true)
 }
 
 const cerrarGaleria = () => {
   indiceActual.value = -1
   document.body.style.overflow = 'auto'
+  emit('cambioEstado', false)
 }
 
 const siguienteFoto = () => {
@@ -50,13 +57,13 @@ onUnmounted(() => window.removeEventListener('keydown', manejarTeclado))
 </script>
 
 <template>
-  <div class="py-16 bg-white" id="galeria">
+  <div class="py-16 transition-colors" :class="colorFondo" id="galeria">
     <div class="max-w-4xl mx-auto px-4">
       
       <div class="text-center mb-10">
-        <PhCamera :size="32" weight="light" class="mx-auto text-rose-500 mb-3" />
+        <PhCamera :size="48" weight="thin" class="mx-auto mb-3 icon-draw" :class="colorIcono"/>
         
-        <h3 class="font-elegante text-4xl text-stone-800">Nuestra Historia</h3>
+        <h3 class="font-elegante text-4xl " :class="colorTitulo">Nuestra Historia</h3>
         <p class="text-stone-500 text-sm mt-2 tracking-wide font-light">
           Momentos inolvidables juntos
         </p>

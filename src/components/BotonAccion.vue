@@ -1,5 +1,4 @@
 <script setup>
-// Definimos qué datos necesita este botón para funcionar
 defineProps({
   texto: String,
   icono: Object, // Aquí pasaremos el icono
@@ -18,7 +17,7 @@ defineProps({
     class="flex items-center justify-center gap-3 px-6 py-4 rounded-full shadow-lg text-white font-medium transition-transform hover:scale-105 active:scale-95"
     :class="color"
   >
-    <component :is="icono" size="24" weight="regular" />
+    <component :is="icono" size="32" weight="thin" />
     <span>{{ texto }}</span>
   </a>
 </template>

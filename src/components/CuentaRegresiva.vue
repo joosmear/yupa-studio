@@ -2,8 +2,15 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const props = defineProps({
-  fechaObjetivo: String // Formato: '2025-12-25T18:00:00'
+  fechaObjetivo: String, // Formato: '2025-12-25T18:00:00'
+
+  colorCaja: { type: String, default: 'bg-white/80' },
+  colorNumero: { type: String, default: 'text-gray-800' },
+  colorEtiqueta: { type: String, default: 'text-gray-500' },
+  colorSegundos: { type: String, default: 'text-rose-500' }
 })
+
+
 
 // Variables reactivas
 const tiempoRestante = ref(0)
@@ -35,21 +42,24 @@ onUnmounted(() => clearInterval(intervalo))
 
 <template>
   <div class="flex justify-center gap-4 text-center">
-    <div class="flex flex-col items-center bg-white/80 p-3 rounded-lg w-16 shadow-sm">
-      <span class="text-2xl font-bold text-gray-800">{{ dias }}</span>
-      <span class="text-xs uppercase text-gray-500">Días</span>
+    <div class="flex flex-col items-center p-3 rounded-lg w-16 shadow-sm" :class="colorCaja">
+      <span class="text-2xl font-bold" :class="colorNumero">{{ dias }}</span>
+      <span class="text-xs uppercase" :class="colorEtiqueta">Días</span>
     </div>
-    <div class="flex flex-col items-center bg-white/80 p-3 rounded-lg w-16 shadow-sm">
-      <span class="text-2xl font-bold text-gray-800">{{ horas }}</span>
-      <span class="text-xs uppercase text-gray-500">Hs</span>
+    
+    <div class="flex flex-col items-center p-3 rounded-lg w-16 shadow-sm" :class="colorCaja">
+      <span class="text-2xl font-bold" :class="colorNumero">{{ horas }}</span>
+      <span class="text-xs uppercase" :class="colorEtiqueta">Hs</span>
     </div>
-    <div class="flex flex-col items-center bg-white/80 p-3 rounded-lg w-16 shadow-sm">
-      <span class="text-2xl font-bold text-gray-800">{{ minutos }}</span>
-      <span class="text-xs uppercase text-gray-500">Min</span>
+    
+    <div class="flex flex-col items-center p-3 rounded-lg w-16 shadow-sm" :class="colorCaja">
+      <span class="text-2xl font-bold" :class="colorNumero">{{ minutos }}</span>
+      <span class="text-xs uppercase" :class="colorEtiqueta">Min</span>
     </div>
-    <div class="flex flex-col items-center bg-white/80 p-3 rounded-lg w-16 shadow-sm">
-      <span class="text-2xl font-bold text-rose-500">{{ segundos }}</span>
-      <span class="text-xs uppercase text-gray-500">Seg</span>
+    
+    <div class="flex flex-col items-center p-3 rounded-lg w-16 shadow-sm" :class="colorCaja">
+      <span class="text-2xl font-bold" :class="colorSegundos">{{ segundos }}</span>
+      <span class="text-xs uppercase" :class="colorEtiqueta">Seg</span>
     </div>
   </div>
 </template>

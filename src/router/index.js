@@ -11,13 +11,12 @@ const router = createRouter({
       component: HomeView
     },
     {
-      // Esta es una RUTA DINÁMICA. ":id" cambiará según el cliente
+      // RUTA ÚNICA: El archivo VistaInvitacion decidirá qué diseño mostrar
       path: '/boda/:id', 
       name: 'invitacion',
       component: VistaInvitacion
     }
   ],
-  // Esto hace que al cambiar de página, el scroll vuelva arriba
   scrollBehavior() {
     return { top: 0 }
   }

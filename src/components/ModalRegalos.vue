@@ -8,7 +8,10 @@ const props = defineProps({
   cuentas: {
     type: Array,
     required: true
-  }
+  },
+  // COLOR PRINCIPAL (Botones y destacados)
+  colorAcento: { type: String, default: 'text-rose-600' },
+  colorBoton: { type: String, default: 'bg-rose-600' }
 })
 
 const emit = defineEmits(['cerrar'])
@@ -40,8 +43,8 @@ const copiarCuenta = (numero) => {
           :key="index"
           @click="indiceActivo = index"
           class="flex-1 py-3 text-sm font-bold transition-colors"
-          :class="indiceActivo === index ? 'text-rose-600 border-b-2 border-rose-600 bg-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-100'"
-        >
+          :class="indiceActivo === index ? ('border-b-2 border-current bg-white ' + colorAcento) : 'text-gray-500 bg-gray-50 hover:bg-gray-100'"
+          >
           {{ cuenta.nombre }}
         </button>
       </div>
@@ -66,7 +69,7 @@ const copiarCuenta = (numero) => {
             <div class="text-xs text-gray-500">Nro. de Cuenta</div>
             <div class="flex items-center gap-2">
               <span class="font-mono font-bold text-lg text-gray-800 select-all">{{ cuentas[indiceActivo].cuenta }}</span>
-              <button @click="copiarCuenta(cuentas[indiceActivo].cuenta)" class="bg-white p-2 rounded-full shadow-sm text-rose-600 hover:text-rose-800 hover:bg-rose-50 transition" title="Copiar número">
+              <button @click="copiarCuenta(cuentas[indiceActivo].cuenta)" class="bg-white p-2 rounded-full shadow-sm  hover:bg-rose-50 transition" title="Copiar número" :class="colorBoton">
                 <PhCopy size="20" weight="bold"/>
               </button>
             </div>

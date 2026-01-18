@@ -20,7 +20,7 @@
   }
 }
 
-/* Opcional: Para definir la animación si no la toma por defecto */
+/* Keyframes (Lo dejamos por si usas el rebote del reproductor de música) */
 @keyframes bounce {
   0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
   50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
@@ -28,19 +28,4 @@
 
 html {
   scroll-behavior: smooth;
-}
-
-/* Opcional: Personalizar la barra de scroll para que combine con tus colores */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #e11d48; /* Color Rose-600 */
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #be123c;
 }
