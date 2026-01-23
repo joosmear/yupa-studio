@@ -55,9 +55,9 @@ const planes = [
 ]
 
 const modelos = [
-  { titulo: "Estilo Clásico (Marsala)", img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600", link: "/boda/juan-y-ana" },
-  { titulo: "Estilo Gala Luxury", img: "https://images.unsplash.com/photo-1667420421340-850fc44c9c45", link: "/boda/carlos-y-sofia" },
-  { titulo: "Estilo Boho Garden", img: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=1169", link: "/boda/miguel-y-elena" },
+  { titulo: "Estilo Clásico (Marsala)", img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600", link: "/invitacion/juan-y-ana" },
+  { titulo: "Estilo Gala Luxury", img: "https://images.unsplash.com/photo-1667420421340-850fc44c9c45", link: "/invitacion/carlos-y-sofia" },
+  { titulo: "Estilo Boho Garden", img: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=1169", link: "/invitacion/miguel-y-elena" },
 ]
 
 // --- DATOS NUEVOS ---
@@ -101,7 +101,7 @@ const testimonios = [
 const faqs = [
   {
     pregunta: "¿Es un pago único o mensual?",
-    respuesta: "Es un pago único. No hay mensualidades ni costos ocultos. Tu invitación estará activa por 1 año entero."
+    respuesta: "Es un pago único. No hay mensualidades ni costos ocultos. Tu invitación estará activa por 3 meses."
   },
   {
     pregunta: "¿Puedo cambiar la información después?",
@@ -113,7 +113,7 @@ const faqs = [
   },
   {
     pregunta: "¿Con cuánto tiempo debo pedirla?",
-    respuesta: "Recomendamos tenerla lista 1 o 2 meses antes de la boda, pero si tienes prisa, la entregamos en menos de 24 horas."
+    respuesta: "Recomendamos pedirla con 1 o 2 meses de anticipación para que tus invitados se organicen. De todas formas, nuestro servicio es rápido: la entregamos siempre en menos de 24 horas."
   }
 ]
 
@@ -188,7 +188,7 @@ onUnmounted(() => {
         </p>
 
         <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
-          <router-link to="/boda/juan-y-ana" class="w-full sm:w-auto bg-rose-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-rose-500 hover:scale-105 transition shadow-lg shadow-rose-900/50 flex items-center justify-center gap-3">
+          <router-link to="/invitacion/juan-y-ana" class="w-full sm:w-auto bg-rose-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-rose-500 hover:scale-105 transition shadow-lg shadow-rose-900/50 flex items-center justify-center gap-3">
             <PhMonitorPlay weight="fill" size="24" />
             Ver Demo Real
           </router-link>
@@ -197,11 +197,7 @@ onUnmounted(() => {
             Ver Precios
           </a>
         </div>
-
       </div>
-
-
-
     </header>
 
     <div class="bg-stone-800 text-white py-6 relative overflow-hidden">
@@ -362,7 +358,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="py-20 px-6 bg-stone-50">
+    <section id="faq" class="py-20 px-6 bg-stone-50">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-12">
           <PhQuestion :size="48" class="mx-auto text-rose-500 mb-4" weight="thin" />

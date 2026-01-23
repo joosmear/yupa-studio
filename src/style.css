@@ -20,6 +20,24 @@
   }
 }
 
+/* 1. Definimos la fuente personalizada */
+@font-face {
+  font-family: 'The Seasons';
+  /* CAMBIA 'nombre-de-tu-archivo.ttf' por el nombre real de tu archivo */
+  /* Si es .otf usa format('opentype'), si es .ttf usa format('truetype') */
+  src: url('/fonts/TheSeasons-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 2. Tu clase existente ahora usará la fuente local */
+.font-seasons {
+  font-family: 'The Seasons', serif;
+  font-weight: 400; /* Normal */
+}
+
+/* ... el resto de tus estilos ... */
+
 /* Keyframes (Lo dejamos por si usas el rebote del reproductor de música) */
 @keyframes bounce {
   0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }

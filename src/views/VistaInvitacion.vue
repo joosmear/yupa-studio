@@ -1,14 +1,15 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-
-// 1. EL TRUCO DE MAGIA: Importamos TODO lo que haya en el archivo con un alias
 import * as baseDeDatos from '../data/misClientes.js'
 
 // Importar los diseños
 import PlantillaBoda01 from './PlantillaBoda01.vue'
 import PlantillaBoda02 from './PlantillaBoda02.vue'
 import PlantillaBoda03 from './PlantillaBoda03.vue'
+import PlantillaBoda04 from './PlantillaBoda04.vue'
+import PlantillaBoda05 from './PlantillaBoda05.vue'
+import PlantillaQuince01 from './PlantillaQuince01.vue'
 
 const route = useRoute()
 
@@ -40,8 +41,13 @@ const plantillaSeleccionada = computed(() => {
   
   const estilo = datosCliente.value.modelo 
   switch (estilo) {
+    // --- 15 AÑOS ---
+    case 'xv-mariposa': return PlantillaQuince01
+    // --- BODAS ---
     case 'gala': return PlantillaBoda02
     case 'boho': return PlantillaBoda03
+    case 'ligth': return PlantillaBoda04
+    case 'dreams': return PlantillaBoda05
     case 'clasica': default: return PlantillaBoda01
   }
 })

@@ -12,7 +12,7 @@ const router = createRouter({
     },
     {
       // RUTA ÚNICA: El archivo VistaInvitacion decidirá qué diseño mostrar
-      path: '/boda/:id', 
+      path: '/invitacion/:id', 
       name: 'invitacion',
       component: VistaInvitacion
     }

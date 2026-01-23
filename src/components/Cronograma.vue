@@ -9,7 +9,9 @@ defineProps({
   colorCardBg: { type: String, default: 'bg-white border-stone-100' },
   colorHora:   { type: String, default: 'text-rose-600' },
   colorIcono:  { type: String, default: 'text-rose-400' },
-  colorTexto:  { type: String, default: 'text-gray-800' }
+  colorTexto:  { type: String, default: 'text-gray-800' },
+  fuenteTitulo: { type: String, default: 'font-display' }, // Por defecto usa la de boda
+  fuenteTexto: { type: String, default: 'font-body' }      // Por defecto usa la normal
 })
 
   const obtenerIcono = (nombre) => {
@@ -28,11 +30,17 @@ defineProps({
   return mapa[nombre] || PhStar
 }
 
+  // Nueva función para detectar si es GIF/Imagen (Para 15 Años)
+const esRutaDeImagen = (valor) => {
+  if (!valor) return false
+  // Si contiene un punto (ej: .gif, .png) o una barra (/assets...), asumimos que es imagen
+  return valor.includes('.') || valor.includes('/')
+}
 </script>
 
 <template>
   <div class="max-w-md mx-auto py-8 px-4">
-    <h3 class="font-elegante text-3xl text-center mb-8" :class="colorTitulo">
+    <h3 :class="['text-4xl text-center mb-12', colorTitulo, fuenteTitulo]">
       Itinerario
     </h3>
     
@@ -51,11 +59,19 @@ defineProps({
               <PhClock size="20" weight="regular" :class="colorIcono" />
               <span class="font-bold font-mono" :class="colorHora">{{ evento.hora }}</span>
             </div>
+
+            <img 
+              v-if="esRutaDeImagen(evento.icono)"
+              :src="evento.icono"
+              class="w-10 h-10 object-contain"
+              alt="Icono evento"
+            />
             
             <component 
+              v-else
               :is="obtenerIcono(evento.icono)" 
-              size="24" 
-              weight="duotone" 
+              size="38" 
+              weight="thin" 
               :class="colorIcono"
             />
           </div>

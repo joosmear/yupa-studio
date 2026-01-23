@@ -16,17 +16,17 @@ const toggleMenu = () => {
 const modelos = [
   { 
     nombre: "Clásico Marsala", 
-    link: "/boda/juan-y-ana", 
+    link: "/invitacion/juan-y-ana", 
     img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=150&auto=format&fit=crop" 
   },
   { 
     nombre: "Gala Luxury", 
-    link: "/boda/carlos-y-sofia", 
+    link: "/invitacion/carlos-y-sofia", 
     img: "https://images.unsplash.com/photo-1667420421340-850fc44c9c45?q=80&w=150&auto=format&fit=crop" 
   },
   { 
     nombre: "Boho Garden", 
-    link: "/boda/miguel-y-elena", 
+    link: "/invitacion/miguel-y-elena", 
     img: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=150&auto=format&fit=crop" 
   }
 ]
