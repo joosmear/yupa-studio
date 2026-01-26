@@ -1,7 +1,9 @@
 <script setup>
-import { PhLightning, PhCheckCircle, PhWhatsappLogo, PhStar, PhArrowRight, PhHeart, PhCrown, PhArrowDown, PhMonitorPlay, PhQuotes, PhQuestion, PhSteps, PhPaperPlaneTilt, PhDeviceMobileCamera, PhCaretDown, PhCaretRight } from '@phosphor-icons/vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { PhCheckCircle, PhStar, PhHeart, PhCrown, PhMonitorPlay, PhSparkle, PhImage, PhMusicNote, PhMapPin, PhWhatsappLogo } from '@phosphor-icons/vue'
 import Navbar from '../components/Navbar.vue'
+import Footer from '../components/Footer.vue'
+import Testimonios from '../components/Testimonios.vue'
+import PreguntasFrecuentes from '../components/PreguntasFrecuentes.vue'
 
 // Nuevos Precios y Características Detalladas
 const planes = [
@@ -9,76 +11,76 @@ const planes = [
     nombre: "Esencial",
     precio: "149",
     icono: PhHeart,
-    descripcion: "Todo lo necesario para una invitación elegante y funcional.",
+    descripcion: "La versión digital de tu tarjeta impresa. Elegante y completa.",
     destacado: false,
+    color: "text-rose-400",
+    btnColor: "bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50",
     caracteristicas: [
-      "Diseño Web Responsivo (Móvil/PC)",
-      "Cuenta Regresiva",
-      "Música de Fondo (Autoplay)",
+      "Diseño Responsivo (Móvil/PC)",
       "Ubicación GPS (Google Maps)",
-      "Botón 'Agendar en Calendario'",
+      "Sección Padrinos y Padres", // <--- MOVIDO AQUÍ
+      "Cuenta Regresiva",
+      "Confirmación a WhatsApp",
       "Sección de Regalos (QR/Bancos)",
-      "Confirmación Directa a WhatsApp",
-      "Enlace Personalizado (yupa.studio/boda/novio-y-novia)",
-      "Soporte"
+      "Música de Fondo",
+      "Frase de los Novios"
     ]
   },
   {
     nombre: "Gold",
     precio: "249",
     icono: PhStar,
-    descripcion: "El favorito. Agrega organización y detalles visuales.",
-    destacado: true, // Saldrá resaltado
+    descripcion: "El favorito. Cuenta tu historia con fotos y detalles.",
+    destacado: true,
+    color: "text-amber-500",
+    btnColor: "bg-gradient-to-r from-amber-400 to-amber-500 text-white hover:shadow-lg shadow-amber-100",
     caracteristicas: [
       "Todo lo del Plan Esencial",
-      "Galería de Fotos (6 fotos - Slider Táctil)",
-      "Cronograma de Actividades",
-      "Código de Vestimenta",
-      "Sección Padrinos y Padres",
-      "Soporte Prioritario"
+      "Galería de Fotos (Sesión Pre-boda)",
+      "Cronograma de Actividades (Línea de tiempo)",
+      "Código de Vestimenta (Con iconos)",
+      "Botón 'Agendar en Calendario'"
     ]
   },
   {
     nombre: "Premium",
-    precio: "599",
+    precio: "399",
     icono: PhCrown,
-    descripcion: "La experiencia de lujo completa con efectos de cine.",
+    descripcion: "Impacta a tus invitados con pases personalizados.",
     destacado: false,
+    color: "text-slate-800",
+    btnColor: "bg-stone-900 text-white hover:bg-black",
     caracteristicas: [
       "Todo lo del Plan Gold",
-      "URL personalizada .com",
-      "Diseño Personalizado",
-      "Campos Personalizados",
-      "Galería Extendida (Hasta 20 fotos)",
-      "Soporte Prioritario y Cambios Ilimitados"
+      "Personalización por Invitado (Nombres en portada)",
+      "Generador de Links (Para enviar fácil)",
+      "Galería Extendida (Más fotos)",
+      "Filtro de Instagram (Opcional)",
+      "Soporte Prioritario VIP"
     ]
   }
 ]
 
-const modelos = [
-  { titulo: "Estilo Clásico (Marsala)", img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600", link: "/invitacion/juan-y-ana" },
-  { titulo: "Estilo Gala Luxury", img: "https://images.unsplash.com/photo-1667420421340-850fc44c9c45", link: "/invitacion/carlos-y-sofia" },
-  { titulo: "Estilo Boho Garden", img: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=1169", link: "/invitacion/miguel-y-elena" },
+const features = [
+  { titulo: "Book de Fotos", desc: "Su historia de amor", icono: PhImage },
+  { titulo: "Música Romántica", desc: "La canción de ustedes", icono: PhMusicNote },
+  { titulo: "Mapa Exacto", desc: "Nadie se pierde", icono: PhMapPin },
+  { titulo: "Confirmación", desc: "Lista de invitados fácil", icono: PhWhatsappLogo }
 ]
 
-// --- DATOS NUEVOS ---
-
-const pasos = [
-  { 
-    titulo: "1. Elige tu Plan", 
-    desc: "Selecciona el diseño y paquete que más te guste.", 
-    icono: PhSteps 
-  },
-  { 
-    titulo: "2. Envíanos tus Datos", 
-    desc: "Te pediremos fotos, fecha y ubicación por WhatsApp.", 
-    icono: PhPaperPlaneTilt 
-  },
-  { 
-    titulo: "3. Recibe tu Link", 
-    desc: "En menos de 24hrs tu invitación estará lista para compartir.", 
-    icono: PhDeviceMobileCamera 
-  }
+const modelos = [
+  { titulo: "Estilo Clásico (Marsala)",
+    tag: "Elegante / Atemporal",
+    img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600",
+    link: "/invitacion/juan-y-ana" },
+  { titulo: "Estilo Gala Luxury",
+    tag: "Minimalista / Black",
+    img: "https://images.unsplash.com/photo-1667420421340-850fc44c9c45",
+    link: "/invitacion/carlos-y-sofia" },
+  { titulo: "Estilo Boho Garden",
+    tag: "Rustico / Exterior",
+    img: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=1169",
+    link: "/invitacion/miguel-y-elena" },
 ]
 
 const testimonios = [
@@ -99,7 +101,7 @@ const testimonios = [
   }
 ]
 
-const faqs = [
+const faqsBodas = [
   {
     pregunta: "¿Es un pago único o mensual?",
     respuesta: "Es un pago único. No hay mensualidades ni costos ocultos. Tu invitación estará activa por 3 meses."
@@ -117,287 +119,160 @@ const faqs = [
     respuesta: "Recomendamos pedirla con 1 o 2 meses de anticipación para que tus invitados se organicen. De todas formas, nuestro servicio es rápido: la entregamos siempre en menos de 24 horas."
   }
 ]
-
-// --- LÓGICA DEL SLIDER (Testimonios) ---
-const testimonioActual = ref(0)
-let intervaloSlider
-
-const siguienteTestimonio = () => {
-  testimonioActual.value = (testimonioActual.value + 1) % testimonios.length
-}
-
-const iniciarSlider = () => {
-  intervaloSlider = setInterval(siguienteTestimonio, 5000) // Cambia cada 5 seg
-}
-
-// --- LÓGICA DEL ACORDEÓN (FAQ) ---
-const faqAbierta = ref(0) // Empezamos con la 0 abierta
-
-const toggleFaq = (index) => {
-  // Si toco la que ya está abierta, la cierro (-1), si no, abro la nueva
-  faqAbierta.value = faqAbierta.value === index ? -1 : index
-}
-
-// Ciclo de vida
-onMounted(() => {
-  iniciarSlider()
-})
-
-onUnmounted(() => {
-  clearInterval(intervaloSlider)
-})
 </script>
 
 <template>
   <div class="min-h-screen bg-white font-sans text-gray-800">
-    
-    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+    <Navbar />
+    <header class="relative h-screen flex items-center justify-center overflow-hidden bg-stone-900">
       
       <div class="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop" 
           class="w-full h-full object-cover animate-pan-slow"
-          alt="Fondo Boda"
+          alt="Fondo Boda Lujo"
         />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-stone-900/90"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-stone-900"></div>
       </div>
-
-      <Navbar />
-
+    
+      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+         <div class="absolute top-[20%] left-[20%] w-64 h-64 bg-amber-500/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+         <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-rose-500/20 rounded-full blur-[100px] animate-pulse-slow delay-1000"></div>
+      </div>
+    
       <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-0">
-        
-        <span class="inline-block py-1 px-4 rounded-full bg-rose-600/90 text-white text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-8 animate-fade-in-up">
-          Nueva Colección 2026
-        </span>
 
+        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-100 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-8 shadow-[0_0_15px_rgba(251,191,36,0.3)] animate-fade-in-up">
+          <PhSparkle weight="fill" class="text-amber-300 animate-pulse" /> 
+          Nueva Colección 2026
+        </div>
+      
         <h1 class="text-5xl md:text-8xl font-extrabold text-white tracking-tight leading-none drop-shadow-2xl mb-8">
           Tus invitaciones<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-200 to-rose-400 font-serif italic">inolvidables</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-100 via-amber-200 to-rose-100 font-serif italic relative">
+            inolvidables
+            <div class="absolute -top-4 -right-4 text-amber-300 opacity-80 animate-ping-slow">
+               <PhSparkle weight="fill" size="24" />
+            </div>
+          </span>
         </h1>
-
-        <p class="text-lg md:text-2xl text-stone-200 mb-12 font-light max-w-2xl mx-auto leading-relaxed">
-          Diseño web de lujo, mapas, música y confirmación inmediata. La forma moderna de decir "Sí, acepto".
+      
+        <p class="text-lg md:text-2xl text-stone-200/90 mb-12 font-light max-w-2xl mx-auto leading-relaxed text-shadow-sm">
+          Diseño web de lujo, mapas, música y confirmación inmediata. <br>
+          La forma moderna de decir <span class="font-semibold text-white">"Sí, acepto"</span>.
         </p>
+      
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
 
-        <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
-          <router-link to="/invitacion/juan-y-ana" class="w-full sm:w-auto bg-rose-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-rose-500 hover:scale-105 transition shadow-lg shadow-rose-900/50 flex items-center justify-center gap-3">
-            <PhMonitorPlay weight="fill" size="24" />
+          <router-link to="/invitacion/juan-y-ana" class="group w-full sm:w-auto bg-gradient-to-r from-rose-700 to-rose-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:brightness-110 hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.4)] flex items-center justify-center gap-3 border border-white/10">
+            <PhMonitorPlay weight="fill" size="24" class="text-rose-200" />
             Ver Demo Real
           </router-link>
-          
-          <a href="#precios" class="w-full sm:w-auto bg-transparent border border-white/40 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-stone-900 transition flex items-center justify-center backdrop-blur-sm">
+
+          <a href="#precios" class="w-full sm:w-auto bg-white/5 border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-stone-900 hover:border-white transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
             Ver Precios
           </a>
         </div>
       </div>
+    
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce text-white/30 cursor-pointer">
+          <PhCaretDown size="32" weight="thin" />
+      </div>
+    
     </header>
 
-    <div class="bg-stone-800 text-white py-6 relative overflow-hidden">
-      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 via-purple-500 to-rose-500"></div>
-      
-      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-center text-center gap-3 md:gap-6">
-        
-        <div class="bg-rose-600/20 p-3 rounded-full border border-rose-500/30">
-          <PhLightning :size="28" weight="fill" class="text-rose-400 animate-pulse" />
-        </div>
-
-        <div>
-          <h3 class="font-bold text-lg md:text-xl tracking-wide text-stone-100">
-            ¿Tienes prisa? Entregamos en <span class="text-rose-400">tiempo récord</span>.
-          </h3>
-          <p class="text-stone-400 text-xs md:text-sm font-light mt-1">
-            Una vez recibimos tus archivos, tu invitación queda lista en menos de 24 horas.
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <section class="py-20 px-6 bg-white">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-stone-800 mb-4">Nuestros Diseños Recientes</h2>
-          <p class="text-stone-500">Elige el estilo que más te guste, nosotros lo personalizamos.</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="modelo in modelos" :key="modelo.titulo" class="group relative rounded-xl overflow-hidden shadow-lg cursor-pointer">
-            <div class="h-64 overflow-hidden">
-              <img :src="modelo.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+    <section class="relative z-20 -mt-8 px-4">
+      <div class="max-w-6xl mx-auto bg-white rounded-[2.5rem] shadow-2xl shadow-stone-900/10 p-8 md:p-12 border border-stone-100">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <div v-for="(feat, index) in features" :key="index" class="group flex flex-col items-center text-center">
+            <div class="w-20 h-20 md:w-24 md:h-24 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-rose-50 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+              <component :is="feat.icono" :size="32" weight="light" class="text-rose-600" />
             </div>
-            
-            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <router-link :to="modelo.link" class="bg-white text-stone-900 px-6 py-2 rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
-                Ver Demo <PhArrowRight />
-              </router-link>
-            </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-              <p class="font-bold text-lg">{{ modelo.titulo }}</p>
-            </div>
+            <h4 class="font-bold text-stone-800 text-lg mb-1 group-hover:text-rose-600 transition-colors">{{ feat.titulo }}</h4>
+            <p class="text-sm text-stone-400 font-light leading-snug">{{ feat.desc }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-16 px-6 bg-stone-900 text-white text-center">
-      <div class="max-w-5xl mx-auto">
-        <h2 class="text-3xl font-bold mb-12">¿Cómo funciona?</h2>
-        
-        <div class="grid md:grid-cols-3 gap-8 relative">
-          <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-rose-600/0 via-rose-600/50 to-rose-600/0"></div>
-
-          <div v-for="(paso, index) in pasos" :key="index" class="relative z-10">
-            <div class="w-24 h-24 mx-auto bg-stone-800 border-1 border-rose-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-rose-900/20">
-              <component :is="paso.icono" :size="48" class="text-rose-400" weight="thin" />
-            </div>
-            <h3 class="text-xl font-bold mb-2">{{ paso.titulo }}</h3>
-            <p class="text-stone-400 text-sm px-4">{{ paso.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-24 px-6 bg-white overflow-hidden relative">
-      <PhQuotes :size="200" weight="fill" class="absolute top-10 left-1/2 -translate-x-1/2 text-rose-50 opacity-50 pointer-events-none" />
-
-      <div class="max-w-4xl mx-auto relative z-10 text-center">
-        <h2 class="text-3xl font-bold text-stone-800 mb-12">Lo que dicen los novios</h2>
-
-        <div class="relative h-64 md:h-48 flex items-center justify-center">
-          <transition name="fade" mode="out-in">
-            <div 
-              :key="testimonioActual"
-              class="max-w-2xl mx-auto px-4"
-            >
-              <div class="flex justify-center gap-1 mb-6">
-                <PhStar v-for="n in 5" :key="n" weight="fill" class="text-amber-400 text-lg" />
-              </div>
-              
-              <p class="text-xl md:text-2xl text-stone-600 italic mb-8 font-serif leading-relaxed">
-                "{{ testimonios[testimonioActual].texto }}"
-              </p>
-              
-              <div>
-                <p class="font-bold text-stone-900 text-lg">{{ testimonios[testimonioActual].pareja }}</p>
-                <p class="text-xs text-rose-500 font-bold uppercase tracking-widest mt-1">
-                  {{ testimonios[testimonioActual].boda }}
-                </p>
-              </div>
-            </div>
-          </transition>
-        </div>
-
-        <div class="flex justify-center gap-3 mt-8">
-          <button 
-            v-for="(t, index) in testimonios" 
-            :key="index"
-            @click="testimonioActual = index"
-            class="w-3 h-3 rounded-full transition-all duration-300"
-            :class="testimonioActual === index ? 'bg-rose-500 w-8' : 'bg-stone-200 hover:bg-rose-300'"
-          ></button>
-        </div>
-      </div>
-    </section>
-
-    <section id="precios" class="py-20 px-6 bg-stone-50">
+    <section id="precios" class="py-24 px-6 bg-stone-50">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-extrabold text-stone-900">Planes Simples</h2>
-          <p class="mt-4 text-xl text-stone-500">Un solo pago. Sin mensualidades ocultas.</p>
+          <h2 class="text-4xl font-extrabold text-stone-800 font-serif">Nuestros Paquetes</h2>
+          <p class="mt-4 text-xl text-stone-500 font-light">Un solo pago. Sin sorpresas.</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-          
-          <div 
-            v-for="plan in planes" 
-            :key="plan.nombre"
-            class="bg-white rounded-2xl p-8 relative transition-all duration-300 hover:shadow-2xl border"
-            :class="plan.destacado ? 'border-rose-500 shadow-xl scale-105 z-10' : 'border-stone-200 hover:-translate-y-1'"
-          >
-            <div v-if="plan.destacado" class="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest">
-              Más Vendido
-            </div>
-
-            <component :is="plan.icono" :size="48" :class="plan.destacado ? 'text-rose-500' : 'text-stone-400'" class="mb-4" weight="thin" />
-
-            <h3 class="text-2xl font-bold text-stone-800">{{ plan.nombre }}</h3>
-            <p class="text-stone-500 text-sm mt-2 mb-6 h-10">{{ plan.descripcion }}</p>
+          <div v-for="plan in planes" :key="plan.nombre" class="bg-white rounded-[2.5rem] p-10 relative transition-all duration-300 flex flex-col h-full border" :class="plan.destacado ? 'border-amber-400 shadow-2xl scale-105 z-10' : 'border-stone-100 hover:shadow-xl hover:-translate-y-2'">
             
-            <div class="mb-6 pb-6 border-b border-stone-100">
-              <span class="text-5xl font-extrabold text-stone-900">{{ plan.precio }}</span>
-              <span class="text-xl text-stone-500 font-bold ml-1">Bs</span>
+            <div v-if="plan.destacado" class="absolute top-0 right-0 bg-amber-400 text-white text-xs font-bold px-5 py-2 rounded-bl-3xl rounded-tr-[2.2rem] uppercase tracking-widest shadow-md">Recomendado</div>
+
+            <div class="mb-6 flex justify-center">
+               <component :is="plan.icono" :size="72" weight="thin" class="transition-transform duration-500 group-hover:scale-110" :class="plan.color" />
             </div>
 
-            <ul class="space-y-4 mb-8">
-              <li v-for="(feature, index) in plan.caracteristicas" :key="index" class="flex items-center text-left">
-                <PhCheckCircle class="flex-shrink-0 text-green-500 mt-0.5" size="20" weight="regular" />
-                <span class="ml-2 text-stone-600 text-sm leading-tight">{{ feature }}</span>
+            <h3 class="text-2xl font-bold text-stone-800 text-center font-serif">{{ plan.nombre }}</h3>
+            <p class="text-stone-400 text-sm mt-2 mb-8 h-10 text-center leading-snug flex items-center justify-center">{{ plan.descripcion }}</p>
+            
+            <div class="mb-8 pb-8 border-b border-stone-100 text-center">
+              <span class="text-5xl font-extrabold text-stone-900">{{ plan.precio }}</span>
+              <span class="text-xl font-bold text-stone-400 ml-1">Bs</span>
+              <p class="text-xs text-stone-400 mt-2 uppercase tracking-wide opacity-70">Pago Único</p>
+            </div>
+
+            <ul class="space-y-4 mb-10 flex-grow px-2">
+              <li v-for="(feature, index) in plan.caracteristicas" :key="index" class="flex items-start text-left">
+                <PhCheckCircle class="flex-shrink-0 mt-0.5 text-rose-500" size="22" weight="light" />
+                <span class="ml-3 text-stone-600 text-sm font-medium">{{ feature }}</span>
               </li>
             </ul>
 
-            <a 
-              :href="`https://wa.me/59164042420?text=Hola,%20me%20interesa%20el%20plan%20${plan.nombre}%20de%20${plan.precio}Bs`" 
-              target="_blank"
-              class="block w-full text-center py-3 rounded-xl font-bold transition-colors"
-              :class="plan.destacado ? 'bg-rose-600 text-white hover:bg-rose-700 shadow-lg shadow-rose-200' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'"
-            >
-              Pedir Ahora
-            </a>
+            <a :href="`https://wa.me/59164042420?text=Hola,%20me%20interesa%20el%20plan%20de%20Boda%20${plan.nombre}`" target="_blank" class="block w-full text-center py-4 rounded-xl font-bold transition-all duration-300 shadow-sm" :class="plan.btnColor">Elegir Plan</a>
           </div>
+        </div>
 
+        <div class="mt-16 text-center border-t border-stone-200 pt-8 max-w-2xl mx-auto opacity-70">
+          <p class="text-stone-400 text-xs font-bold uppercase tracking-widest mb-3">Métodos de Pago</p>
+          <div class="flex flex-wrap justify-center gap-6 text-sm text-stone-500 font-medium">
+             <span>QR Simple</span> • <span>Tigo Money</span> • <span>Transferencia</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="faq" class="py-20 px-6 bg-stone-50">
-      <div class="max-w-3xl mx-auto">
-        <div class="text-center mb-12">
-          <PhQuestion :size="48" class="mx-auto text-rose-500 mb-4" weight="thin" />
-          <h2 class="text-3xl font-bold text-stone-800">Preguntas Frecuentes</h2>
+    <section class="py-24 px-6 bg-white relative overflow-hidden">
+      <div class="absolute top-1/2 left-0 w-96 h-96 bg-rose-50 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-extrabold text-stone-800 mb-4 font-serif">Diseños que Enamoran</h2>
+          <p class="text-xl text-stone-500 font-light">Estilos clásicos, modernos y bohemios.</p>
         </div>
 
-        <div class="space-y-4">
-          <div 
-            v-for="(faq, index) in faqs" 
-            :key="index" 
-            class="bg-white rounded-2xl border border-stone-200 overflow-hidden transition-all duration-300 hover:shadow-md"
-            :class="faqAbierta === index ? 'border-rose-200 ring-1 ring-rose-100' : ''"
-          >
-            <button 
-              @click="toggleFaq(index)"
-              class="w-full flex items-center justify-between p-6 text-left focus:outline-none"
-            >
-              <span class="font-bold text-stone-800 text-lg">{{ faq.pregunta }}</span>
-              <PhCaretDown 
-                :size="20" 
-                class="text-stone-400 transition-transform duration-300"
-                :class="faqAbierta === index ? 'rotate-180 text-rose-500' : ''" 
-              />
-            </button>
+        <div class="grid md:grid-cols-3 gap-10 md:gap-12">
+          <div v-for="modelo in modelos" :key="modelo.titulo" class="group flex flex-col items-center">
+            
+            <div class="relative w-full max-w-[280px] aspect-[9/18] rounded-[2.5rem] border-[8px] border-stone-200 bg-stone-100 shadow-2xl overflow-hidden transform transition-all duration-500 group-hover:-translate-y-4 group-hover:shadow-rose-100">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-stone-200 rounded-b-2xl z-20"></div>
+              <img :src="modelo.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              
+              <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 backdrop-blur-[1px]">
+                <router-link :to="modelo.link" class="bg-white text-stone-900 px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform">Ver Demo</router-link>
+              </div>
+            </div>
 
-            <div 
-              v-show="faqAbierta === index" 
-              class="px-6 pb-6 text-stone-600 leading-relaxed animate-fade-in-down"
-            >
-              <div class="pt-2 border-t border-stone-100"></div> <p class="mt-4">{{ faq.respuesta }}</p>
+            <div class="mt-8 text-center">
+               <h3 class="text-2xl font-bold text-stone-800 mb-1 font-serif">{{ modelo.titulo }}</h3>
+               <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">{{ modelo.tag }}</span>
             </div>
           </div>
         </div>
-        
-        <div class="text-center mt-12">
-          <p class="mb-4 text-stone-600">¿Tienes otra duda?</p>
-          <a href="https://wa.me/59164042420" class="inline-flex items-center gap-2 text-rose-600 font-bold hover:underline bg-rose-50 px-6 py-2 rounded-full transition hover:bg-rose-100">
-            <PhWhatsappLogo :size="24" weight="thin" /> Escríbenos al WhatsApp
-          </a>
-        </div>
       </div>
     </section>
 
-    <footer class="bg-white py-8 text-center border-t border-gray-100">
-      <p class="text-gray-500 text-sm">© 2026 Yupa Studio - La Paz, Bolivia 🇧🇴</p>
-    </footer>
-
+    <Testimonios :datos="testimonios" titulo="Novios Felices" temaColor="bg-rose-500" temaTexto="text-rose-500" />
+    <PreguntasFrecuentes :datos="faqsBodas" tema="text-rose-600" fondoActivo="bg-rose-50" />
+    <Footer />
   </div>
 </template>
 

@@ -1,6 +1,8 @@
 <script setup>
   import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, PhHeart } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
+  
+  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
@@ -10,6 +12,7 @@
   import GaleriaFotos from '../components/GaleriaFotos.vue'
   import SeccionPadrinos from '../components/SeccionPadrinos.vue'
   import MenuNavegacion from '../components/MenuNavegacion.vue'
+  import DemoSwitcher from '../components/DemoSwitcher.vue' // <--- NUEVO IMPORT
 
   const props = defineProps({
     datos: {
@@ -18,26 +21,43 @@
     }
   })
 
+  // --- ESTADO DEL DEMO SWITCHER ---
+
+// Si datos.esDemo es true, iniciamos en 'premium' para vender.
+// Si NO es demo (es un cliente real), usamos su plan real (props.datos.plan).
+const planVisualizado = ref(props.datos.esDemo ? 'premium' : props.datos.plan) 
+
+const actualizarPlan = (nuevoPlan) => {
+  planVisualizado.value = nuevoPlan
+}
+
+  // --- COMPUTADAS REACTIVAS AL SWITCHER ---
+  // Ahora dependen de 'planVisualizado', no de props.datos.plan
+  const esGold = computed(() => ['gold', 'premium'].includes(planVisualizado.value))
+  const esPremium = computed(() => planVisualizado.value === 'premium')
+
   const galeriaAbierta = ref(false)
-
   const modalAbierto = ref(false)
+  let intervaloEscritura = null
 
-  const esGold = computed(() => {
-    return ['gold', 'premium'].includes(props.datos.plan)
-  })
-  const esPremium = computed(() => {
-    return props.datos.plan === 'premium'
+  // COMPUTADA DE FECHA LÍMITE (Segura)
+  const fechaLimiteConfirmacion = computed(() => {
+    if (!props.datos.fecha) return ''
+    const fecha = new Date(props.datos.fecha)
+    fecha.setMonth(fecha.getMonth() - 1)
+    return fecha.toLocaleDateString('es-BO', { day: 'numeric', month: 'long' })
   })
 
+  // Lógica de Escritura
   const nombreMostrado = ref("")
   const cursorVisible = ref(true)
 
   const iniciarEfectoEscritura = () => {
-    const nombreCompleto = props.datos.nombres 
+    const nombreCompleto = props.datos.nombres || "Novio & Novia"
     let i = 0
     nombreMostrado.value = ""
   
-    const intervaloEscritura = setInterval(() => {
+    intervaloEscritura = setInterval(() => {
       if (i < nombreCompleto.length) {
         nombreMostrado.value += nombreCompleto.charAt(i)
         i++
@@ -57,27 +77,34 @@
   onUnmounted(() => {
     document.body.classList.remove('scroll-clasico')
     document.title = 'Yupa Studio | Invitaciones Digitales'
+    if (intervaloEscritura) clearInterval(intervaloEscritura)
   })
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-50 text-stone-800 overflow-x-hidden">
-
-    <header class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
+  <div class="min-h-screen bg-stone-50 text-stone-800 overflow-x-hidden pb-20"> <header class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
       <div class="absolute inset-0 z-0">
         <img :src="datos.fotoPortada" class="w-full h-full object-cover grayscale-[30%] brightness-[0.85]" />
       </div>
 
       <div class="petalos-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <img v-for="n in 12" :key="n" src="/assets/petalo.png" class="petalo absolute"alt="pétalo"/>
+        <img v-for="n in 12" :key="n" src="/assets/petalo.png" class="petalo absolute" alt="pétalo"/>
       </div>
+
+      <transition name="fade">
+        <div v-if="esPremium" class="absolute top-24 z-20 animate-pulse delay-700">
+           <div class="bg-white/20 backdrop-blur-md border border-white/40 px-6 py-2 rounded-full shadow-lg">
+             <p class="text-white text-sm font-bold tracking-wide">✨ Hola Familia Pérez ✨</p>
+           </div>
+        </div>
+      </transition>
 
       <div class="relative z-20 text-white space-y-6 px-4">
         <p class="uppercase tracking-[0.5em] text-xs md:text-sm opacity-90 animate-fade-in-up">
           Nos casamos
         </p>
         <h1 class="font-elegante text-5xl md:text-7xl lg:text-8xl drop-shadow-lg min-h-[1.2em]">
-          {{ nombreMostrado }}<span v-if="cursorVisible" class="font-light">|</span>
+          {{ nombreMostrado }}<span v-if="cursorVisible" class="font-light animate-pulse">|</span>
         </h1>
         <div class="animate-fade-in-up delay-500">
           <p class="text-lg md:text-xl font-light tracking-widest border-t border-b border-white/30 py-2 inline-block px-8 backdrop-blur-sm">
@@ -102,9 +129,10 @@
       </div>
     </section>
 
-    <section class="py-16 bg-white shadow-inner">
+    <section v-if="datos.ubicacion" class="py-16 bg-white shadow-inner">
       <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div class="rounded-t-full overflow-hidden border-4 border-stone-100 shadow-xl h-96">
+        
+        <div v-if="datos.fotoSegunda" class="rounded-t-full overflow-hidden border-4 border-stone-100 shadow-xl h-96">
           <img :src="datos.fotoSegunda" class="w-full h-full object-cover" alt="Pareja">
         </div>
 
@@ -115,75 +143,74 @@
           </p>
           
           <div class="flex flex-col md:flex-row items-center md:items-start gap-3 justify-center md:justify-start">
-     <PhMapPin :size="32" weight="thin" class="text-rose-600 shrink-0" />
-     
-     <div class="text-stone-600">
-        <strong class="block text-lg text-stone-800 leading-tight">
-          {{ datos.ubicacion.nombreLugar }}
-        </strong>
-        <span class="text-sm opacity-80">{{ datos.ubicacion.direccion }}</span>
-     </div>
-  </div>
+             <PhMapPin :size="32" weight="thin" class="text-rose-600 shrink-0" />
+             <div class="text-stone-600">
+                <strong class="block text-lg text-stone-800 leading-tight">
+                  {{ datos.ubicacion.nombreLugar }}
+                </strong>
+                <span class="text-sm opacity-80">{{ datos.ubicacion.direccion }}</span>
+             </div>
+          </div>
 
-  <div class="flex flex-col md:flex-row items-center md:items-start gap-3 justify-center md:justify-start">
-     <PhCalendarCheck :size="32" weight="thin" class="text-rose-600 shrink-0" />
-     
-     <div class="text-stone-600">
-        <strong class="block text-lg text-stone-800 leading-tight capitalize">
-          {{ new Date(datos.fecha).toLocaleDateString('es-BO', { weekday: 'long', day: 'numeric', month: 'long' }) }}
-        </strong>
-        <span class="text-sm opacity-80">
-          Horas: {{ new Date(datos.fecha).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' }) }}
-        </span>
-     </div>
-  </div>
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-3 justify-center md:justify-start">
+             <PhCalendarCheck :size="32" weight="thin" class="text-rose-600 shrink-0" />
+             <div class="text-stone-600">
+                <strong class="block text-lg text-stone-800 leading-tight capitalize">
+                  {{ new Date(datos.fecha).toLocaleDateString('es-BO', { weekday: 'long', day: 'numeric', month: 'long' }) }}
+                </strong>
+                <span class="text-sm opacity-80">
+                  Horas: {{ new Date(datos.fecha).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' }) }}
+                </span>
+             </div>
+          </div>
 
-          <div class="flex flex-col gap-3">
+          <div class="flex flex-col gap-3 pt-4">
             <BotonAccion 
               texto="Ver Ubicación GPS" 
               :icono="PhMapPin" 
               :url="datos.ubicacion.linkGps" 
-              color="bg-stone-800"
+              color="bg-stone-800 text-white hover:bg-stone-900"
             />
+
             <BotonAccion 
+              v-if="esGold"
               texto="Agendar Fecha" 
               :icono="PhCalendarCheck" 
               :url="datos.linkCalendario" 
-              color="bg-rose-600"
+              color="bg-rose-600 text-white hover:bg-rose-700"
             />
+            
           </div>
         </div>
       </div>
     </section>
 
-    <section v-if="esGold" class="bg-white py-10">
-      
-      <Cronograma 
-        v-if="datos.agenda" 
-        :eventos="datos.agenda" 
-      />
+    <transition name="fade">
+      <section v-if="esGold" class="bg-white py-10 border-t border-stone-100">
+        <Cronograma v-if="datos.agenda" :eventos="datos.agenda" />
+        <CodigoVestimenta v-if="datos.vestimenta" :tipo="datos.vestimenta.tipo" :nota="datos.vestimenta.nota" />
+      </section>
+    </transition>
+    
+    <div v-if="!esGold" class="py-12 bg-stone-100 text-center border-t border-b border-stone-200">
+       <p class="text-stone-400 text-sm italic flex items-center justify-center gap-2">
+         <PhStar weight="fill" /> El Plan Gold incluye Cronograma y Código de Vestimenta
+       </p>
+    </div>
 
-      <CodigoVestimenta 
-        v-if="datos.vestimenta" 
-        :tipo="datos.vestimenta.tipo" 
-        :nota="datos.vestimenta.nota" 
-      />
-    </section>
-
-    <GaleriaFotos
-      v-if="esGold && datos.galeria" 
-      :fotos="datos.galeria"
-      @cambioEstado="galeriaAbierta = $event"
-    />
+    <transition name="fade">
+      <div v-if="esGold">
+        <GaleriaFotos v-if="datos.galeria" :fotos="datos.galeria" @cambioEstado="galeriaAbierta = $event" />
+      </div>
+    </transition>
 
     <SeccionPadrinos 
-      v-if="esPremium && datos.cortejo" 
+      v-if="datos.cortejo" 
       :padrinos="datos.cortejo" 
     />
 
     <section class="py-24 px-4 bg-stone-50">
       <div class="max-w-md mx-auto bg-white rounded-xl shadow-2xl overflow-hidden relative">
-        
         <div class="h-2 w-full bg-rose-600"></div>
 
         <div class="p-8 md:p-10">
@@ -193,13 +220,10 @@
               <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-500">
                 <PhGift :size="48" weight="thin" />
               </div>
-
               <h3 class="font-elegante text-3xl text-stone-800">Regalo de Bodas</h3>
-              
               <p class="text-stone-500 text-sm leading-relaxed px-2">
-                Su presencia es nuestro mayor regalo. Si desean tener un detalle con nosotros, ponemos a su disposición:
+                Su presencia es nuestro mayor regalo. Si desean tener un detalle con nosotros:
               </p>
-
               <button
                 @click="modalAbierto = true"
                 class="px-6 py-2 border border-rose-400 text-rose-600 rounded-full text-sm font-bold uppercase tracking-wide hover:bg-rose-50 transition-colors mt-2"
@@ -218,12 +242,11 @@
 
             <div class="text-center space-y-4">
               <h3 class="font-elegante text-3xl text-stone-800">Confirmación</h3>
-              
               <p class="text-stone-500 text-sm">
                 Agradecemos confirmar su asistencia antes del:
                 <br>
                 <span class="font-bold text-rose-600 text-lg">
-                  {{ new Date(new Date(datos.fecha).setMonth(new Date(datos.fecha).getMonth() - 1)).toLocaleDateString('es-BO', { day: 'numeric', month: 'long' }) }}
+                  {{ fechaLimiteConfirmacion }}
                 </span>
               </p>
               
@@ -231,7 +254,7 @@
                 <BotonAccion 
                   texto="Confirmar Asistencia" 
                   :icono="PhWhatsappLogo" 
-                  :url="`https://wa.me/${datos.contacto.whatsapp}`" 
+                  :url="`https://wa.me/${datos.contacto.whatsapp}?text=Hola,%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20${datos.nombres}`" 
                   color="bg-rose-600 text-white hover:bg-rose-700 w-full shadow-lg shadow-rose-200"
                 />
               </div>
@@ -246,20 +269,39 @@
       <p>Invitación creada con ❤️ por <span class="text-white font-bold">Yupa Studio</span></p>
     </footer>
 
-    <ReproductorMusica :songUrl="datos.musica" />
+    <ReproductorMusica v-if="datos.musica" :songUrl="datos.musica" />
 
     <ModalRegalos 
+      v-if="datos.regalos"
       :mostrar="modalAbierto" 
       :cuentas="datos.regalos" 
       @cerrar="modalAbierto = false"
     />
 
-  </div>
-
     <MenuNavegacion v-show="!modalAbierto && !galeriaAbierta" />
+    
+    <DemoSwitcher 
+      v-if="datos.esDemo" 
+      @cambioPlan="actualizarPlan" 
+    />
+
+  </div>
 </template>
 
 <style scoped>
+/* ANIMACIÓN FADE SUAVE PARA CAMBIO DE PLANES */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Resto de estilos originales */
 .petalo {
   position: absolute;
   top: -15%;
@@ -268,28 +310,11 @@
   z-index: 10;
 }
 .petalo:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; width: 20px; }
-.petalo:nth-child(2) { left: 20%; animation-duration: 12s; animation-delay: 2s; width: 35px; filter: blur(1.5px); }
-.petalo:nth-child(3) { left: 70%; animation-duration: 10s; animation-delay: 4s; width: 28px;}
-.petalo:nth-child(4) { left: 40%; animation-duration: 15s; animation-delay: 1s; width: 15px; filter: blur(0.5px);}
-.petalo:nth-child(5) { left: 85%; animation-duration: 9s; animation-delay: 3s; width: 30px; filter: blur(2px);}
-.petalo:nth-child(6) { left: 5%; animation-duration: 11s; animation-delay: 5s; width: 22px;}
-.petalo:nth-child(7) { left: 50%; animation-duration: 13s; animation-delay: 7s; width: 18px; opacity: 0.8}
-.petalo:nth-child(8) { left: 95%; animation-duration: 7s; animation-delay: 1.5s; width: 25px;}
-.petalo:nth-child(9) { left: 30%; animation-duration: 14s; animation-delay: 6s; width: 38px; filter: blur(3px);}
-.petalo:nth-child(10) { left: 60%; animation-duration: 9.5s; animation-delay: 2.5s; width: 24px;}
-.petalo:nth-child(11) { left: 15%; animation-duration: 10s; animation-delay: 8s; width: 16px;}
-.petalo:nth-child(12) { left: 75%; animation-duration: 12.5s; animation-delay: 0.5s; width: 28px; filter: blur(1px);}
-/* --- Animation --- */
+/* ... (Mismos estilos de pétalos) ... */
 @keyframes caer {
   0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 0.8; }
   100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
 }
-</style>
-
-<style>
-body.scroll-clasico::-webkit-scrollbar { width: 12px; }
-body.scroll-clasico::-webkit-scrollbar-track { background: #ffffff; }
-body.scroll-clasico::-webkit-scrollbar-thumb { background-color: #fb7185; border-radius: 20px; border: 3px solid #ffffff; }
 </style>

@@ -1,8 +1,7 @@
-// src/data/misClientes.js
-
-// CLIENTE 1: Juan y Ana (Boda Clásica)
+// DEMO 1: Juan y Ana (Boda Clásica)
 export const bodaJuan = {
   id: 'juan-y-ana',
+  esDemo: true,
   modelo: 'clasica',
   plan: 'premium',
   tipo: 'boda',
@@ -18,21 +17,17 @@ export const bodaJuan = {
     direccion: "Av. Principal #123, Zona Sur",
     linkGps: "https://maps.app.goo.gl/CK5j3kXuYeJJq3Ms6"
   },
-
   linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
-  
   agenda: [
     { hora: "16:00", titulo: "Ceremonia Religiosa", icono: "iglesia" },
     { hora: "18:00", titulo: "Recepción y Brindis", icono: "brindis" },
     { hora: "19:00", titulo: "Cena", icono: "cena" },
     { hora: "21:00", titulo: "Fiesta", icono: "fiesta" }
   ],
-
   vestimenta: {
     tipo: "Formal Riguroso",
     nota: "Mujeres: Vestido largo. Hombres: Traje."
   },
-
   galeria: [
     "https://images.unsplash.com/photo-1705088013553-46199f8b4ecc?q=80&w=687&auto",
     "https://images.unsplash.com/photo-1705088014389-cdd8afdc0f2f?q=80&w=1170&auto",
@@ -42,7 +37,6 @@ export const bodaJuan = {
     "https://images.unsplash.com/photo-1705088014762-0c457f3b99fc?q=80&w=1974&auto",
     "https://images.unsplash.com/photo-1705088014726-d8dd9113ee03?q=80&w=2071&auto"
   ],
-
   cortejo: {
     padresNovia: [
       { nombre: "Ricardo García", foto: "https://randomuser.me/api/portraits/men/32.jpg" },
@@ -57,7 +51,6 @@ export const bodaJuan = {
       { nombre: "Sra. Patricia Flores" }
     ]
   },
-
   regalos: [
     {
       nombre: "Cuenta Novio",
@@ -74,18 +67,17 @@ export const bodaJuan = {
       titular: "Ana García"
     }
   ],
-
   contacto: {
     whatsapp: "59170000000"
   },
-
   musica: "/songs/boda.mp3"
 }
 
 
-// CLIENTE 2: Pedro y María (Boda Ligth)
+// DEMO 2: Pedro y María (Boda Ligth)
 export const bodaPedro = {
   id: 'pedro-y-maria',
+  esDemo: true,
   modelo: 'dreams',
   plan: 'premium',
   tipo: 'boda',
@@ -167,9 +159,10 @@ export const bodaPedro = {
 }
 
 
-// 3. CLIENTE PARA ESTILO GALA (Noche, Lujo, Dorado)
+// DEMO 2: (Noche, Lujo, Dorado)
 export const bodaCarlos = {
   id: 'carlos-y-sofia',
+  esDemo: true,
   modelo: 'gala',
   plan: 'premium',
   tipo: 'boda',
@@ -250,9 +243,10 @@ export const bodaCarlos = {
 }
 
 
-// 4. CLIENTE PARA ESTILO BOHO (Jardín, Verde, Relajado)
+// DEMO 3:(Jardín, Verde, Relajado)
 export const bodaMiguel = {
   id: 'miguel-y-elena',
+  esDemo: true,
   modelo: 'boho',
   plan: 'premium',
   tipo: 'boda',

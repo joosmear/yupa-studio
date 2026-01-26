@@ -1,6 +1,8 @@
 <script setup>
   import { PhMapPin, PhCalendarCheck, PhGift, PhStar, PhWhatsappLogo } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
+  
+  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
@@ -10,17 +12,36 @@
   import GaleriaFotos from '../components/GaleriaFotos.vue'
   import SeccionPadrinos from '../components/SeccionPadrinos.vue'
   import MenuNavegacion from '../components/MenuNavegacion.vue'
+  import DemoSwitcher from '../components/DemoSwitcher.vue' // <--- IMPORTANTE
 
   const props = defineProps({
     datos: { type: Object, required: true }
   })
 
+  // --- ESTADO DEL DEMO SWITCHER ---
+  const planVisualizado = ref(props.datos.esDemo ? 'premium' : props.datos.plan) 
+
+  const actualizarPlan = (nuevoPlan) => {
+    planVisualizado.value = nuevoPlan
+  }
+
+  // --- COMPUTADAS REACTIVAS AL SWITCHER ---
+  const esGold = computed(() => ['gold', 'premium'].includes(planVisualizado.value))
+  const esPremium = computed(() => planVisualizado.value === 'premium')
+
+  // COMPUTADA DE FECHA LÍMITE (Segura)
+  const fechaLimiteConfirmacion = computed(() => {
+    if (!props.datos.fecha) return ''
+    const fecha = new Date(props.datos.fecha)
+    fecha.setMonth(fecha.getMonth() - 1)
+    return fecha.toLocaleDateString('es-BO', { day: 'numeric', month: 'long' })
+  })
+
   const galeriaAbierta = ref(false)
   const modalAbierto = ref(false)
+  let intervaloEscritura = null
 
-  const esGold = computed(() => props.datos && ['gold', 'premium'].includes(props.datos.plan))
-  const esPremium = computed(() => props.datos && props.datos.plan === 'premium')
-
+  // Lógica de Escritura
   const nombreMostrado = ref("")
   const cursorVisible = ref(true)
 
@@ -29,7 +50,8 @@
     const nombreCompleto = props.datos.nombres 
     let i = 0
     nombreMostrado.value = ""
-    const intervaloEscritura = setInterval(() => {
+    
+    intervaloEscritura = setInterval(() => {
       if (i < nombreCompleto.length) {
         nombreMostrado.value += nombreCompleto.charAt(i)
         i++
@@ -49,11 +71,12 @@
   onUnmounted(() => {
     document.body.classList.remove('scroll-gala')
     document.title = 'Yupa Studio | Invitaciones Digitales'
+    if (intervaloEscritura) clearInterval(intervaloEscritura)
   })
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0B0F19] text-slate-200 overflow-x-hidden font-sans font-light selection:bg-amber-500/30">
+  <div class="min-h-screen bg-[#0B0F19] text-slate-200 overflow-x-hidden font-sans font-light selection:bg-amber-500/30 pb-24">
 
     <header class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
       <div class="absolute inset-0 z-0">
@@ -67,6 +90,14 @@
       <div class="estrellas-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
         <img v-for="n in 15" :key="n" src="/assets/estrella.png" class="estrella absolute" alt="estrella" />
       </div>
+
+      <transition name="fade">
+        <div v-if="esPremium" class="absolute top-24 z-20 animate-pulse delay-700">
+           <div class="bg-amber-900/40 backdrop-blur-md border border-amber-500/30 px-6 py-2 rounded-full shadow-[0_0_20px_rgba(180,83,9,0.3)]">
+             <p class="text-amber-100 text-sm font-bold tracking-wide uppercase text-[10px]">✨ Hola Familia Pérez ✨</p>
+           </div>
+        </div>
+      </transition>
 
       <div class="relative z-20 space-y-8 px-4">
         <p class="uppercase tracking-[0.5em] text-xs text-amber-100/80 animate-fade-in-up font-medium">
@@ -112,7 +143,7 @@
       />
     </section>
 
-    <section class="py-24 px-4">
+    <section v-if="datos.ubicacion" class="py-24 px-4">
       <div class="max-w-4xl mx-auto bg-[#131926] rounded-sm p-10 md:p-16 shadow-2xl border border-white/5 text-center relative">
         <div class="absolute top-0 left-0 w-16 h-16 border-t border-l border-amber-500/30 m-4"></div>
         <div class="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-amber-500/30 m-4"></div>
@@ -157,7 +188,9 @@
              :url="datos.ubicacion.linkGps" 
              color="bg-transparent border border-white/10 text-slate-400 hover:text-amber-200 hover:border-amber-500/30 transition-colors rounded-md"
            />
+           
            <BotonAccion 
+             v-if="esGold"
              texto="Agendar Fecha" 
              :icono="PhCalendarCheck" 
              :url="datos.linkCalendario" 
@@ -167,46 +200,58 @@
       </div>
     </section>
 
-    <section v-if="esGold" class="py-10">
-      <Cronograma 
-        v-if="datos.agenda" 
-        :eventos="datos.agenda" 
-        colorTitulo="text-gold font-elegante" 
-        colorLinea="border-amber-500/20"
-        colorPunto="bg-gradient-to-b from-amber-300 to-amber-600 border-none shadow-glow" 
-        colorCardBg="bg-[#161C2C] border-white/5 hover:border-amber-500/30"
-        colorHora="text-amber-200 font-normal"
-        colorIcono="text-amber-400"
-        colorTexto="text-slate-300 font-light"
-      />
+    <transition name="fade">
+      <section v-if="esGold" class="py-10">
+        <Cronograma 
+          v-if="datos.agenda" 
+          :eventos="datos.agenda" 
+          colorTitulo="text-gold font-elegante" 
+          colorLinea="border-amber-500/20"
+          colorPunto="bg-gradient-to-b from-amber-300 to-amber-600 border-none shadow-glow" 
+          colorCardBg="bg-[#161C2C] border-white/5 hover:border-amber-500/30"
+          colorHora="text-amber-200 font-normal"
+          colorIcono="text-amber-400"
+          colorTexto="text-slate-300 font-light"
+        />
 
-      <div class="my-12"></div>
+        <div class="my-12"></div>
 
-      <CodigoVestimenta 
-        v-if="datos.vestimenta" 
-        :tipo="datos.vestimenta.tipo" 
-        :nota="datos.vestimenta.nota"
-        colorFondo="bg-[#0F1420]"
-        colorBorde="border-white/5"
-        colorCirculo="bg-[#161C2C] border border-amber-500/20"
-        colorIcono="text-amber-300"
-        colorTitulo="text-amber-50 font-elegante"
-        colorResalte="text-amber-300 font-medium"
-        colorNotaBg="bg-[#161C2C]"
-        colorNotaTexto="text-slate-400 italic font-light"
-      />
-    </section>
+        <CodigoVestimenta 
+          v-if="datos.vestimenta" 
+          :tipo="datos.vestimenta.tipo" 
+          :nota="datos.vestimenta.nota"
+          colorFondo="bg-[#0F1420]"
+          colorBorde="border-white/5"
+          colorCirculo="bg-[#161C2C] border border-amber-500/20"
+          colorIcono="text-amber-300"
+          colorTitulo="text-amber-50 font-elegante"
+          colorResalte="text-amber-300 font-medium"
+          colorNotaBg="bg-[#161C2C]"
+          colorNotaTexto="text-slate-400 italic font-light"
+        />
+      </section>
+    </transition>
+    
+    <div v-if="!esGold" class="py-12 bg-[#0F1420] text-center border-y border-white/5">
+       <p class="text-slate-500 text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+         <PhStar weight="fill" class="text-amber-500/50" /> El Plan Gold incluye Cronograma y Fotos
+       </p>
+    </div>
 
-    <GaleriaFotos 
-      v-if="esGold && datos.galeria" 
-      :fotos="datos.galeria" 
-      colorIcono="text-[#0B0F19]"
-      colorTitulo="text-[#0B0F19]"
-      @cambioEstado="galeriaAbierta = $event"
-    />
+    <transition name="fade">
+      <div v-if="esGold">
+        <GaleriaFotos 
+          v-if="datos.galeria" 
+          :fotos="datos.galeria" 
+          colorIcono="text-[#0B0F19]"
+          colorTitulo="text-[#0B0F19]"
+          @cambioEstado="galeriaAbierta = $event"
+        />
+      </div>
+    </transition>
     
     <SeccionPadrinos 
-      v-if="esPremium && datos.cortejo" 
+      v-if="datos.cortejo" 
       :padrinos="datos.cortejo"
       colorIcono="text-[#0B0F19]"
       colorTitulo="text-[#0B0F19]"
@@ -229,16 +274,17 @@
       </button>
 
       <div class="max-w-xs mx-auto w-full mt-8">
+         <div class="text-slate-500 text-[10px] uppercase tracking-widest mb-2">Confirmar antes del {{ fechaLimiteConfirmacion }}</div>
          <BotonAccion 
            texto="Confirmar Asistencia" 
            :icono="PhWhatsappLogo" 
-           :url="`https://wa.me/${datos.contacto.whatsapp}`" 
+           :url="`https://wa.me/${datos.contacto.whatsapp}?text=Hola,%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20${datos.nombres}`" 
            color="bg-transparent border border-white/10 text-slate-400 hover:text-amber-200 hover:border-amber-500/30 transition-colors rounded-md"
          />
       </div>
     </section>
 
-    <footer class="text-center text-slate-500 text-[10px] uppercase tracking-widest py-12 pb-24 border-t border-white/5 font-medium">
+    <footer class="text-center text-slate-500 text-[10px] uppercase tracking-widest py-12 border-t border-white/5 font-medium">
       <p>Diseñado por <span class="text-slate-300">Yupa Studio</span> · Luxury Collection</p>
     </footer>
 
@@ -250,6 +296,7 @@
     />
     
     <ModalRegalos 
+      v-if="datos.regalos"
       :mostrar="modalAbierto" 
       :cuentas="datos.regalos" 
       @cerrar="modalAbierto = false"
@@ -258,12 +305,25 @@
     />
 
     <MenuNavegacion v-show="!modalAbierto && !galeriaAbierta" />
+    
+    <DemoSwitcher v-if="datos.esDemo" @cambioPlan="actualizarPlan" />
+
   </div>
 </template>
 
 <style scoped>
-/* --- EFECTO ORO REALISTA --- */
-/* En lugar de un color plano, usamos un gradiente que simula brillo metálico */
+/* FADE TRANSITION */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* EFECTO ORO REALISTA */
 .text-gold {
   background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
   -webkit-background-clip: text;
@@ -277,24 +337,21 @@
   to { background-position: 200% center; }
 }
 
-/* --- ANIMACIÓN ESTRELLAS CAYENDO --- */
+/* ANIMACIÓN ESTRELLAS */
 .estrella {
   position: absolute;
   top: -10%;
   opacity: 0;
   animation: caerEstrella linear infinite;
-  width: 15px; /* Tamaño base pequeño */
+  width: 15px;
 }
-
-/* Movimiento suave y desvanecimiento */
 @keyframes caerEstrella {
   0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-  20% { opacity: 1; transform: scale(1); } /* Brilla fuerte al inicio */
+  20% { opacity: 1; transform: scale(1); }
   80% { opacity: 0.8; }
   100% { transform: translateY(95vh) rotate(180deg) scale(0.5); opacity: 0; }
 }
-
-/* Personalización de cada estrella para que se vea natural (random) */
+/* Posiciones Random Estrellas */
 .estrella:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; width: 12px; }
 .estrella:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: 2s; width: 18px; filter: drop-shadow(0 0 5px gold); }
 .estrella:nth-child(3) { left: 50%; animation-duration: 10s; animation-delay: 4s; width: 10px; }
@@ -313,15 +370,15 @@
 </style>
 
 <style>
-/* Scroll Negro y Dorado para esta plantilla */
+/* Scroll Negro y Dorado */
 body.scroll-gala::-webkit-scrollbar { width: 12px; }
 body.scroll-gala::-webkit-scrollbar-track { background: #0B0F19; }
 body.scroll-gala::-webkit-scrollbar-thumb { 
-  background-color: #b38728; /* Dorado oscuro */
+  background-color: #b38728; 
   border-radius: 20px; 
   border: 3px solid #0B0F19; 
 }
 body.scroll-gala::-webkit-scrollbar-thumb:hover {
-  background-color: #fcf6ba; /* Dorado brillante al hover */
+  background-color: #fcf6ba; 
 }
 </style>

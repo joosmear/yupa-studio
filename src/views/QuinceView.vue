@@ -1,12 +1,10 @@
 <script setup>
-// 1. Limpiamos importaciones innecesarias (ref, onMounted, etc ya no se usan aquí)
 import { PhSparkle, PhMusicNotes, PhWhatsappLogo, PhCrown, PhArrowRight, PhCheckCircle, PhImage, PhMonitorPlay, PhMusicNote, PhTimer, PhEye } from '@phosphor-icons/vue'
 import Navbar from '../components/Navbar.vue'
 import Footer from '../components/Footer.vue'
 import PreguntasFrecuentes from '../components/PreguntasFrecuentes.vue'
-import Testimonios from '../components/Testimonios.vue' // <--- IMPORTANTE: Importar esto
+import Testimonios from '../components/Testimonios.vue'
 
-// --- PLANES 15 AÑOS ---
 const planes = [
   {
     nombre: "Party",
@@ -70,8 +68,6 @@ const modelos = [
     color: "bg-amber-500"
   }
 ]
-
-// --- TESTIMONIOS (Datos limpios) ---
 const testimonios = [
   {
     pareja: "Sra. Claudia (Mamá)", // Usamos 'pareja' porque así lo espera el componente, aunque sea mamá
@@ -89,8 +85,6 @@ const testimonios = [
     boda: "15 de Sofía"
   }
 ]
-
-// --- FAQS ---
 const faqsQuince = [
   { pregunta: "¿Qué fotos necesito?", respuesta: "Idealmente de tu sesión pre-15. Si no tienes, usamos fotos bonitas de celular y las editamos." },
   { pregunta: "¿Puedo poner música de TikTok?", respuesta: "¡Sí! Dinos el nombre de la canción o mándanos el link y nosotros la ponemos." },
@@ -169,7 +163,7 @@ const faqsQuince = [
             </div>
             <ul class="space-y-4 mb-8">
               <li v-for="(feature, index) in plan.caracteristicas" :key="index" class="flex items-center text-left">
-                <PhCheckCircle class="flex-shrink-0 text-purple-600 mt-0.5" size="22" weight="bold" />
+                <PhCheckCircle class="flex-shrink-0 text-purple-600 mt-0.5" size="22" weight="thin" />
                 <span class="ml-3 text-slate-600 text-sm font-medium">{{ feature }}</span>
               </li>
             </ul>
