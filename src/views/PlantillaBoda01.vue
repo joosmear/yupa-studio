@@ -1,8 +1,6 @@
 <script setup>
   import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, PhHeart } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
-  
-  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
@@ -12,7 +10,7 @@
   import GaleriaFotos from '../components/GaleriaFotos.vue'
   import SeccionPadrinos from '../components/SeccionPadrinos.vue'
   import MenuNavegacion from '../components/MenuNavegacion.vue'
-  import DemoSwitcher from '../components/DemoSwitcher.vue' // <--- NUEVO IMPORT
+  import DemoSwitcher from '../components/DemoSwitcher.vue'
 
   const props = defineProps({
     datos: {
@@ -21,26 +19,28 @@
     }
   })
 
-  // --- ESTADO DEL DEMO SWITCHER ---
+  const planVisualizado = ref(props.datos.esDemo ? 'premium' : props.datos.plan) 
 
-// Si datos.esDemo es true, iniciamos en 'premium' para vender.
-// Si NO es demo (es un cliente real), usamos su plan real (props.datos.plan).
-const planVisualizado = ref(props.datos.esDemo ? 'premium' : props.datos.plan) 
+  const actualizarPlan = (nuevoPlan) => {
+    planVisualizado.value = nuevoPlan
+  }
 
-const actualizarPlan = (nuevoPlan) => {
-  planVisualizado.value = nuevoPlan
-}
-
-  // --- COMPUTADAS REACTIVAS AL SWITCHER ---
-  // Ahora dependen de 'planVisualizado', no de props.datos.plan
   const esGold = computed(() => ['gold', 'premium'].includes(planVisualizado.value))
   const esPremium = computed(() => planVisualizado.value === 'premium')
+
+  const fotosVisibles = computed(() => {
+    if (!props.datos.galeria) return []
+
+    if (esPremium.value) {
+      return props.datos.galeria
+    }
+    return props.datos.galeria.slice(0, 8)
+  })
 
   const galeriaAbierta = ref(false)
   const modalAbierto = ref(false)
   let intervaloEscritura = null
 
-  // COMPUTADA DE FECHA LÍMITE (Segura)
   const fechaLimiteConfirmacion = computed(() => {
     if (!props.datos.fecha) return ''
     const fecha = new Date(props.datos.fecha)
@@ -48,7 +48,6 @@ const actualizarPlan = (nuevoPlan) => {
     return fecha.toLocaleDateString('es-BO', { day: 'numeric', month: 'long' })
   })
 
-  // Lógica de Escritura
   const nombreMostrado = ref("")
   const cursorVisible = ref(true)
 
@@ -82,7 +81,9 @@ const actualizarPlan = (nuevoPlan) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-50 text-stone-800 overflow-x-hidden pb-20"> <header class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
+  <div class="min-h-screen bg-stone-50 text-stone-800 overflow-x-hidden pb-20">
+    
+    <header class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
       <div class="absolute inset-0 z-0">
         <img :src="datos.fotoPortada" class="w-full h-full object-cover grayscale-[30%] brightness-[0.85]" />
       </div>
@@ -200,7 +201,7 @@ const actualizarPlan = (nuevoPlan) => {
 
     <transition name="fade">
       <div v-if="esGold">
-        <GaleriaFotos v-if="datos.galeria" :fotos="datos.galeria" @cambioEstado="galeriaAbierta = $event" />
+        <GaleriaFotos v-if="datos.galeria" :fotos="fotosVisibles" @cambioEstado="galeriaAbierta = $event" />
       </div>
     </transition>
 
@@ -309,7 +310,7 @@ const actualizarPlan = (nuevoPlan) => {
   animation: caer linear infinite;
   z-index: 10;
 }
-.petalo:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; width: 20px; }
+.petalo:nth-child(1) { left: 10%; animation-duration: 20s; animation-delay: 0s; width: 20px; }
 /* ... (Mismos estilos de pétalos) ... */
 @keyframes caer {
   0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }

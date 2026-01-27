@@ -1,8 +1,6 @@
 <script setup>
   import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, PhLeaf } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
-  
-  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
@@ -16,16 +14,24 @@
 
   const props = defineProps({ datos: { type: Object, required: true } })
 
-  // --- ESTADO DEL DEMO SWITCHER ---
   const planVisualizado = ref(props.datos.esDemo ? 'premium' : props.datos.plan) 
 
   const actualizarPlan = (nuevoPlan) => {
     planVisualizado.value = nuevoPlan
   }
 
-  // --- COMPUTADAS REACTIVAS ---
   const esGold = computed(() => ['gold', 'premium'].includes(planVisualizado.value))
   const esPremium = computed(() => planVisualizado.value === 'premium')
+
+  const fotosVisibles = computed(() => {
+    if (!props.datos.galeria) return []
+    
+    if (esPremium.value) {
+      return props.datos.galeria
+    }
+
+    return props.datos.galeria.slice(0, 8)
+  })
 
   // COMPUTADA FECHA LÍMITE
   const fechaLimiteConfirmacion = computed(() => {
@@ -229,7 +235,7 @@
       <div v-if="esGold">
         <GaleriaFotos 
           v-if="datos.galeria" 
-          :fotos="datos.galeria" 
+          :fotos="fotosVisibles" 
           colorFondo="bg-[#FDFBF7]" 
           colorIcono="text-[#8A9A5B]"
           colorTitulo="text-[#2C3E30]"

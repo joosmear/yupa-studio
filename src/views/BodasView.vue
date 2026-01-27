@@ -234,7 +234,7 @@ const faqsBodas = [
         <div class="mt-16 text-center border-t border-stone-200 pt-8 max-w-2xl mx-auto opacity-70">
           <p class="text-stone-400 text-xs font-bold uppercase tracking-widest mb-3">Métodos de Pago</p>
           <div class="flex flex-wrap justify-center gap-6 text-sm text-stone-500 font-medium">
-             <span>QR Simple</span> • <span>Tigo Money</span> • <span>Transferencia</span>
+             <span>QR Simple</span> • <span>Transferencia</span>
           </div>
         </div>
       </div>

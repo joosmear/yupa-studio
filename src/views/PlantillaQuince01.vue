@@ -1,9 +1,7 @@
 <script setup>
   // 1. Limpiamos iconos que ya no se usan (PhGift, PhCrown)
-  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, PhMagnifyingGlassPlus, PhX } from '@phosphor-icons/vue'
+  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, PhMagnifyingGlassPlus, PhX, PhCamera } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
-  
-  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
@@ -12,6 +10,7 @@
   import CodigoVestimenta15 from '../components/CodigoVestimenta15.vue'
   import MenuNavegacion from '../components/MenuNavegacion.vue'
   import IconoAnimado from '../components/IconoAnimado.vue'
+  import DemoSwitcher from '../components/DemoSwitcher.vue'
 
   const props = defineProps({
     datos: { type: Object, required: true }
@@ -20,8 +19,24 @@
   // const galeriaAbierta = ref(false) -> ELIMINADO (Ya no se usa)
   const modalAbierto = ref(false)
 
-  // Lógica de planes
-  const esGold = computed(() => ['gold', 'premium'].includes(props.datos.plan))
+  // --- ESTADO DEL DEMO SWITCHER ---
+  const planVisualizado = ref(props.datos.esDemo ? 'queen' : props.datos.plan) 
+
+  const actualizarPlan = (nuevoPlan) => {
+    planVisualizado.value = nuevoPlan
+  }
+
+  // --- LÓGICA DE PLANES (Compatible con nombres viejos y nuevos) ---
+  const esGold = computed(() => ['gold', 'premium', 'glow', 'queen'].includes(planVisualizado.value))
+  const esPremium = computed(() => ['premium', 'queen'].includes(planVisualizado.value))
+
+  // --- GALERÍA INTELIGENTE ---
+  const fotosVisibles = computed(() => {
+    if (!props.datos.galeria) return []
+    // Si es Premium muestra todo, si es Gold muestra solo 6
+    if (esPremium.value) return props.datos.galeria
+    return props.datos.galeria.slice(0, 6)
+  })
 
   // Efecto de escritura
   const nombreMostrado = ref("")
@@ -82,6 +97,13 @@
       <div class="mariposas-container absolute inset-0 z-20 pointer-events-none overflow-hidden">
         <img v-for="n in 10" :key="n" src="/assets/mariposa-lila.png" class="mariposa absolute opacity-60" alt="mariposa"/>
       </div>
+      <transition name="fade">
+        <div v-if="esPremium" class="absolute top-12 z-30 animate-pulse delay-700">
+           <div class="bg-white/80 backdrop-blur-md border border-purple-200 px-6 py-2 rounded-full shadow-lg">
+             <p class="text-purple-900 text-sm font-bold tracking-wide">✨ Hola Amiga Sofi ✨</p>
+           </div>
+        </div>
+      </transition>
       <div class="relative z-30 text-purple-900 space-y-4 animate-fade-in-up w-full max-w-6xl mx-auto flex flex-col items-center justify-center h-full mt-10"> 
         <div class="mb-4 text-[#75527e]/80 opacity-90 animacion-tiara">
           <svg id="OBJECTS" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 418.172 135.699" class="w-32 md:w-40 h-auto mx-auto fill-current">
@@ -237,6 +259,7 @@
               color="bg-[#75527e]/80 text-white shadow-md hover:bg-[#5e4165]" 
             />
             <BotonAccion 
+              v-if="esGold" 
               texto="Agendar Fecha" 
               :icono="PhCalendarCheck" 
               :url="datos.linkCalendario" 
@@ -266,7 +289,7 @@
 
           <div class="flex shrink-0 gap-8 px-4">
             <div 
-              v-for="(foto, index) in datos.galeria" 
+              v-for="(foto, index) in fotosVisibles" 
               :key="'orig-'+index" 
               class="relative group w-64 h-80 md:w-80 md:h-96 flex-shrink-0 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
               @click="abrirFoto(foto)"
@@ -283,7 +306,7 @@
         
           <div class="flex shrink-0 gap-8 px-4" aria-hidden="true">
             <div 
-              v-for="(foto, index) in datos.galeria" 
+              v-for="(foto, index) in fotosVisibles" 
               :key="'clon-'+index" 
               class="relative group w-64 h-80 md:w-80 md:h-96 flex-shrink-0 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
               @click="abrirFoto(foto)"
@@ -332,31 +355,53 @@
           </div>
         </div>
       </Transition>
-    </section>
 
-    <section v-if="esGold" class="bg-white py-10 relative">
-      <div class="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-slate-50 to-white"></div>
-        <div class="text-center mb-16 relative z-10">
-          <h2 class="font-seasons text-5xl text-[#75527e] mb-2">Itinerario</h2>
-          <p class="font-cormorant text-xl text-[#a37ab0] italic">Sigue el ritmo de mi fiesta</p>
+      <div v-if="!esPremium && datos.galeria.length > 6" class="text-center pt-8 relative z-30">
+           <p class="text-white/60 text-xs italic bg-black/20 inline-block px-4 py-1 rounded-full">
+             + {{ datos.galeria.length - 6 }} fotos adicionales disponibles en Plan Queen
+           </p>
         </div>
 
-        <Cronograma15 
-          :eventos="datos.agenda"
-          colorCardBg="bg-[#faf5fc]"
-          colorLinea="border-[#e0cfe6]"
-        />
-      
-        <CodigoVestimenta15 
-          v-if="datos.vestimenta"
-          :nota="datos.vestimenta.nota"
-          :tipo="datos.vestimenta.tipo"  
-          :labelHombres="datos.vestimenta.etiquetaHombres || 'Traje Formal'"
-          :labelMujeres="datos.vestimenta.etiquetaMujeres || 'Vestido Largo'"
-          imgHombres="/assets/iconos/suit.png"
-          imgMujeres="/assets/iconos/dress.png"
-        />
+        <div v-if="esPremium && datos.linkFiltro" class="text-center mt-8 relative z-30">
+           <a :href="datos.linkFiltro" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-purple-900/50 hover:scale-105 transition-transform border border-white/20">
+             <PhCamera size="24" weight="fill" />
+             Probar mi Filtro de Instagram
+           </a>
+        </div>
+
     </section>
+
+    <transition name="fade">
+      <section v-if="esGold" class="bg-white py-10 relative">
+        <div class="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-slate-50 to-white"></div>
+          <div class="text-center mb-16 relative z-10">
+            <h2 class="font-seasons text-5xl text-[#75527e] mb-2">Itinerario</h2>
+            <p class="font-cormorant text-xl text-[#a37ab0] italic">Sigue el ritmo de mi fiesta</p>
+          </div>
+
+          <Cronograma15 
+            :eventos="datos.agenda"
+            colorCardBg="bg-[#faf5fc]"
+            colorLinea="border-[#e0cfe6]"
+          />
+        
+          <CodigoVestimenta15 
+            v-if="datos.vestimenta"
+            :nota="datos.vestimenta.nota"
+            :tipo="datos.vestimenta.tipo"  
+            :labelHombres="datos.vestimenta.etiquetaHombres || 'Traje Formal'"
+            :labelMujeres="datos.vestimenta.etiquetaMujeres || 'Vestido Largo'"
+            imgHombres="/assets/iconos/suit.png"
+            imgMujeres="/assets/iconos/dress.png"
+          />
+      </section>
+    </transition>
+
+    <div v-if="!esGold" class="py-12 bg-purple-50 text-center border-t border-purple-100">
+        <p class="text-purple-400 text-sm italic flex items-center justify-center gap-2">
+          <PhSparkle weight="fill" /> El Plan Glow incluye Galería y Cronograma
+        </p>
+    </div>
 
     <section class="py-24 px-6 bg-[#75527e] relative overflow-hidden">  
       
@@ -440,6 +485,12 @@
     />
 
     <MenuNavegacion v-show="!modalAbierto && !fotoEnGrande" />
+
+    <DemoSwitcher 
+      v-if="datos.esDemo" 
+      @cambioPlan="actualizarPlan" 
+    />
+
   </div>
 </template>
 

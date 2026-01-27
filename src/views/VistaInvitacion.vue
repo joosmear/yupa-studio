@@ -10,6 +10,8 @@ import PlantillaBoda03 from './PlantillaBoda03.vue'
 import PlantillaBoda04 from './PlantillaBoda04.vue'
 import PlantillaBoda05 from './PlantillaBoda05.vue'
 import PlantillaQuince01 from './PlantillaQuince01.vue'
+import PlantillaQuince02 from './PlantillaQuince02.vue'
+import PlantillaQuince03 from './PlantillaQuince03.vue'
 
 const route = useRoute()
 
@@ -43,6 +45,8 @@ const plantillaSeleccionada = computed(() => {
   switch (estilo) {
     // --- 15 AÑOS ---
     case 'xv-mariposa': return PlantillaQuince01
+    case 'xv-neon': return PlantillaQuince02
+    case 'xv-royal': return PlantillaQuince03
     // --- BODAS ---
     case 'gala': return PlantillaBoda02
     case 'boho': return PlantillaBoda03

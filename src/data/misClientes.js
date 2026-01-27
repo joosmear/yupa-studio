@@ -35,7 +35,13 @@ export const bodaJuan = {
     "https://images.unsplash.com/photo-1705088013581-c40e14a0420f?q=80&w=2070&auto",
     "https://images.unsplash.com/photo-1705088014632-3f0c9799ab6a?q=80&w=2070&auto",
     "https://images.unsplash.com/photo-1705088014762-0c457f3b99fc?q=80&w=1974&auto",
-    "https://images.unsplash.com/photo-1705088014726-d8dd9113ee03?q=80&w=2071&auto"
+    "https://images.unsplash.com/photo-1705088014726-d8dd9113ee03?q=80&w=2071&auto",
+    "https://images.unsplash.com/photo-1705088014788-e35d313fa93a?q=80&w=687&auto",
+    "https://images.unsplash.com/photo-1705088013592-1197a888a8e1?q=80&w=687&auto",
+    "https://images.unsplash.com/photo-1705088013514-098dff61d018?q=80&w=1171",
+    "https://images.unsplash.com/photo-1705088013578-e5f521b534ce?q=80&w=687&auto",
+    "https://images.unsplash.com/photo-1705088014803-0705b681cad3?q=80&w=1170",
+    "https://images.unsplash.com/photo-1705088013626-ce15181fa76c?q=80&w=687"
   ],
   cortejo: {
     padresNovia: [
@@ -329,6 +335,7 @@ export const bodaMiguel = {
 // Demo 1: Valentia (Color Lila)
 export const demoValentina = {
   id: 'valentina-xv',
+  esDemo: true,
   modelo: 'xv-mariposa',
   plan: 'gold',
   tipo: 'xv',
@@ -338,6 +345,158 @@ export const demoValentina = {
   fotoPortada: "https://images.pexels.com/photos/27815939/pexels-photo-27815939.jpeg",
   fotoSegunda: "https://images.pexels.com/photos/27815939/pexels-photo-27815939.jpeg",
 
+  padres: {
+    padre: "Juan Pérez",
+    madre: "María González"
+  },
+  padrinos: {
+    nombres: "Luis Torres y Ana López"
+  },
+
+  ubicacion: {
+    nombreLugar: "Jardines de Aranjuez",
+    direccion: "Carretera a Viacha Km 10",
+    linkGps: "https://maps.app.goo.gl/CK5j3kXuYeJJq3Ms6"
+  },
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
+  
+  galeria: [
+    "https://images.pexels.com/photos/27815938/pexels-photo-27815938.jpeg",
+    "https://images.pexels.com/photos/27815947/pexels-photo-27815947.jpeg",
+    "https://images.pexels.com/photos/18461052/pexels-photo-18461052.jpeg",
+    "https://images.pexels.com/photos/17697229/pexels-photo-17697229.jpeg",
+    "https://images.pexels.com/photos/18461057/pexels-photo-18461057.png",
+    "https://images.pexels.com/photos/18461051/pexels-photo-18461051.jpeg"
+  ],
+
+  agenda: [
+    { hora: '17:00', actividad: 'Recepción Social', icono: "/assets/iconos/recepcion.gif" },
+    { hora: '18:00', actividad: 'Ingreso Quinceñera', icono: '/assets/iconos/ingreso.gif' },
+    { hora: '19:00', actividad: 'Baile', icono: '/assets/iconos/baile.gif' },
+    { hora: '20:00', actividad: 'La Hora Loca', icono: '/assets/iconos/la-hora.gif' },
+    { hora: '21:00', actividad: 'Cena', icono: '/assets/iconos/cena.gif' }
+  ],
+
+  vestimenta: {
+    tipo: 'Elegante & Juvenil',
+    nota: 'Usar colores pastel.',
+    //etiquetaHombres: 'Guayabera', // Dato opcional
+    //etiquetaMujeres: 'Vestido Floral' // Dato opcional
+  },
+
+  regalos: [
+    {
+      nombre: "Cuenta Novio",
+      qr: "/qrs/qr-prueba.jpeg",
+      banco: "BNB",
+      cuenta: "999-888-777",
+      titular: "Juan Pérez"
+    },
+    {
+      nombre: "Cuenta Novia",
+      qr: "/qrs/qr-prueba.jpeg",
+      banco: "Banco Unión",
+     cuenta: "111-222-333",
+      titular: "Ana García"
+    }
+  ],
+
+  contacto: {
+    whatsapp: "59170000000"
+  },
+
+  musica: "/songs/tiempo-de-vals.wav"
+}
+
+// CLIENTE DEMO: Estilo Euphoria / Neón
+export const demoCamila = {
+  id: 'camila-xv',
+  esDemo: true, // Activa el Switcher
+  modelo: 'xv-neon', // Este debe coincidir con tu ruta
+  plan: 'premium', // Iniciamos en premium para mostrar el filtro de IG
+  tipo: 'xv',
+  
+  nombre: "Camila Rios",
+  fecha: "2026-08-15T19:00:00", // Fiesta de noche
+  frase: "La vida es una fiesta, vístete para ella. ¡Prepárate para brillar toda la noche!",
+  
+  // Fotos oscuras con neón (Unsplash)
+  fotoPortada: "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=800&auto=format&fit=crop", 
+  fotoSegunda: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop",
+
+  padres: {
+    padre: "Carlos Rios",
+    madre: "Sofia Mendez"
+  },
+  padrinos: {
+    nombres: "Alejandro y Valeria"
+  },
+
+  ubicacion: {
+    nombreLugar: "Lounge Infinity",
+    direccion: "Av. Equipetrol Calle 4, Zona Norte",
+    linkGps: "https://goo.gl/maps/xyz" // Link ficticio
+  },
+  
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+Camila&details=Neon+Party!",
+  
+  // Galería con ambiente de fiesta/disco
+  galeria: [
+    "https://images.unsplash.com/photo-1763959946737-5255a1df0d93?q=80&w=688&auto",
+    "https://images.unsplash.com/photo-1763959946740-7be8c282d00a?q=80&w=688&auto",
+    "https://images.unsplash.com/photo-1763959951338-f9363788d9fa?q=80&w=1169&auto",
+    "https://images.unsplash.com/photo-1763959945112-5ea44b5277f4?q=80&w=688&auto",
+    "https://images.unsplash.com/photo-1763959945334-1d5b96c46f16?q=80&w=688&auto",
+    "https://images.unsplash.com/photo-1705626308236-490402f6c1cd?q=80&w=681&auto",
+    "https://images.unsplash.com/photo-1705626313801-3f514863ca83?q=80&w=1170&auto"
+  ],
+
+  // Link para el botón de Filtro Instagram (Característica Premium)
+  linkFiltro: "https://www.instagram.com/ar/1234567890/",
+
+  agenda: [
+    { hora: '19:00', actividad: 'Welcome Drinks', icono: '/assets/iconos/recepcion.gif' },
+    { hora: '20:00', actividad: 'Entrada Triunfal', icono: '/assets/iconos/ingreso.gif' },
+    { hora: '21:00', actividad: 'Vals Moderno', icono: '/assets/iconos/baile.gif' },
+    { hora: '22:00', actividad: 'Hora Loca LED', icono: '/assets/iconos/la-hora.gif' },
+    { hora: '23:00', actividad: 'After Party', icono: '/assets/iconos/cena.gif' }
+  ],
+
+  vestimenta: {
+    tipo: 'Neon Party Chic',
+    nota: 'Ven de negro o con colores neón para resaltar.',
+    etiquetaHombres: 'Semi-Formal Dark',
+    etiquetaMujeres: 'Cocktail Dress'
+  },
+
+  regalos: [
+    {
+      nombre: "Cuenta Papá",
+      qr: "/qrs/qr-prueba.jpeg",
+      banco: "Banco Ganadero",
+      cuenta: "444-555-666",
+      titular: "Carlos Rios"
+    }
+  ],
+
+  contacto: {
+    whatsapp: "59170000000"
+  },
+
+  musica: "/songs/levitating.mp3" // Sugerencia: Una canción pop moderna
+}
+
+export const demoSofia = {
+  id: 'sofia-xv', // Coincide con tu catálogo
+  modelo: 'xv-royal', // CLAVE
+  plan: 'premium',
+  tipo: 'xv',
+  nombre: "Sofia Ramirez",
+  fecha: "2026-10-10T19:00:00",
+  frase: "En esta noche mágica, rodeada de estrellas y del amor de quienes más quiero...",
+  fotoPortada: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800&auto=format&fit=crop", // Foto oscura/elegante
+  fotoSegunda: "https://images.unsplash.com/photo-1530103862676-de3c9da59af7?q=80&w=800&auto=format&fit=crop",
+  
   padres: {
     padre: "Juan Pérez",
     madre: "María González"

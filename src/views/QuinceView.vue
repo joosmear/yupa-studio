@@ -10,31 +10,53 @@ const planes = [
     nombre: "Party",
     precio: "119",
     icono: PhMusicNotes,
-    descripcion: "Lo esencial para invitar con estilo.",
+    descripcion: "La tarjeta clásica, versión digital.",
     destacado: false,
     color: "text-fuchsia-500",
-    btnColor: "bg-fuchsia-50 text-fuchsia-600 hover:bg-fuchsia-100",
-    caracteristicas: ["Diseño Web Móvil", "Cuenta Regresiva", "Ubicación GPS", "Música de Fondo", "Confirmación WhatsApp", "Enlace Personalizado"]
+    btnColor: "bg-white border-2 border-fuchsia-400 text-fuchsia-500 hover:bg-fuchsia-50",
+    caracteristicas: [
+      "Diseño Web Móvil",
+      "Cuenta Regresiva",
+      "Ubicación GPS (Google Maps)",
+      "Sección Padrinos y Padres",
+      "Sección de Regalos (QR/Sobres)",
+      "Confirmación WhatsApp",
+      "Música de Fondo"
+    ]
   },
   {
     nombre: "Glow",
     precio: "199",
     icono: PhSparkle,
-    descripcion: "El favorito. Con galería y cronograma.",
+    descripcion: "El favorito. Con fotos y detalles de la fiesta.",
     destacado: true,
     color: "text-purple-600",
-    btnColor: "bg-purple-600 text-white hover:bg-purple-700 shadow-lg shadow-purple-200",
-    caracteristicas: ["Todo lo del Plan Party", "Galería de Fotos", "Cronograma de Fiesta", "Dress Code", "Sección de Regalos", "Frase Inspiradora"]
+    btnColor: "bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white hover:shadow-lg shadow-purple-200",
+    caracteristicas: [
+      "Todo lo del Plan Party",
+      "Galería de Fotos (Sesión de 15)",
+      "Cronograma (Vals, Hora Loca...)",
+      "Código de Vestimenta (Iconos)",
+      "Botón 'Agendar en Calendario'",
+      "Frase Inspiradora"
+    ]
   },
   {
     nombre: "Queen",
-    precio: "450",
+    precio: "349",
     icono: PhCrown,
-    descripcion: "La experiencia VIP personalizada.",
+    descripcion: "Haz sentir VIP a tus amigos.",
     destacado: false,
     color: "text-amber-500",
-    btnColor: "bg-amber-50 text-amber-600 hover:bg-amber-100",
-    caracteristicas: ["Todo lo del Plan Glow", "Dominio .com", "Galería Ilimitada", "Diseño a Medida", "Sección Padrinos", "Soporte VIP"]
+    btnColor: "bg-stone-900 text-white hover:bg-black",
+    caracteristicas: [
+      "Todo lo del Plan Glow",
+      "Pases Personalizados (Nombre del invitado)",
+      "Filtro de Instagram (Link directo)",
+      "Galería Extendida (Más fotos)",
+      "Generador de Links",
+      "Soporte Prioritario"
+    ]
   }
 ]
 
@@ -50,21 +72,21 @@ const modelos = [
     titulo: "Euphoria Night",
     tag: "Neón / Moderno",
     img: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=800&auto=format&fit=crop", 
-    link: "/invitacion/euphoria-demo",
+    link: "/invitacion/camila-xv",
     color: "bg-purple-600"
   },
   {
     titulo: "Rose Gold Dream",
     tag: "Elegante / Romántico",
     img: "https://images.unsplash.com/photo-1530103862676-de3c9da59af7?q=80&w=800&auto=format&fit=crop", 
-    link: "/invitacion/rose-demo",
+    link: "/invitacion/valentina-xv",
     color: "bg-rose-500"
   },
   {
     titulo: "Golden Princess",
     tag: "Clásico / Dorado",
     img: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop", 
-    link: "/invitacion/golden-demo",
+    link: "/invitacion/sofia-xv",
     color: "bg-amber-500"
   }
 ]
