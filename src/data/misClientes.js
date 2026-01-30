@@ -421,7 +421,7 @@ export const demoCamila = {
   frase: "La vida es una fiesta, vístete para ella. ¡Prepárate para brillar toda la noche!",
   
   // Fotos oscuras con neón (Unsplash)
-  fotoPortada: "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=800&auto=format&fit=crop", 
+  fotoPortada: "https://images.unsplash.com/photo-1763625641897-bf7d98f63e69", 
   fotoSegunda: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop",
 
   padres: {
@@ -451,9 +451,6 @@ export const demoCamila = {
     "https://images.unsplash.com/photo-1705626313801-3f514863ca83?q=80&w=1170&auto"
   ],
 
-  // Link para el botón de Filtro Instagram (Característica Premium)
-  linkFiltro: "https://www.instagram.com/ar/1234567890/",
-
   agenda: [
     { hora: '19:00', actividad: 'Welcome Drinks', icono: '/assets/iconos/recepcion.gif' },
     { hora: '20:00', actividad: 'Entrada Triunfal', icono: '/assets/iconos/ingreso.gif' },
@@ -469,15 +466,15 @@ export const demoCamila = {
     etiquetaMujeres: 'Cocktail Dress'
   },
 
-  regalos: [
-    {
-      nombre: "Cuenta Papá",
-      qr: "/qrs/qr-prueba.jpeg",
-      banco: "Banco Ganadero",
-      cuenta: "444-555-666",
-      titular: "Carlos Rios"
-    }
-  ],
+ regalos: [
+   {
+     nombre: "Cuenta Papá",
+     qr: "/qrs/qr-prueba.jpeg",
+     banco: "Banco Ganadero",
+     cuenta: "444-555-666",
+     titular: "Carlos Rios"
+   }
+ ],
 
   contacto: {
     whatsapp: "59170000000"
@@ -488,14 +485,15 @@ export const demoCamila = {
 
 export const demoSofia = {
   id: 'sofia-xv', // Coincide con tu catálogo
+  esDemo: true,
   modelo: 'xv-royal', // CLAVE
   plan: 'premium',
   tipo: 'xv',
   nombre: "Sofia Ramirez",
   fecha: "2026-10-10T19:00:00",
   frase: "En esta noche mágica, rodeada de estrellas y del amor de quienes más quiero...",
-  fotoPortada: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800&auto=format&fit=crop", // Foto oscura/elegante
-  fotoSegunda: "https://images.unsplash.com/photo-1530103862676-de3c9da59af7?q=80&w=800&auto=format&fit=crop",
+  fotoPortada: "https://images.unsplash.com/photo-1677212013193-bcda844e2e65",
+  fotoSegunda: "https://plus.unsplash.com/premium_photo-1673626577666-5e5df3fdab86",
   
   padres: {
     padre: "Juan Pérez",
@@ -513,12 +511,13 @@ export const demoSofia = {
   linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
   
   galeria: [
-    "https://images.pexels.com/photos/27815938/pexels-photo-27815938.jpeg",
-    "https://images.pexels.com/photos/27815947/pexels-photo-27815947.jpeg",
-    "https://images.pexels.com/photos/18461052/pexels-photo-18461052.jpeg",
-    "https://images.pexels.com/photos/17697229/pexels-photo-17697229.jpeg",
-    "https://images.pexels.com/photos/18461057/pexels-photo-18461057.png",
-    "https://images.pexels.com/photos/18461051/pexels-photo-18461051.jpeg"
+    "https://images.unsplash.com/photo-1677211776486-9cede78a4d16",
+    "https://images.unsplash.com/photo-1677212087600-651a104e3c46",
+    "https://images.unsplash.com/photo-1677211877650-f6d39a36a6e0",
+    "https://images.unsplash.com/photo-1677211830168-1ba3e52aa194",
+    "https://images.unsplash.com/photo-1677211905366-c485bf8e9436",
+    "https://images.unsplash.com/photo-1677211747567-90affa5fcb40",
+    "https://images.unsplash.com/photo-1677211728850-60fbeb1ddc6b"
   ],
 
   agenda: [
@@ -558,4 +557,77 @@ export const demoSofia = {
   },
 
   musica: "/songs/tiempo-de-vals.wav"
+}
+
+// Ninos
+
+export const datosValeria = {
+  id: 'valeria',
+  esDemo: true, 
+  modelo:  'magico',
+  plan: 'magico',
+  tipo: 'infatil',
+  nombre: "Valeria",
+  fecha: "2026-10-25T16:00:00",
+  frase: "¡Llegó mi primer añito! Acompáñame a vivir una aventura mágica y salvaje.",
+  edad: "1",
+
+  fotoPortada: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687",
+  imgFondoPattern: "/assets/infantil/patrones-unicornio.jpeg",
+  
+    padres: {
+    padre: "Alejandro Méndez",
+    madre: "Carolina Ríos"
+  },
+  padrinos: {
+    nombres: "Javier Soria & Lucía Méndez"
+  },
+
+  ubicacion: {
+    nombreLugar: "Salón de Eventos 'Little Jungle'",
+    direccion: "Av. Las Palmeras #450, Zona Sur, La Paz",
+    linkGps: "https://goo.gl/maps/tu-link-aqui"
+  },
+
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
+
+  galeria: [
+    "https://images.unsplash.com/photo-1719160233557-226f017fbfd7?q=80&w=687",
+    "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687",
+    "https://images.unsplash.com/photo-1719160276130-cb1f7e857072?q=80&w=687",
+    "https://images.unsplash.com/photo-1719160276256-278749d129d3?q=80&w=687",
+    "https://images.unsplash.com/photo-1719160276127-b83ffa2c5e02?q=80&w=687",
+    "https://images.unsplash.com/photo-1719160232990-8f125e7728dc?q=80&w=687"
+  ],
+
+  agenda: [
+    { hora: '15:00', actividad: '¡Bienvenidos! (Recepción de invitados', icono: "/assets/iconos/recepcion.gif" },
+    { hora: '16:00', actividad: 'Juegos Divertidos (Show infantil o juegos)', icono: '/assets/iconos/ingreso.gif' },
+    { hora: '17:00', actividad: 'Soplamos la Velita (Momento del Pastel)', icono: '/assets/iconos/baile.gif' },
+    { hora: '18:00', actividad: 'Lluvia de Dulces (La Piñata)', icono: '/assets/iconos/la-hora.gif' },
+    { hora: '19:00', actividad: 'Cajitas de Sorpresas (Fin de la fiesta)', icono: '/assets/iconos/cena.gif' }
+  ],
+
+  regalos: [
+    {
+      banco: "Banco Nacional",
+      cuenta: "123-456-7890",
+      titular: "Carolina Ríos",
+      tipo: "Caja de Ahorro",
+      alias: "VALE.1.ANITO" // Opcional
+    },
+    {
+      banco: "Yape / QR",
+      cuenta: "77712345",
+      titular: "Alejandro Méndez",
+      tipo: "Billetera Móvil"
+    }
+  ],
+
+  contacto: {
+    whatsapp: "59177712345", // Número para el botón de confirmar
+    mensajeDefault: "¡Hola! Quiero confirmar mi asistencia al cumple de Valeria 🦁"
+  },
+
+  musica: "/songs/un-mundo-ideal.mp3"
 }

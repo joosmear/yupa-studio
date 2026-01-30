@@ -1,11 +1,13 @@
 <script setup>
 defineProps({
   texto: String,
-  icono: Object, // Aquí pasaremos el icono
-  url: String,   // El enlace a donde lleva
-  color: {       // Opcional: para tener botones de distintos colores
+  icono: Object,
+  url: String,
+  // Ahora 'color' controlará fondo, texto, borde y hover
+  color: { 
     type: String,
-    default: 'bg-slate-800' // Color por defecto (gris oscuro)
+    // Movemos 'text-white' aquí para que sea el defecto, pero se pueda cambiar
+    default: 'bg-slate-800 text-white hover:bg-slate-700' 
   }
 })
 </script>
@@ -14,10 +16,10 @@ defineProps({
   <a 
     :href="url" 
     target="_blank"
-    class="flex items-center justify-center gap-3 px-6 py-4 rounded-full shadow-lg text-white font-medium transition-transform hover:scale-105 active:scale-95"
+    class="flex items-center justify-center gap-3 px-6 py-4 rounded-full shadow-lg font-medium transition-transform duration-300 hover:scale-105 active:scale-95"
     :class="color"
   >
-    <component :is="icono" size="32" weight="thin" />
-    <span>{{ texto }}</span>
+    <component :is="icono" size="24" weight="bold" />
+    <span class="tracking-wide uppercase text-sm">{{ texto }}</span>
   </a>
 </template>

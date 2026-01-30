@@ -1,5 +1,5 @@
 <script setup>
-  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, PhHeart } from '@phosphor-icons/vue'
+  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, PhHeart, PhStar } from '@phosphor-icons/vue'
   import { ref, computed, onMounted, onUnmounted } from 'vue'
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'

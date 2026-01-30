@@ -19,7 +19,11 @@ const planes = [
       "Diseño Temático (Personaje)",
       "Fecha y Hora",
       "Ubicación GPS",
-      "Confirmación WhatsApp"
+      "Confirmación WhatsApp",
+      "Música Infantil de Fondo",
+      "Cuenta Regresiva",
+      "Animación de Entrada",
+      "Sección de Regalos",
     ]
   },
   {
@@ -33,9 +37,9 @@ const planes = [
     caracteristicas: [
       "Todo lo del Plan Chispitas",
       "Galería de Fotos del Cumpleañero",
-      "Música Infantil de Fondo",
-      "Animación de Entrada",
-      "Cuenta Regresiva"
+      "Cronograma (Itinerario)",
+      "Botón Agendar Calendario",
+      "Animaciones (Flotantes)"
     ]
   },
   {
@@ -48,9 +52,8 @@ const planes = [
     btnColor: "bg-white border-2 border-indigo-400 text-indigo-500 hover:bg-indigo-50",
     caracteristicas: [
       "Todo lo del Plan Arcoíris",
+      "Invitación Perzonalizada",
       "Video Invitación Incluida",
-      "Sección de Regalos",
-      "Filtro para Fotos Divertidas",
       "Soporte Prioritario"
     ]
   }
