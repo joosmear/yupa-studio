@@ -574,6 +574,7 @@ export const datosValeria = {
 
   fotoPortada: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687",
   imgFondoPattern: "/assets/infantil/patrones-unicornio.jpeg",
+  videoYoutube: 'zfKTe9q2j80',
   
     padres: {
     padre: "Alejandro Méndez",
@@ -592,35 +593,36 @@ export const datosValeria = {
   linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
 
   galeria: [
-    "https://images.unsplash.com/photo-1719160233557-226f017fbfd7?q=80&w=687",
-    "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687",
-    "https://images.unsplash.com/photo-1719160276130-cb1f7e857072?q=80&w=687",
-    "https://images.unsplash.com/photo-1719160276256-278749d129d3?q=80&w=687",
-    "https://images.unsplash.com/photo-1719160276127-b83ffa2c5e02?q=80&w=687",
-    "https://images.unsplash.com/photo-1719160232990-8f125e7728dc?q=80&w=687"
+    { url: "https://images.unsplash.com/photo-1719160233557-226f017fbfd7?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687", descripcion: 'Con la abuela ❤️' },
+    { url: "https://images.unsplash.com/photo-1719160276130-cb1f7e857072?q=80&w=687", descripcion: 'Ya sé gatear!' },
+    { url: "https://images.unsplash.com/photo-1719160276256-278749d129d3?q=80&w=687", descripcion: 'Dormilona 😴' },
+    { url: "https://images.unsplash.com/photo-1719160276127-b83ffa2c5e02?q=80&w=687", descripcion: 'Jugando en el parque' },
+    { url: "https://images.unsplash.com/photo-1719160232990-8f125e7728dc?q=80&w=687", descripcion: 'Mi sonrisa favorita' }
   ],
 
   agenda: [
-    { hora: '15:00', actividad: '¡Bienvenidos! (Recepción de invitados', icono: "/assets/iconos/recepcion.gif" },
-    { hora: '16:00', actividad: 'Juegos Divertidos (Show infantil o juegos)', icono: '/assets/iconos/ingreso.gif' },
-    { hora: '17:00', actividad: 'Soplamos la Velita (Momento del Pastel)', icono: '/assets/iconos/baile.gif' },
-    { hora: '18:00', actividad: 'Lluvia de Dulces (La Piñata)', icono: '/assets/iconos/la-hora.gif' },
-    { hora: '19:00', actividad: 'Cajitas de Sorpresas (Fin de la fiesta)', icono: '/assets/iconos/cena.gif' }
+    { hora: '15:00', actividad: '¡Bienvenidos! (Recepción de invitados', icono: 'recepcion' },
+    { hora: '16:00', actividad: 'Juegos Divertidos (Show infantil o juegos)', icono: 'juegos' },
+    { hora: '17:00', actividad: 'Soplamos la Velita (Momento del Pastel)', icono: 'pastel' },
+    { hora: '18:00', actividad: 'Lluvia de Dulces (La Piñata)', icono: 'piñata' },
+    { hora: '19:00', actividad: 'Cajitas de Sorpresas (Fin de la fiesta)', icono: 'regalo' }
   ],
 
   regalos: [
     {
+      tag: 'Mamá',
       banco: "Banco Nacional",
-      cuenta: "123-456-7890",
       titular: "Carolina Ríos",
-      tipo: "Caja de Ahorro",
-      alias: "VALE.1.ANITO" // Opcional
+      cuenta: "123-456-7890",
+      qrImagen: '/qrs/qr-prueba.jpeg'
     },
     {
+      tag: 'Papá',
       banco: "Yape / QR",
-      cuenta: "77712345",
       titular: "Alejandro Méndez",
-      tipo: "Billetera Móvil"
+      cuenta: "77712345",
+      qrImagen: '/qrs/qr-prueba.jpeg'
     }
   ],
 

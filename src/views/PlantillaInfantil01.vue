@@ -1,9 +1,9 @@
 <script setup>
   import { 
     PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, 
-    PhMusicNotes, PhImages, PhConfetti, PhX, PhPlay, PhPause, 
-    PhClock, PhSparkle, PhCrown, PhStar, PhRainbow, PhBalloon, PhQuotes, PhHeart, PhHandHeart,
-    PhCloud, PhCloudSun
+    PhMusicNotes, PhConfetti, PhX, PhPause, PhPlay, // Agregado PhPlay
+    PhClock, PhSparkle, PhCrown, PhRainbow, PhBalloon, PhQuotes, PhHeart, PhHandHeart,
+    PhCloud, PhCloudSun, PhImages, PhStar // Agregados PhImages y PhStar para la galería
   } from '@phosphor-icons/vue'
   
   import { ref, computed, onMounted, onUnmounted } from 'vue'
@@ -13,25 +13,41 @@
   
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
-  import ModalRegalos15 from '../components/ModalRegalos15.vue' 
-  import Cronograma15 from '../components/Cronograma15.vue' 
-  import DemoSwitcher from '../components/DemoSwitcher.vue'
+  import ModalRegalosInfantil from '../components/ModalRegalosInfantil.vue' 
+  import CronogramaInfantil from '../components/CronogramaInfantil.vue'
+  import DemoSwitcherInfantil from '../components/DemoSwitcherInfantil.vue'
 
   const props = defineProps({ datos: { type: Object, required: true } })
   const route = useRoute()
   const modalRegalosOpen = ref(false)
   
+  // --- VARIABLES CONFETI ---
   const canvasConfeti = ref(null)
   let myConfetti = null 
   let timerConfeti = null
 
-  // ... (Lógica de planes, audio y galería sigue igual) ...
+  // --- LÓGICA DE PLANES ---
   const planVisualizado = ref(props.datos.esDemo ? 'magico' : props.datos.plan) 
   const actualizarPlan = (nuevoPlan) => { planVisualizado.value = nuevoPlan }
+  
   const esArcoiris = computed(() => ['arcoiris', 'magico'].includes(planVisualizado.value))
   const esMagico = computed(() => ['magico'].includes(planVisualizado.value))
-  const nombreInvitado = computed(() => esMagico.value && route.query.invitado ? route.query.invitado : null)
-  
+
+  const nombreInvitado = computed(() => {
+    // 1. Si no es plan mágico, nunca mostramos nada
+    if (!esMagico.value) return null
+
+    // 2. Si viene el nombre en la URL (Real), usamos ese
+    if (route.query.invitado) return route.query.invitado
+
+    // 3. ¡TRUCO! Si es modo DEMO y no hay nombre, inventamos uno para presumir la función
+    if (props.datos.esDemo) return 'Familia Pérez' 
+
+    // 4. Si es invitación real pero sin nombre, no mostramos nada
+    return null
+  })
+
+  // --- AUDIO ---
   const audioPlayer = ref(null)
   const reproduciendo = ref(false)
   const toggleAudio = () => {
@@ -41,15 +57,39 @@
     reproduciendo.value = !reproduciendo.value
   }
 
+  // --- GALERÍA (LÓGICA UNIFICADA) ---
   const fotoEnGrande = ref(null)
+  
+  // 1. Computed ÚNICO para las fotos visibles
   const fotosVisibles = computed(() => {
     if (!props.datos.galeria) return []
-    if (esMagico.value) return props.datos.galeria
-    return props.datos.galeria.slice(0, 6)
+    
+    // Lógica de Planes:
+    // Si es Mágico (Premium) -> Hasta 12 fotos
+    // Si es Arcoíris (Gold) -> Solo 6 fotos
+    const limite = esMagico.value ? 12 : 6
+    
+    return props.datos.galeria.slice(0, limite)
   })
-  const abrirFoto = (foto) => { fotoEnGrande.value = foto; document.body.style.overflow = 'hidden' }
-  const cerrarFoto = () => { fotoEnGrande.value = null; document.body.style.overflow = '' }
 
+  // 2. Funciones auxiliares
+  const obtenerUrlFoto = (item) => {
+    return typeof item === 'string' ? item : item.url
+  }
+  
+  const obtenerDescFoto = (item) => {
+    return typeof item === 'string' ? '' : item.descripcion
+  }
+
+  // 3. Control del Modal de foto
+  const abrirFoto = (fotoUrl) => { 
+    fotoEnGrande.value = fotoUrl; 
+    document.body.style.overflow = 'hidden' 
+  }
+  const cerrarFoto = () => { 
+    fotoEnGrande.value = null; 
+    document.body.style.overflow = '' 
+  }
 
   // --- FUNCIÓN CONFETI ---
   const lanzarConfetiExplosion = () => {
@@ -59,13 +99,13 @@
 
     myConfetti({
       origin: { y: -0.1, x: 0.5 }, 
-      spread: 160,                 
-      startVelocity: 60,           
-      particleCount: 250,          
+      spread: 160,                
+      startVelocity: 60,          
+      particleCount: 250,         
       colors: coloresFiesta,
       gravity: 1.2, 
       ticks: 300,   
-      scalar: 1.0,                 
+      scalar: 1.0,                
       disableForReducedMotion: true
     });
   }
@@ -76,6 +116,7 @@
     timerConfeti = setTimeout(iniciarBucleConfeti, tiempoAleatorio)
   }
 
+  // --- LIFECYCLE HOOKS ---
   onMounted(() => {
     document.title = `Cumpleaños de ${props.datos.nombre}`
     document.body.classList.add('scroll-kids-soft-pink')
@@ -95,6 +136,8 @@
     if (timerConfeti) clearTimeout(timerConfeti)
     if (myConfetti) myConfetti.reset()
   })
+
+
 </script>
 
 <template>
@@ -139,7 +182,7 @@
       </div>
 
       <transition name="fade">
-        <div v-if="esMagico && nombreInvitado" class="relative z-40 mb-8 animate-bounce-slow">
+        <div v-if="esMagico && nombreInvitado" class="relative z-40 mb-24 animate-bounce-slow">
            <div class="bg-gradient-to-r from-rose-400 to-pink-400 text-white px-8 py-2 rounded-full shadow-lg border-2 border-white transform rotate-[-2deg]">
              <p class="font-bold text-sm uppercase tracking-wider flex items-center gap-2 drop-shadow-md">
                <PhCrown weight="fill" class="text-yellow-200" /> Para {{ nombreInvitado }}
@@ -368,111 +411,199 @@
               <p class="text-slate-400 mt-3 font-medium uppercase tracking-widest text-xs">No te pierdas de nada</p>
           </div>
 
-          <Cronograma15 
+          <CronogramaInfantil 
             :eventos="datos.agenda"
-            colorCardBg="bg-rose-50/50 border-l-4 border-rose-300 shadow-sm hover:shadow-md transition-shadow"
-            colorLinea="border-rose-200 border-dashed"
-            colorHora="text-rose-500 font-black"
-            colorTitulo="text-slate-700 font-bold font-fredoka"
-            colorIcono="bg-white text-rose-400 shadow-sm"
-            tamanoCirculo="w-14 h-14"
+            colorPunto="bg-white border-rose-300" 
+            colorCardBg="bg-white border border-rose-100"
+            colorIcono="text-rose-400"
+            tamanoCirculo="w-16 h-16"
           />
         </div>
     </section>
 
-    <section v-if="esArcoiris && datos.galeria" class="py-16 px-4 bg-white relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-rose-100 rounded-full blur-3xl opacity-30 translate-x-1/3 -translate-y-1/3"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-30 -translate-x-1/3 translate-y-1/3"></div>
+    <section v-if="esArcoiris && datos.galeria" class="py-20 px-4 bg-white relative overflow-hidden">
+      
+      <div class="absolute top-0 right-0 w-80 h-80 bg-rose-50 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-60 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+      
+      <PhImages weight="duotone" class="absolute top-10 left-4 text-rose-200 text-6xl rotate-[-12deg] opacity-50 animate-pulse-slow" />
+      <PhStar weight="fill" class="absolute bottom-20 right-4 text-yellow-200 text-5xl rotate-[12deg] opacity-50 animate-spin-slow" />
 
-      <div class="max-w-5xl mx-auto text-center relative z-10">
-        <h2 class="text-4xl font-black mb-2 font-pacifico text-rose-400">Mis Aventuras</h2>
-        <p class="text-slate-500 mb-10">¡Mira cuánto he crecido!</p>
+      <div class="max-w-6xl mx-auto text-center relative z-10">
+        
+        <div class="mb-16">
+          <h2 class="text-4xl md:text-5xl font-black mb-2 font-pacifico text-rose-400 drop-shadow-sm">Mis Aventuras</h2>
+          <div class="w-24 h-1.5 bg-rose-200 mx-auto rounded-full rotate-[-2deg]"></div>
+          <p class="text-slate-400 mt-4 font-fredoka text-lg">¡Mira cuánto he crecido!</p>
+        </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-12 px-2">
+          
           <div 
             v-for="(foto, index) in fotosVisibles" 
             :key="index"
-            class="relative aspect-square group cursor-pointer"
-            @click="abrirFoto(foto)"
+            class="group relative cursor-pointer"
+            @click="abrirFoto(obtenerUrlFoto(foto))"
           >
-            <div class="bg-white p-2 pb-8 shadow-md rounded-sm transform transition-all duration-300 hover:scale-105 hover:rotate-1 hover:shadow-xl hover:border-rose-100 border border-slate-50 h-full relative">
-              <div class="absolute -top-2 left-1/2 -translate-x-1/2 text-rose-200 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                 <PhMapPin weight="fill" />
+            <div 
+              class="bg-white p-3 pb-10 shadow-lg transition-all duration-300 transform group-hover:scale-105 group-hover:z-20 relative"
+              :class="index % 2 === 0 ? 'rotate-[-2deg] hover:rotate-0' : 'rotate-[2deg] hover:rotate-0'"
+            >
+              
+              <div 
+                 class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-rose-200/40 backdrop-blur-sm z-10 shadow-sm"
+                 :class="index % 2 === 0 ? 'rotate-[-2deg]' : 'rotate-[2deg]'"
+              ></div>
+
+              <div class="aspect-square w-full overflow-hidden bg-slate-100 border border-slate-100">
+                <ImagenSegura 
+                  :src="obtenerUrlFoto(foto)" 
+                  clase="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
               </div>
-              <div class="w-full h-full overflow-hidden rounded-sm bg-slate-100">
-                <img :src="foto" class="w-full h-full object-cover" loading="lazy" />
+
+              <div v-if="obtenerDescFoto(foto)" class="absolute bottom-2 left-0 w-full text-center px-2">
+                 <p class="font-pacifico text-rose-400 text-lg leading-none truncate opacity-80 group-hover:opacity-100 transition-opacity">
+                   {{ obtenerDescFoto(foto) }}
+                 </p>
               </div>
+
+              <div class="absolute -bottom-4 -right-2 text-rose-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                 <PhHeart weight="fill" size="32" class="drop-shadow-md" />
+              </div>
+
             </div>
           </div>
+
         </div>
 
-        <div v-if="!esMagico && datos.galeria.length > 6" class="mt-8">
-           <p class="text-slate-400 text-xs italic bg-rose-50 inline-block px-4 py-2 rounded-full border border-rose-100">
-             + {{ datos.galeria.length - 6 }} fotos disponibles en Plan Mágico
-           </p>
+        <div v-if="!esMagico && datos.galeria.length > 6" class="mt-12">
+           <div class="inline-block relative group">
+             <div class="absolute inset-0 bg-rose-200 rounded-full blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
+             <p class="relative bg-white text-rose-400 text-sm font-bold px-6 py-3 rounded-full border-2 border-rose-100 shadow-sm flex items-center gap-2">
+               <PhImages weight="bold" />
+               + {{ datos.galeria.length - 6 }} fotitos más en el Plan Mágico
+             </p>
+           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-16 px-4 bg-gradient-to-b from-rose-50 to-rose-100 relative overflow-hidden">
+    <section class="py-20 px-4 bg-rose-50 relative overflow-hidden">
       
-      <PhConfetti weight="duotone" class="absolute top-10 left-10 text-rose-200 text-6xl opacity-20 pointer-events-none animate-pulse-slow" />
+      <div class="absolute inset-0 z-0 opacity-30" 
+           style="background-image: radial-gradient(#fecdd3 1px, transparent 1px); background-size: 20px 20px;">
+      </div>
 
-      <div class="max-w-4xl mx-auto space-y-12 relative z-10">
+      <div class="max-w-4xl mx-auto space-y-16 relative z-10">
         
-        <div v-if="esMagico && datos.videoYoutube" class="bg-white p-2 rounded-2xl overflow-hidden shadow-xl border-4 border-rose-100 max-w-2xl mx-auto transform rotate-1">
-           <div class="aspect-video w-full rounded-xl overflow-hidden">
-             <iframe 
-               class="w-full h-full" 
-               :src="`https://www.youtube.com/embed/${datos.videoYoutube}`" 
-               title="Video Invitación" 
-               frameborder="0" 
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-               allowfullscreen
-             ></iframe>
+        <div v-if="esMagico && datos.videoYoutube" class="text-center">
+           
+           <h3 class="font-pacifico text-3xl text-rose-400 mb-6 flex items-center justify-center gap-2">
+             <PhPlayCircle weight="fill" class="text-rose-300" />
+             Un pedacito de mi historia
+           </h3>
+
+           <div class="bg-white p-3 rounded-[2rem] shadow-2xl shadow-rose-200/50 relative inline-block w-full max-w-2xl transform hover:scale-[1.01] transition-transform duration-500">
+              
+              <PhStar weight="fill" class="absolute -top-4 -right-4 text-yellow-300 text-5xl animate-spin-slow z-20 drop-shadow-sm" />
+              <PhHeart weight="fill" class="absolute -bottom-4 -left-4 text-rose-400 text-4xl animate-bounce-slow z-20 drop-shadow-sm" />
+
+              <div class="aspect-video w-full rounded-[1.5rem] overflow-hidden bg-black relative z-10">
+                <iframe 
+                  class="w-full h-full" 
+                  :src="`https://www.youtube.com/embed/${datos.videoYoutube}`" 
+                  title="Video Invitación" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen
+                ></iframe>
+              </div>
            </div>
         </div>
 
-        <div v-if="datos.regalos && datos.regalos.length > 0" class="bg-white/80 backdrop-blur-sm p-8 md:p-10 rounded-[2rem] text-center border-2 border-dashed border-rose-200 shadow-md relative max-w-xl mx-auto">
+        <div v-if="datos.regalos" class="relative max-w-lg mx-auto mt-10">
            
-           <PhGift :size="48" weight="duotone" class="mx-auto text-rose-300 mb-4 animate-bounce-slow" />
-           
-           <h3 class="text-2xl font-bold text-slate-700 mb-3 font-pacifico">Mesa de Regalos</h3>
-           <p class="text-slate-500 text-sm mb-6 leading-relaxed">
-             Tu presencia es mi mayor regalo. Pero si deseas tener un detalle conmigo, aquí tienes algunas opciones.
-           </p>
+           <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-20">
+              <div class="bg-white p-3 rounded-full shadow-md">
+                 <PhGift weight="duotone" class="text-rose-400 text-5xl animate-wiggle" />
+              </div>
+           </div>
 
-           <button 
-             @click="modalRegalosOpen = true"
-             class="px-8 py-3 rounded-full font-bold text-white shadow-lg transform transition active:scale-95 hover:-translate-y-1 bg-gradient-to-r from-rose-300 to-pink-300"
-           >
-             Ver Opciones de Regalo
-           </button>
+           <div class="bg-white rounded-[2.5rem] p-8 md:p-12 text-center shadow-xl shadow-rose-100 border-4 border-rose-100 relative overflow-hidden">
+              
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-rose-50/50 -z-0"></div>
+
+              <div class="relative z-10">
+                <h3 class="text-3xl font-bold text-slate-700 mb-4 font-pacifico">Mesa de Regalos</h3>
+                
+                <p class="text-slate-500 text-sm md:text-base mb-8 leading-relaxed font-fredoka">
+                  El mejor regalo es tu presencia ✨<br>
+                  Pero si deseas tener un detalle especial conmigo, aquí te dejo algunas opciones que me harían muy feliz.
+                </p>
+
+                <button 
+                  @click="modalRegalosOpen = true"
+                  class="w-full md:w-auto px-8 py-4 rounded-full font-bold text-white shadow-lg shadow-rose-200 transform transition-all duration-300 active:scale-95 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-r from-rose-400 to-pink-400 flex items-center justify-center gap-2 group"
+                >
+                  <PhGift weight="fill" class="group-hover:rotate-12 transition-transform" />
+                  Ver Opciones
+                </button>
+              </div>
+           </div>
+           
+           <div class="w-3/4 h-4 bg-rose-900/5 mx-auto rounded-[100%] blur-md mt-4"></div>
+
         </div>
 
       </div>
     </section>
 
-    <footer class="bg-gradient-to-r from-rose-400 to-pink-400 text-white py-16 px-4 text-center rounded-t-[3rem] relative z-20 overflow-hidden mt-[-2rem]">
-       <div class="absolute inset-0 opacity-10 mix-blend-overlay" :style="{ backgroundImage: `url(${datos.imgFondoPattern || '/assets/infantil/textura-papel-rosa.png'})`, backgroundSize: '100px' }"></div>
+    <footer class="bg-gradient-to-br from-rose-400 to-pink-500 text-white py-20 px-4 text-center rounded-t-[3rem] relative z-20 overflow-hidden -mt-8">
+       
+       <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" 
+            :style="{ backgroundImage: `url(${datos.imgFondoPattern || '/assets/pattern-dots.png'})`, backgroundSize: '100px' }">
+       </div>
 
-       <div class="max-w-md mx-auto space-y-8 relative z-10">
+       <PhSparkle weight="fill" class="absolute top-10 left-10 text-yellow-200 text-4xl animate-pulse-slow opacity-60" />
+       <PhHeart weight="fill" class="absolute top-20 right-8 text-rose-200 text-5xl rotate-12 opacity-40" />
+
+       <div class="max-w-md mx-auto space-y-10 relative z-10">
+          
           <div>
-            <h3 class="text-3xl font-bold mb-2 font-pacifico">Confirmar Asistencia</h3>
-            <p class="text-rose-100 text-sm mb-8">Por favor avísanos si podrás venir para preparar tu sorpresita.</p>
+            <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-4 py-1 mb-4 border border-white/30">
+               <p class="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-2">
+                 <PhWhatsappLogo weight="fill" /> RSVP
+               </p>
+            </div>
+            
+            <h3 class="text-3xl md:text-4xl font-bold mb-4 font-pacifico leading-tight">
+               ¡Espero verte ahí!
+            </h3>
+            <p class="text-rose-100 text-base mb-8 font-fredoka leading-relaxed px-4">
+               Por favor avísanos si podrás venir para tener lista tu sorpresita. 🎁
+            </p>
             
             <BotonAccion 
                texto="Confirmar por WhatsApp" 
                :icono="PhWhatsappLogo" 
-               :url="`https://wa.me/${datos.contacto.whatsapp}`" 
-               color="bg-white text-rose-400 w-full justify-center rounded-xl shadow-[0_4px_0_rgba(0,0,0,0.1)] hover:translate-y-[2px] hover:shadow-[0_2px_0_rgba(0,0,0,0.1)] font-bold py-4 text-lg" 
+               :url="`https://wa.me/${datos.contacto.whatsapp}?text=${encodeURIComponent('¡Hola! 🦄 Quiero confirmar mi asistencia al cumpleaños de ' + datos.nombre + '. ¡Gracias por la invitación!')}`" 
+               color="bg-white text-rose-500 w-full justify-center rounded-2xl shadow-[0_6px_0_rgba(0,0,0,0.1)] hover:translate-y-[2px] hover:shadow-[0_3px_0_rgba(0,0,0,0.1)] font-bold py-4 text-lg border-2 border-white/50 active:scale-95 transition-all" 
              />
           </div>
 
-          <div class="pt-8 border-t border-white/20">
-             <p class="text-xs text-rose-100 opacity-80">Cumpleaños de {{ datos.nombre }}</p>
-             <p class="text-[10px] text-rose-200 mt-1">Creado con magia por <span class="font-bold text-white">Yupa Studio</span></p>
+          <div class="pt-10 border-t border-white/20">
+             <p class="text-sm font-bold text-white mb-2">
+               Celebrando a {{ datos.nombre }}
+             </p>
+             
+             <a href="#" class="inline-flex items-center gap-2 text-[10px] text-rose-100 opacity-80 hover:opacity-100 hover:text-white transition-all bg-black/10 px-3 py-1.5 rounded-full">
+               <span>Hecho con magia por</span>
+               <span class="font-black uppercase tracking-wide">Yupa Studio</span>
+               <PhSparkle weight="fill" class="text-yellow-300" />
+             </a>
           </div>
+
        </div>
     </footer>
 
@@ -488,12 +619,10 @@
        <audio ref="audioPlayer" :src="datos.musica" loop></audio>
     </div>
 
-    <ModalRegalos15 
-      :mostrar="modalRegalosOpen" 
-      :cuentas="datos.regalos" 
-      @cerrar="modalRegalosOpen = false"
-      claseColorPrincipal="text-rose-400 border-rose-200 bg-rose-50 font-fredoka"
-      claseOverlay="bg-slate-900/80 backdrop-blur-sm"
+    <ModalRegalosInfantil 
+      :isOpen="modalRegalosOpen"
+      :listaRegalos="datos.regalos || []" 
+      @close="modalRegalosOpen = false"
     />
 
     <Transition enter-active-class="transition duration-300" enter-from-class="opacity-0" leave-active-class="transition duration-200" leave-to-class="opacity-0">
@@ -505,7 +634,7 @@
       </div>
     </Transition>
 
-    <DemoSwitcher v-if="datos.esDemo" @cambioPlan="actualizarPlan" class="font-sans" />
+    <DemoSwitcherInfantil v-if="datos.esDemo" @cambioPlan="actualizarPlan" />
 
   </div>
 </template>
