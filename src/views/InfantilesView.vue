@@ -72,21 +72,21 @@ const modelos = [
   {
     titulo: "Unicornio Mágico",
     tag: "Selva / Animalitos",
-    img: "https://images.unsplash.com/photo-1558086478-68e1694f2603?q=80&w=800&auto=format&fit=crop", 
+    img: "/assets/infantil-unicornio.jpeg", 
     link: "/invitacion/valeria",
     color: "bg-emerald-500"
   },
   {
     titulo: "Dino Party",
     tag: "Dinosaurios",
-    img: "https://images.unsplash.com/photo-1562046461-b51f845014b2?q=80&w=800&auto=format&fit=crop", 
+    img: "/assets/infantil-dino.jpeg", 
     link: "/invitacion/pablo",
     color: "bg-amber-500"
   },
   {
     titulo: "Huntrix Tours",
     tag: "Princesas / Rosa",
-    img: "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?q=80&w=800&auto=format&fit=crop", 
+    img: "/assets/infantil-huntrix.jpeg", 
     link: "/invitacion/karen",
     color: "bg-rose-400"
   }

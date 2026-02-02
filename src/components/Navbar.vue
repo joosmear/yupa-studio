@@ -52,15 +52,15 @@ const categoriasMenu = [
 
 // LISTA DE MODELOS
 const modelosParaMenu = [
-  { nombre: "Clásico Marsala", id: 'juan-y-ana', tipo: 'boda', img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=150", modelo: 'Clásica' },
-  { nombre: "Estilo Gala Luxury", id: 'carlos-y-sofia', tipo: 'boda', img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=150", modelo: 'Luxury' },
-  { nombre: "Estilo Boho Garden", id: 'miguel-y-elena', tipo: 'boda', img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=150", modelo: 'Boho' },
-  { nombre: "Euphoria Night", id: 'camila-xv', tipo: 'xv', img: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=150", modelo: 'Euphoria Night' },
-  { nombre: "Golden Princess", id: 'sofia-xv', tipo: 'xv', img: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=150", modelo: 'Golden Princess' },
-  { nombre: "Rose Gold Dream", id: 'valentina-xv', tipo: 'xv', img: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=150", modelo: 'Rose Gold Dream' },
-  { nombre: "Huntrix Tour", id: 'karen', tipo: 'infatil', img: "https://plus.unsplash.com/premium_photo-1663090820483-34c51673ced7?q=80&w=150", modelo: 'Huntrix' },
-  { nombre: "Baby Dino", id: 'pablo', tipo: 'infatil', img: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=150", modelo: 'Baby' },
-  { nombre: "Baby Unicornio", id: 'valeria', tipo: 'infatil', img: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=150", modelo: 'Baby Unicornio' }
+  { nombre: "Clásico Marsala", id: 'juan-y-ana', tipo: 'boda', img: "/assets/boda-clasico.jpeg", modelo: 'Clásica' },
+  { nombre: "Estilo Gala Luxury", id: 'carlos-y-sofia', tipo: 'boda', img: "/assets/boda-luxury.jpeg", modelo: 'Luxury' },
+  { nombre: "Estilo Boho Garden", id: 'miguel-y-elena', tipo: 'boda', img: "/assets/boda-boho.jpeg", modelo: 'Boho' },
+  { nombre: "Euphoria Night", id: 'camila-xv', tipo: 'xv', img: "/assets/xv-neon.jpeg", modelo: 'Euphoria Night' },
+  { nombre: "Golden Princess", id: 'sofia-xv', tipo: 'xv', img: "/assets/xv-blue.jpeg", modelo: 'Golden Princess' },
+  { nombre: "Rose Gold Dream", id: 'valentina-xv', tipo: 'xv', img: "/assets/xv-rosas.jpeg", modelo: 'Rose Gold Dream' },
+  { nombre: "Huntrix Tour", id: 'karen', tipo: 'infatil', img: "/assets/infantil-huntrix.jpeg", modelo: 'Huntrix' },
+  { nombre: "Baby Dino", id: 'pablo', tipo: 'infatil', img: "/assets/infantil-dino.jpeg", modelo: 'Baby' },
+  { nombre: "Baby Unicornio", id: 'valeria', tipo: 'infatil', img: "/assets/infantil-unicornio.jpeg", modelo: 'Baby Unicornio' }
 ]
 
 const modelosMostrados = computed(() => {
