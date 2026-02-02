@@ -1,37 +1,65 @@
 <script setup>
-  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, 
-  PhMagnifyingGlassPlus, PhX, PhMusicNotes, PhCrown } from '@phosphor-icons/vue'
+  import { 
+    PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, 
+    PhMagnifyingGlassPlus, PhX, PhMusicNotes, PhCrown,
+    PhLockKey, PhMagicWand // Nuevos iconos
+  } from '@phosphor-icons/vue'
   
   import { ref, computed, onMounted, onUnmounted } from 'vue'
-  
+  import { useRoute } from 'vue-router' // Importante
+
+  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
   import ModalRegalos15 from '../components/ModalRegalos15.vue'
   import Cronograma15 from '../components/Cronograma15.vue'
   import CodigoVestimenta15 from '../components/CodigoVestimenta15.vue'
-  import MenuNavegacion from '../components/MenuNavegacion.vue'
+  import Navbar from '../components/Navbar.vue'
   import IconoAnimado from '../components/IconoAnimado.vue'
-  import DemoSwitcher from '../components/DemoSwitcher.vue'
+  
+  // Componentes Nuevos
+  import DemoSwitcher15 from '../components/DemoSwitcher15.vue'
+  import ModalGeneradorLinks from '../components/ModalGeneradorLinks.vue'
 
   const props = defineProps({
     datos: { type: Object, required: true }
   })
 
+  // 1. DEFINIR ROUTE
+  const route = useRoute()
+  
   const modalAbierto = ref(false)
+  const modalRegalosOpen = ref(false) // Alias de compatibilidad
 
-  // --- ESTADO DEL DEMO SWITCHER ---
+  // --- LÓGICA DE PLANES ACTUALIZADA (Party, Glow, Queen) ---
   const planVisualizado = ref(props.datos.esDemo ? 'queen' : props.datos.plan) 
+  const actualizarPlan = (nuevoPlan) => { planVisualizado.value = nuevoPlan }
 
-  const actualizarPlan = (nuevoPlan) => {
-    planVisualizado.value = nuevoPlan
-  }
+  // Variables NUEVAS
+  const esGlow = computed(() => ['glow', 'queen', 'gold', 'premium'].includes(planVisualizado.value)) 
+  const esQueen = computed(() => ['queen', 'premium'].includes(planVisualizado.value))
 
-  // --- LÓGICA DE PLANES ---
-  const esGold = computed(() => ['gold', 'premium', 'glow', 'queen'].includes(planVisualizado.value))
-  const esPremium = computed(() => ['premium', 'queen'].includes(planVisualizado.value))
+  // --- VARIABLES DE COMPATIBILIDAD ---
+  const esGold = esGlow 
+  const esPremium = esQueen
 
-    // Efecto de escritura
+  // --- GALERÍA INTELIGENTE ---
+  const fotosVisibles = computed(() => {
+    if (!props.datos.galeria) return []
+    if (esQueen.value) return props.datos.galeria
+    return props.datos.galeria.slice(0, 6)
+  })
+
+  // --- LÓGICA NOMBRE PERSONALIZADO (Solo en Queen) ---
+  const nombreInvitado = computed(() => {
+    if (!esQueen.value) return null
+    if (route.query.invitado) return route.query.invitado
+    if (props.datos.esDemo) return 'Familia Pérez' 
+    return null
+  })
+
+  // --- EFECTO ESCRITURA ---
   const nombreMostrado = ref("")
   const cursorVisible = ref(true)
 
@@ -39,7 +67,8 @@
     const nombreCompleto = props.datos.nombre || props.datos.nombres 
     let i = 0
     nombreMostrado.value = ""
-  
+    if (!nombreCompleto) return 
+
     const intervaloEscritura = setInterval(() => {
       if (i < nombreCompleto.length) {
         nombreMostrado.value += nombreCompleto.charAt(i)
@@ -51,9 +80,15 @@
     }, 150)
   }
 
+  // --- LÓGICA MODO ANFITRIÓN ---
+  const showGenerador = ref(false)
+  const esAdmin = computed(() => route.query.admin === 'true' || props.datos.esDemo)
+  const urlActual = computed(() => typeof window !== 'undefined' ? window.location.href : '')
+
+  // Lifecycle
   onMounted(() => {
     document.title = `Mis 15 Años | ${props.datos.nombre}`
-    document.body.classList.add('scroll-neon') // Clase específica para scroll neon
+    document.body.classList.add('scroll-neon') 
     iniciarEfectoEscritura()
   })
 
@@ -62,113 +97,116 @@
     document.title = 'Invitación Digital'
   })
 
-  // --- GALERÍA INTELIGENTE ---
-  const fotosVisibles = computed(() => {
-    if (!props.datos.galeria) return []
-    if (esPremium.value) return props.datos.galeria
-    return props.datos.galeria.slice(0, 6)
-  })
-
-  // Lógica Lightbox (Foto en grande)
+  // Lightbox
   const fotoEnGrande = ref(null)
-
-  const abrirFoto = (foto) => {
-    fotoEnGrande.value = foto
-    document.body.style.overflow = 'hidden'
-  }
-
-  const cerrarFoto = () => {
-    fotoEnGrande.value = null
-    document.body.style.overflow = ''
-  }
+  const abrirFoto = (foto) => { fotoEnGrande.value = foto; document.body.style.overflow = 'hidden' }
+  const cerrarFoto = () => { fotoEnGrande.value = null; document.body.style.overflow = '' }
 </script>
 
 <template>
   <div class="min-h-screen bg-black text-white overflow-x-hidden font-sans selection:bg-fuchsia-500 selection:text-white">
 
-    <header class="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden px-4">
+    <header class="relative h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden px-4">
       
       <div class="absolute inset-0 z-0 bg-[#050505]">
-        <img :src="datos.fotoPortada" class="w-full h-full object-cover opacity-30 grayscale mix-blend-overlay" />
-        <div class="absolute inset-0 bg-radial-gradient from-transparent via-black/70 to-black"></div>
+        <img :src="datos.fotoPortada" class="w-full h-full object-cover opacity-20 grayscale mix-blend-overlay" />
+        <div class="absolute inset-0 bg-radial-gradient from-transparent via-black/80 to-black"></div>
       </div>
 
-      <div class="absolute top-1/4 -left-20 w-64 h-64 bg-fuchsia-600 rounded-full blur-[120px] opacity-20 animate-pulse-slow"></div>
-      <div class="absolute bottom-1/4 -right-20 w-64 h-64 bg-cyan-500 rounded-full blur-[120px] opacity-20 animate-pulse-slow delay-1000"></div>
+      <div class="absolute top-1/4 -left-20 w-64 h-64 bg-fuchsia-600 rounded-full blur-[120px] opacity-20 animate-pulse-slow pointer-events-none"></div>
+      <div class="absolute bottom-1/4 -right-20 w-64 h-64 bg-cyan-500 rounded-full blur-[120px] opacity-20 animate-pulse-slow delay-1000 pointer-events-none"></div>
 
-      <transition name="fade">
-        <div v-if="esPremium" class="absolute top-12 z-40 animate-fade-in-up delay-700">
-           <div class="relative group cursor-default">
-              <div class="absolute -inset-1 bg-fuchsia-600 rounded-full blur opacity-40 group-hover:opacity-100 animate-pulse"></div>
-              
-              <div class="relative bg-black/50 backdrop-blur-xl border border-fuchsia-500/50 px-6 py-2 rounded-full shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                <p class="text-fuchsia-300 text-[10px] md:text-xs font-black tracking-[0.4em] uppercase flex items-center gap-3">
-                  <PhCrown weight="fill" class="w-4 h-4 text-fuchsia-400 animate-flicker" />
-                  <span>Acceso VIP Premium</span>
-                  <PhCrown weight="fill" class="w-4 h-4 text-fuchsia-400 animate-flicker" />
-                </p>
-              </div>
-           </div>
-        </div>
-      </transition>
-
-      <div class="relative z-30 flex flex-col items-center justify-center w-full max-w-6xl mx-auto space-y-0 h-full">
+      <div class="absolute top-[8vh] z-40 w-full flex justify-center pointer-events-none px-6">
+        <transition name="fade" mode="out-in" type="transition">
+          
+          <div v-if="esQueen && nombreInvitado" key="vip" class="pointer-events-auto">
+             <div class="animate-bounce-slow">
+               <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] border border-blue-400/50 transform rotate-[-1deg]">
+                 <p class="font-bold text-[10px] md:text-xs uppercase tracking-widest flex items-center gap-2 drop-shadow-md">
+                   <PhCrown weight="fill" class="text-yellow-300 animate-pulse" /> 
+                   <span>Para {{ nombreInvitado }}</span>
+                 </p>
+               </div>
+             </div>
+          </div>
         
-        <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full">
+          <div v-else-if="!esQueen && esGlow" key="upgrade" class="pointer-events-auto">
+             <p class="inline-flex items-center gap-2 text-[9px] md:text-xs font-bold text-blue-200 bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-blue-500/30">
+                <PhLockKey weight="fill" class="text-blue-400" />
+                Personaliza con el <span class="text-indigo-400 font-black uppercase ml-1">Plan Queen</span>
+             </p>
+          </div>
+        
+        </transition>
+      </div>
+
+      <div class="relative z-30 flex flex-col items-center justify-center w-full max-w-7xl mx-auto gap-4 md:gap-10 pt-10">
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 w-full">
           
           <div class="relative shrink-0">
-            <div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500 to-cyan-400 rounded-full blur-md animate-pulse"></div>
-            <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-full border-2 border-white/20 overflow-hidden shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-               <img :src="datos.fotoPortada" class="w-full h-full object-cover object-top" alt="Avatar" />
+            <div class="absolute -inset-2 bg-gradient-to-tr from-fuchsia-500 to-cyan-400 rounded-full blur-lg opacity-40 animate-pulse"></div>
+            <div class="relative w-28 h-28 md:w-56 md:h-56 rounded-full p-[2px] bg-gradient-to-br from-cyan-400 to-fuchsia-500 shadow-2xl">
+               <div class="w-full h-full rounded-full overflow-hidden border-4 border-black bg-black">
+                  <img :src="datos.fotoPortada" class="w-full h-full object-cover object-top" alt="Avatar" />
+               </div>
             </div>
-            <div class="absolute -bottom-2 -right-2 bg-[#050505] border border-cyan-400 p-2 rounded-full shadow-[0_0_10px_#22d3ee]">
-               <PhCrown size="24" weight="fill" class="text-cyan-400" />
+            <div class="absolute -bottom-1 -right-1 bg-black border border-cyan-400 p-1.5 rounded-full shadow-[0_0_10px_#22d3ee]">
+               <PhCrown size="16" weight="fill" class="text-cyan-400 md:text-2xl" />
             </div>
           </div>
 
-          <div class="text-center md:text-left space-y-4">
-            <h1 class="font-vibes text-7xl md:text-[9rem] text-white leading-none neon-text-pink -rotate-3 transform">
+          <div class="text-center md:text-left">
+            <h1 class="font-vibes text-5xl sm:text-6xl md:text-[8.5rem] text-white leading-none neon-text-pink -rotate-2 transform drop-shadow-2xl whitespace-nowrap px-2">
               {{ nombreMostrado }}
             </h1>
-            <div class="text-xl md:text-3xl font-bold text-fuchsia-400 font-mono tracking-widest drop-shadow-[0_0_8px_#d946ef]">
-                {{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: '2-digit', month: '2-digit' }) }} 
-                <span class="text-white opacity-50 mx-2">•</span> 20:00HS
+            
+            <div class="flex justify-center md:justify-start mt-2">
+                <div class="inline-flex items-center gap-2 bg-black/60 backdrop-blur-md border border-fuchsia-500/30 px-4 py-1 rounded-lg transform skew-x-[-10deg]">
+                   <div class="text-sm md:text-2xl font-bold text-fuchsia-400 font-mono tracking-widest drop-shadow-[0_0_8px_#d946ef] transform skew-x-[10deg]">
+                      {{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: '2-digit', month: '2-digit' }) }} 
+                      <span class="text-white/30 mx-1">•</span> 
+                      20:00HS
+                   </div>
+                </div>
             </div>
           </div>
         </div>
 
-        <div class="relative pt-6">
-            <p class="font-vibes text-4xl md:text-6xl text-cyan-300 drop-shadow-[0_0_10px_cyan] -rotate-2 mb-[-10px] opacity-90 animate-pulse-slow">
+        <div class="relative flex flex-col items-center justify-center mt-2">
+            <p class="font-vibes text-3xl md:text-5xl text-cyan-300 drop-shadow-[0_0_10px_cyan] -rotate-3 translate-y-3 z-20 animate-pulse-slow">
               Mis 15 Años
             </p>
-           <h2 class="text-6xl md:text-8xl font-black text-transparent stroke-cyan font-modern tracking-tighter opacity-80">
-              NEÓN
-           </h2>
-           <p class="font-vibes text-5xl md:text-6xl text-fuchsia-500 -mt-4 ml-24 rotate-[-10deg] drop-shadow-[0_0_12px_#d946ef] animate-pulse">
+            <div class="relative">
+               <h2 class="text-6xl md:text-9xl font-black text-transparent stroke-cyan font-modern tracking-tighter opacity-90 leading-none">
+                 NEÓN
+               </h2>
+               <h2 class="absolute inset-0 text-6xl md:text-9xl font-black text-cyan-500 blur-xl opacity-40 font-modern tracking-tighter leading-none pointer-events-none">
+                 NEÓN
+               </h2>
+            </div>
+            <p class="font-vibes text-4xl md:text-6xl text-fuchsia-500 -mt-4 ml-24 md:ml-32 rotate-[-6deg] drop-shadow-[0_0_15px_#d946ef] animate-pulse z-20">
               party
-           </p>
+            </p>
         </div>
+
       </div>
 
-      <div v-for="n in 12" :key="n" 
-           class="luz" 
+      <div v-for="n in 8" :key="n" 
+           class="luz pointer-events-none" 
            :class="n % 2 === 0 ? 'luz-cyan' : 'luz-fuchsia'"
-           :style="{ 
-             left: (n * 8) + '%', 
-             animationDuration: (10 + n) + 's',
-             animationDelay: (n * 0.5) + 's' 
-           }">
+           :style="{ left: (n * 12) + '%', animationDuration: (8 + n) + 's' }">
       </div>
 
-      <div class="absolute bottom-10 z-30 animate-bounce text-cyan-400">
-         <PhMusicNotes size="32" weight="duotone" />
+      <div class="absolute bottom-4 z-30 animate-bounce text-cyan-400 opacity-60">
+         <PhMusicNotes size="20" weight="duotone" />
       </div>
-      <div class="absolute bottom-0 left-0 w-full h-48 z-40 pointer-events-none overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-        
-        <div class="humo-capa humo-1"></div>
-        <div class="humo-capa humo-2"></div>
+
+      <div class="absolute bottom-0 left-0 w-full h-32 z-20 pointer-events-none overflow-hidden">
+        <div class="humo-capa humo-1 opacity-20"></div>
+        <div class="humo-capa humo-2 opacity-10"></div>
       </div>
+
     </header>
 
     <section class="py-20 px-6 w-full text-center space-y-10 relative bg-gradient-to-b from-black via-[#110518] to-black text-white border-b border-white/5">
@@ -331,8 +369,16 @@
       </div>
     </section>
 
-    <section v-if="esGold && datos.galeria" class="py-20 bg-black relative overflow-hidden min-h-[600px] border-t border-white/10">
-  
+    <section v-if="esGlow && datos.galeria" class="py-20 bg-black relative overflow-hidden min-h-[600px] border-t border-white/10">
+      <div v-if="!esQueen && datos.galeria.length > 6" class="text-center pt-8 relative z-30">
+   <div class="inline-block relative group cursor-pointer">
+     <div class="absolute inset-0 bg-blue-500 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
+     <p class="relative text-blue-200 text-xs italic border border-blue-500/30 px-6 py-2 rounded-full uppercase tracking-wider bg-slate-900/90 flex items-center gap-2">
+       <PhLockKey weight="fill" />
+       + {{ datos.galeria.length - 6 }} fotos más en Plan Queen
+     </p>
+   </div>
+</div>
       <div class="relative z-20 text-center mb-12">
         <h3 class="font-modern text-5xl md:text-6xl text-white uppercase tracking-tighter">
           Photo <span class="text-fuchsia-500">Dump</span>
@@ -411,10 +457,13 @@
         </div>
       </Transition>
 
-      <div v-if="!esPremium && datos.galeria.length > 6" class="text-center pt-8 relative z-30">
-           <p class="text-white/40 text-xs italic border border-white/10 inline-block px-4 py-2 rounded-full uppercase tracking-wider">
-             + {{ datos.galeria.length - 6 }} fotos más en Plan Queen
-           </p>
+      <div v-if="!esGlow" class="py-12 bg-slate-950 text-center border-t border-slate-800/50">
+         <div class="inline-flex items-center gap-2 bg-slate-900/50 px-5 py-3 rounded-full border border-slate-800">
+            <PhLockKey weight="duotone" class="text-slate-500 text-lg" />
+            <span class="text-slate-400 text-xs uppercase tracking-widest">
+              Desbloquea Fotos con el <strong class="text-blue-400">Plan Glow</strong>
+            </span>
+         </div>
       </div>
 
     </section>
@@ -560,12 +609,36 @@
       claseOverlay="bg-black/95 backdrop-blur-xl"
     />
 
-    <MenuNavegacion v-show="!modalAbierto && !fotoEnGrande" />
-
-    <DemoSwitcher 
+    <DemoSwitcher15 
       v-if="datos.esDemo" 
       @cambioPlan="actualizarPlan" 
     />
+
+    <div v-if="esAdmin && esQueen" class="fixed bottom-24 left-4 z-[90]">
+       <button 
+         @click="showGenerador = true"
+         class="bg-slate-900 text-white px-4 py-3 rounded-full shadow-2xl shadow-purple-500/50 flex items-center gap-3 border-2 border-purple-500 hover:scale-105 transition-transform group"
+       >
+         <div class="bg-purple-500 rounded-full p-1 group-hover:animate-spin-slow">
+            <PhMagicWand weight="fill" />
+         </div>
+         <div class="text-left leading-none pr-2">
+            <p class="text-[9px] text-purple-200 font-bold uppercase tracking-wider">Modo Anfitrión</p>
+            <p class="text-sm font-bold">Crear Invitación</p>
+         </div>
+       </button>
+    </div>
+
+    <ModalGeneradorLinks 
+       :isOpen="showGenerador"
+       :urlBase="urlActual"
+       :nombreFestejado="datos.nombre || datos.nombres"
+       tipoEvento="xv" 
+       colorHeader="bg-gradient-to-r from-[#d946ef] to-[#06b6d4]" 
+       @close="showGenerador = false"
+    />
+
+    <Navbar />
 
   </div>
 </template>

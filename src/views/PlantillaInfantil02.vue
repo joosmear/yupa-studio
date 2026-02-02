@@ -3,7 +3,8 @@
     PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhGift, 
     PhMusicNotes, PhConfetti, PhX, PhPause,
     PhClock, PhSparkle, PhCrown, PhRainbow, PhBalloon, PhQuotes, PhHeart, PhHandHeart,
-    PhCloud, PhCloudSun, PhImages, PhStar, PhPlayCircle,  PhLockKey, PhVideo, PhMagicWand
+    PhCloud, PhCloudSun, PhImages, PhStar, PhPlayCircle,  PhLockKey, PhVideo, PhMagicWand,
+    PhRocket // Agregué el Cohete para darle toque de niño
   } from '@phosphor-icons/vue'
   
   import { ref, computed, onMounted, onUnmounted } from 'vue'
@@ -24,7 +25,7 @@
   const route = useRoute()
   const modalRegalosOpen = ref(false)
   
-  // --- VARIABLES CONFETI ---
+  // --- VARIABLES CONFETI (AZUL) ---
   const canvasConfeti = ref(null)
   let myConfetti = null 
   let timerConfeti = null
@@ -37,44 +38,23 @@
   const esMagico = computed(() => ['magico'].includes(planVisualizado.value))
 
   const nombreInvitado = computed(() => {
-    // 1. Si no es plan mágico, nunca mostramos nada
     if (!esMagico.value) return null
-
-    // 2. Si viene el nombre en la URL (Real), usamos ese
     if (route.query.invitado) return route.query.invitado
-
-    // 3. ¡TRUCO! Si es modo DEMO y no hay nombre, inventamos uno para presumir la función
     if (props.datos.esDemo) return 'Familia Pérez' 
-
-    // 4. Si es invitación real pero sin nombre, no mostramos nada
     return null
   })
 
-  // --- GALERÍA (LÓGICA UNIFICADA) ---
+  // --- GALERÍA ---
   const fotoEnGrande = ref(null)
-  
-  // 1. Computed ÚNICO para las fotos visibles
   const fotosVisibles = computed(() => {
     if (!props.datos.galeria) return []
-    
-    // Lógica de Planes:
-    // Si es Mágico (Premium) -> Hasta 12 fotos
-    // Si es Arcoíris (Gold) -> Solo 6 fotos
     const limite = esMagico.value ? 12 : 6
-    
     return props.datos.galeria.slice(0, limite)
   })
 
-  // 2. Funciones auxiliares
-  const obtenerUrlFoto = (item) => {
-    return typeof item === 'string' ? item : item.url
-  }
-  
-  const obtenerDescFoto = (item) => {
-    return typeof item === 'string' ? '' : item.descripcion
-  }
+  const obtenerUrlFoto = (item) => typeof item === 'string' ? item : item.url
+  const obtenerDescFoto = (item) => typeof item === 'string' ? '' : item.descripcion
 
-  // 3. Control del Modal de foto
   const abrirFoto = (fotoUrl) => { 
     fotoEnGrande.value = fotoUrl; 
     document.body.style.overflow = 'hidden' 
@@ -84,11 +64,12 @@
     document.body.style.overflow = '' 
   }
 
-  // --- FUNCIÓN CONFETI ---
+  // --- FUNCIÓN CONFETI (COLORES NIÑO) ---
   const lanzarConfetiExplosion = () => {
     if (!myConfetti) return
 
-    const coloresFiesta = ['#F9A8D4', '#A78BFA', '#FDE047', '#6EE7B7', '#93C5FD', '#FCA5A5'];
+    // CAMBIO: Paleta de colores Azules, Verdes y Amarillos
+    const coloresFiesta = ['#38BDF8', '#818CF8', '#FDE047', '#34D399', '#60A5FA', '#A78BFA'];
 
     myConfetti({
       origin: { y: -0.1, x: 0.5 }, 
@@ -112,53 +93,37 @@
   // --- LIFECYCLE HOOKS ---
   onMounted(() => {
     document.title = `Cumpleaños de ${props.datos.nombre}`
-    document.body.classList.add('scroll-kids-soft-pink')
+    // CAMBIO: Clase de scroll azul
+    document.body.classList.add('scroll-kids-soft-blue')
 
     if (canvasConfeti.value) {
       myConfetti = confetti.create(canvasConfeti.value, {
         resize: true,
         useWorker: true
       })
-      
       timerConfeti = setTimeout(iniciarBucleConfeti, 500)
     }
   })
 
   onUnmounted(() => {
-    document.body.classList.remove('scroll-kids-soft-pink')
+    document.body.classList.remove('scroll-kids-soft-blue')
     if (timerConfeti) clearTimeout(timerConfeti)
     if (myConfetti) myConfetti.reset()
   })
 
   const showGenerador = ref(false)
-
-  // Detectar si es el admin
-  // Se activa si la URL tiene ?admin=true O modo Demo
-  const esAdmin = computed(() => {
-    return route.query.admin === 'true' || props.datos.esDemo
-  })
-
-  // Obtener la URL base actual para generar los links
-  const urlActual = computed(() => {
-    if (typeof window !== 'undefined') {
-       return window.location.href
-    }
-    return ''
-})
+  const esAdmin = computed(() => route.query.admin === 'true' || props.datos.esDemo)
+  const urlActual = computed(() => typeof window !== 'undefined' ? window.location.href : '')
 </script>
 
 <template>
-  <div class="min-h-screen bg-rose-50 text-slate-700 font-fredoka overflow-x-hidden selection:bg-rose-100 selection:text-rose-500">
-
+  <div class="min-h-screen bg-sky-50 text-slate-700 font-fredoka overflow-x-hidden selection:bg-sky-100 selection:text-sky-500">
     <Navbar />
     <header class="relative min-h-screen w-full flex flex-col items-center justify-center py-12 px-6 overflow-hidden">
       
-      <canvas 
-        ref="canvasConfeti" 
-        class="absolute inset-0 w-full h-full pointer-events-none z-50"
-      ></canvas>
+      <canvas ref="canvasConfeti" class="absolute inset-0 w-full h-full pointer-events-none z-50"></canvas>
 
-      <div class="absolute inset-0 z-0 bg-rose-50">
+      <div class="absolute inset-0 z-0 bg-sky-50">
          <div 
           class="absolute inset-0" 
           :style="{ 
@@ -168,24 +133,24 @@
             backgroundPosition: 'center'
           }"
         ></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-rose-100/40"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-sky-100/40"></div>
       </div>
 
-      <div class="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+      <div class="absolute inset-0 z-50 pointer-events-none overflow-hidden">
         <div class="absolute bottom-[-100px] left-[10%] animate-balloon-rise-1 opacity-90">
-           <PhBalloon weight="fill" class="text-pink-300 text-[80px] drop-shadow-xl" />
+           <PhBalloon weight="fill" class="text-sky-300 text-[80px] drop-shadow-xl" />
         </div>
         <div class="absolute bottom-[-100px] left-[30%] animate-balloon-rise-2 opacity-90">
-           <PhBalloon weight="fill" class="text-yellow-300 text-[60px] drop-shadow-xl" />
+           <PhBalloon weight="fill" class="text-teal-300 text-[60px] drop-shadow-xl" />
         </div>
         <div class="absolute bottom-[-100px] left-[60%] animate-balloon-rise-3 opacity-90">
-           <PhBalloon weight="fill" class="text-purple-300 text-[90px] drop-shadow-xl" />
+           <PhBalloon weight="fill" class="text-blue-400 text-[90px] drop-shadow-xl" />
         </div>
         <div class="absolute bottom-[-100px] left-[85%] animate-balloon-rise-1 opacity-90">
-           <PhBalloon weight="fill" class="text-blue-300 text-[70px] drop-shadow-xl" />
+           <PhBalloon weight="fill" class="text-indigo-300 text-[70px] drop-shadow-xl" />
         </div>
         <div class="absolute bottom-[-100px] left-[45%] animate-balloon-rise-2 opacity-80" style="animation-delay: 2s;">
-           <PhBalloon weight="fill" class="text-teal-300 text-[50px] drop-shadow-lg" />
+           <PhBalloon weight="fill" class="text-yellow-300 text-[50px] drop-shadow-lg" />
         </div>
       </div>
 
@@ -194,10 +159,10 @@
   <transition name="fade" mode="out-in">
     
     <div v-if="esMagico && nombreInvitado" key="vip">
-       <div class="animate-bounce-slow"> 
-           <div class="bg-gradient-to-r from-rose-400 to-pink-400 text-white px-8 py-2 rounded-full shadow-lg border-2 border-white transform rotate-[-2deg]">
+       <div class="animate-bounce-slow">
+           <div class="bg-gradient-to-r from-sky-400 to-blue-500 text-white px-8 py-2 rounded-full shadow-lg border-2 border-white transform rotate-[-2deg]">
              <p class="font-bold text-sm uppercase tracking-wider flex items-center gap-2 drop-shadow-md">
-               <PhCrown weight="fill" class="text-yellow-200" /> Para {{ nombreInvitado }}
+               <PhCrown weight="fill" class="text-yellow-300" /> Para {{ nombreInvitado }}
              </p>
            </div>
        </div>
@@ -206,7 +171,7 @@
     <div v-else-if="esArcoiris" key="upgrade">
        <p class="inline-flex items-center gap-2 text-xs font-bold text-slate-600 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/50 shadow-sm transition-transform hover:scale-105 cursor-pointer">
           <PhLockKey weight="fill" class="text-slate-400" />
-          Personaliza con el <span class="text-purple-500 font-black">Plan Mágico</span>
+          Personaliza con el <span class="text-indigo-500 font-black">Plan Mágico</span>
        </p>
     </div>
 
@@ -214,25 +179,26 @@
 </div>
 
       <div class="relative z-40 w-full max-w-xs md:max-w-4xl flex flex-col md:flex-row items-center justify-center animate-fade-in-up">
-        <div class="w-full bg-white rounded-[2.5rem] shadow-2xl shadow-rose-200/50 p-6 pt-24 pb-12 text-center border-[5px] border-white relative transform hover:scale-[1.02] transition-transform duration-500 ease-in-out md:order-2">
-           <div class="absolute inset-3 border-2 border-dashed border-rose-100 rounded-[2rem] pointer-events-none"></div>
+        
+        <div class="w-full bg-white rounded-[2.5rem] shadow-2xl shadow-sky-200/50 p-6 pt-24 pb-12 text-center border-[5px] border-white relative transform hover:scale-[1.02] transition-transform duration-500 ease-in-out md:order-2">
+           <div class="absolute inset-3 border-2 border-dashed border-sky-100 rounded-[2rem] pointer-events-none"></div>
            <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-44 h-44">
              <div class="w-full h-full rounded-full overflow-hidden border-[6px] border-white shadow-lg bg-white relative z-20">
                <img :src="datos.fotoPortada" class="w-full h-full object-cover" />
              </div>
-             <div class="absolute bottom-2 -right-2 text-rose-300 text-4xl drop-shadow-md animate-spin-slow z-30">
-                <PhSparkle weight="fill" />
+             <div class="absolute bottom-2 -right-2 text-sky-400 text-4xl drop-shadow-md animate-spin-slow z-30">
+                <PhStar weight="fill" />
              </div>
           </div>
           <div class="relative z-10 space-y-2 mt-2">
-            <p class="font-pacifico text-3xl text-rose-300 transform -rotate-2">Mi primer añito</p>
-            <h1 class="text-5xl font-fredoka font-black text-rose-400 tracking-wide uppercase drop-shadow-sm leading-none break-words">{{ datos.nombre }}</h1>
-            <div class="w-16 h-1.5 bg-rose-100 mx-auto rounded-full mt-4"></div>
+            <p class="font-pacifico text-3xl text-sky-400 transform -rotate-2">Mi primer añito</p>
+            <h1 class="text-5xl font-fredoka font-black text-blue-500 tracking-wide uppercase drop-shadow-sm leading-none break-words">{{ datos.nombre }}</h1>
+            <div class="w-16 h-1.5 bg-sky-200 mx-auto rounded-full mt-4"></div>
           </div>
         </div>
 
         <div class="relative z-20 -mt-10 md:mt-0 md:-mr-12 animate-float-delayed md:order-1">
-           <div class="w-40 h-40 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full border-[6px] border-white shadow-xl flex flex-col items-center justify-center text-white text-center p-2 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+           <div class="w-40 h-40 bg-gradient-to-br from-sky-400 to-blue-500 rounded-full border-[6px] border-white shadow-xl flex flex-col items-center justify-center text-white text-center p-2 transform rotate-3 hover:rotate-0 transition-transform duration-300">
               <PhCalendarCheck weight="fill" class="text-white/30 text-4xl absolute top-2 right-6" />
               <p class="font-bold text-3xl uppercase leading-none font-fredoka drop-shadow-md">
                  {{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: 'numeric' }) }}
@@ -250,36 +216,37 @@
       </div>
     </header>
 
-    <section class="py-14 relative bg-rose-50 overflow-hidden border-y-4 border-white">
+    <section class="py-14 relative bg-sky-50 overflow-hidden border-y-4 border-white">
        
        <div class="relative z-10 text-center space-y-8 px-6 max-w-4xl mx-auto">
           
           <div class="relative inline-block px-4">
-             <PhQuotes weight="fill" class="absolute -top-6 -left-2 md:-left-8 text-rose-200 text-4xl md:text-5xl transform -scale-x-100" />
+             <PhQuotes weight="fill" class="absolute -top-6 -left-2 md:-left-8 text-sky-200 text-4xl md:text-5xl transform -scale-x-100" />
              
              <p class="font-pacifico text-2xl md:text-4xl text-slate-600 leading-relaxed drop-shadow-sm rotate-[-1deg]">
                "{{ datos.frase }}"
              </p>
              
-             <PhQuotes weight="fill" class="absolute -bottom-6 -right-2 md:-right-8 text-rose-200 text-4xl md:text-5xl" />
+             <PhQuotes weight="fill" class="absolute -bottom-6 -right-2 md:-right-8 text-sky-200 text-4xl md:text-5xl" />
           </div>
 
-          <div class="w-24 h-1 bg-rose-200/50 rounded-full mx-auto"></div>
+          <div class="w-24 h-1 bg-sky-200/50 rounded-full mx-auto"></div>
 
-          <div class="inline-flex items-center gap-2 bg-white px-6 py-2 rounded-full border border-rose-100 shadow-sm">
-             <PhClock weight="fill" class="text-rose-400 animate-pulse" />
+          <div class="inline-flex items-center gap-2 bg-white px-6 py-2 rounded-full border border-sky-100 shadow-sm">
+             <PhRocket weight="fill" class="text-sky-400 animate-pulse" />
              <p class="font-bold text-sm md:text-base text-slate-500 uppercase tracking-widest font-fredoka">
-               ¡Falta muy poco!
+               ¡La aventura comienza!
              </p>
           </div>
 
           <div class="flex justify-center">
             <CuentaRegresiva 
               :fechaObjetivo="datos.fecha"
-              colorCaja="bg-white shadow-lg rounded-2xl border border-rose-100 w-16 h-16 md:w-24 md:h-24 flex flex-col items-center justify-center transform hover:scale-105 transition-transform"
-              colorNumero="text-rose-400 font-black text-2xl md:text-4xl leading-none font-fredoka"
+              colorCaja="bg-white shadow-lg rounded-2xl border border-sky-100 w-16 h-16 md:w-24 md:h-24 flex flex-col items-center justify-center transform hover:scale-105 transition-transform"
+              colorNumero="text-sky-500 font-black text-2xl md:text-4xl leading-none font-fredoka"
               colorEtiqueta="text-slate-400 text-[9px] md:text-[11px] uppercase font-bold mt-1 tracking-wide"
-              colorSeparador="text-rose-300 font-black text-2xl mt-2 hidden md:block opacity-50" 
+              colorSeparador="text-sky-300 font-black text-2xl mt-2 hidden md:block opacity-50"
+              colorSegundos="text-indigo-500 font-black text-2xl md:text-4xl leading-none font-fredoka"
             />
           </div>
        </div>
@@ -288,41 +255,41 @@
     <section class="py-20 px-4 bg-white relative overflow-hidden">
       
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-         <PhHeart weight="fill" class="absolute top-10 -left-6 text-rose-50 text-9xl rotate-[-12deg]" />
-         <PhHeart weight="fill" class="absolute bottom-10 -right-6 text-rose-50 text-9xl rotate-[12deg]" />
+         <PhCloud weight="fill" class="absolute top-10 -left-6 text-sky-50 text-9xl" />
+         <PhStar weight="fill" class="absolute bottom-10 -right-6 text-yellow-50 text-9xl rotate-[12deg]" />
       </div>
 
       <div class="max-w-4xl mx-auto relative z-10">
          
          <div class="text-center mb-12">
-            <h2 class="font-pacifico text-3xl md:text-4xl text-rose-400 mb-2">Con la bendición de</h2>
-            <div class="w-16 h-1 bg-rose-200 mx-auto rounded-full"></div>
+            <h2 class="font-pacifico text-3xl md:text-4xl text-sky-400 mb-2">Con el amor de</h2>
+            <div class="w-16 h-1 bg-sky-200 mx-auto rounded-full"></div>
          </div>
 
          <div class="grid gap-8" :class="datos.padrinos ? 'md:grid-cols-2' : 'grid-cols-1 max-w-lg mx-auto'">
             
-            <div class="bg-rose-50 rounded-[2.5rem] p-8 text-center border-4 border-white shadow-xl shadow-rose-100 hover:-translate-y-2 transition-transform duration-300 group">
+            <div class="bg-sky-50 rounded-[2.5rem] p-8 text-center border-4 border-white shadow-xl shadow-sky-100 hover:-translate-y-2 transition-transform duration-300 group">
                
-               <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-rose-400 shadow-md border-2 border-rose-100 group-hover:scale-110 transition-transform">
+               <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-sky-400 shadow-md border-2 border-sky-100 group-hover:scale-110 transition-transform">
                   <PhHeart weight="fill" size="32" class="animate-pulse-slow" />
                </div>
 
-               <h3 class="font-pacifico text-2xl text-rose-400 mb-4">Mis Papitos</h3>
+               <h3 class="font-pacifico text-2xl text-sky-500 mb-4">Mis Papitos</h3>
                
                <div class="space-y-1">
                  <p class="font-fredoka font-bold text-slate-600 text-lg md:text-xl">{{ datos.padres.padre }}</p>
-                 <p class="font-fredoka font-bold text-rose-300 text-lg">&</p>
+                 <p class="font-fredoka font-bold text-sky-300 text-lg">&</p>
                  <p class="font-fredoka font-bold text-slate-600 text-lg md:text-xl">{{ datos.padres.madre }}</p>
                </div>
             </div>
 
-            <div v-if="datos.padrinos" class="bg-white rounded-[2.5rem] p-8 text-center border-2 border-dashed border-rose-200 shadow-lg hover:-translate-y-2 transition-transform duration-300 group">
+            <div v-if="datos.padrinos" class="bg-white rounded-[2.5rem] p-8 text-center border-2 border-dashed border-sky-200 shadow-lg hover:-translate-y-2 transition-transform duration-300 group">
                
-               <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-400 shadow-sm group-hover:scale-110 transition-transform">
+               <div class="w-16 h-16 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-400 shadow-sm group-hover:scale-110 transition-transform">
                   <PhHandHeart weight="fill" size="32" />
                </div>
 
-               <h3 class="font-pacifico text-2xl text-purple-400 mb-4">Mis Padrinos</h3>
+               <h3 class="font-pacifico text-2xl text-indigo-400 mb-4">Mis Padrinos</h3>
                
                <p class="font-fredoka font-bold text-slate-600 text-lg md:text-xl px-4 leading-relaxed">
                  {{ datos.padrinos.nombres }}
@@ -333,69 +300,69 @@
       </div>
     </section>
 
-    <section class="py-20 px-4 bg-rose-100/50 relative overflow-hidden">
+    <section class="py-20 px-4 bg-sky-100/50 relative overflow-hidden">
       
-      <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-rose-50 to-transparent"></div>
+      <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-sky-50 to-transparent"></div>
       <PhCloudSun weight="duotone" class="absolute top-10 left-[-20px] text-white/60 text-9xl" />
       <PhCloud weight="fill" class="absolute bottom-20 right-[-20px] text-white/60 text-8xl" />
 
       <div class="max-w-4xl mx-auto space-y-10 text-center relative z-10">
         
-        <div class="bg-white p-8 md:p-12 rounded-[3rem] shadow-xl shadow-rose-200/50 border-4 border-white relative">
+        <div class="bg-white p-8 md:p-12 rounded-[3rem] shadow-xl shadow-sky-200/50 border-4 border-white relative">
           
           <div class="relative inline-block mb-12">
-             <PhRainbow weight="duotone" class="absolute -top-10 left-1/2 -translate-x-1/2 text-8xl text-rose-100 opacity-60" />
-             <h2 class="relative text-3xl md:text-5xl font-black text-rose-400 font-pacifico drop-shadow-sm z-10">
+             <PhRainbow weight="duotone" class="absolute -top-10 left-1/2 -translate-x-1/2 text-8xl text-sky-200 opacity-60" />
+             <h2 class="relative text-3xl md:text-5xl font-black text-sky-400 font-pacifico drop-shadow-sm z-10">
                ¿Cuándo y Dónde?
              </h2>
           </div>
           
           <div class="grid md:grid-cols-2 gap-12 items-start">
             
-            <div class="relative bg-rose-50 rounded-3xl p-6 border-2 border-dashed border-rose-200 group hover:bg-rose-100 transition-colors">
+            <div class="relative bg-sky-50 rounded-3xl p-6 border-2 border-dashed border-sky-200 group hover:bg-sky-100 transition-colors">
               
               <div class="absolute -top-16 -left-6 w-24 h-24 md:w-32 md:h-32 z-20 animate-bounce-slow">
                  <ImagenSegura 
-                    src="/assets/infantil/unicornio-sentado.png" 
-                    clase="w-full h-full object-contain drop-shadow-md"
-                  />
+                   src="/assets/infantil/dino-bebe.png" 
+                   clase="w-full h-full object-contain drop-shadow-md"
+                 />
                  <PhSparkle weight="fill" class="absolute bottom-0 right-0 text-yellow-300 text-4xl animate-spin-slow" />
               </div>
 
               <div class="flex flex-col items-center gap-2 pt-4 relative z-10">
-                <div class="w-14 h-14 rounded-full bg-white text-rose-400 flex items-center justify-center text-2xl shadow-sm mb-2">
+                <div class="w-14 h-14 rounded-full bg-white text-sky-400 flex items-center justify-center text-2xl shadow-sm mb-2">
                   <PhCalendarCheck weight="fill" />
                 </div>
                 <div>
                   <p class="font-fredoka font-bold text-2xl text-slate-700 capitalize leading-tight">
                     {{ new Date(datos.fecha).toLocaleDateString('es-BO', { weekday: 'long' }) }}
                   </p>
-                  <p class="font-fredoka font-black text-4xl text-rose-500 my-1">
+                  <p class="font-fredoka font-black text-4xl text-sky-500 my-1">
                      {{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: 'numeric' }) }}
                   </p>
                   <p class="font-fredoka font-bold text-xl text-slate-500 capitalize">
                      {{ new Date(datos.fecha).toLocaleDateString('es-BO', { month: 'long' }) }}
                   </p>
                   
-                  <div class="w-full h-[2px] bg-rose-200 my-3"></div>
+                  <div class="w-full h-[2px] bg-sky-200 my-3"></div>
 
                   <p class="text-lg font-bold text-slate-500 bg-white px-4 py-1 rounded-full inline-block shadow-sm">
                     {{ new Date(datos.fecha).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' }) }} hrs
                   </p>
 
-                  <a v-if="esArcoiris" :href="datos.linkCalendario" target="_blank" class="block mt-4 text-xs font-bold text-purple-400 uppercase tracking-wider hover:text-purple-600 underline cursor-pointer">
+                  <a v-if="esArcoiris" :href="datos.linkCalendario" target="_blank" class="block mt-4 text-xs font-bold text-indigo-400 uppercase tracking-wider hover:text-indigo-600 underline cursor-pointer">
                     + Agregar al Calendario
                   </a>
                 </div>
               </div>
             </div>
 
-            <div class="relative bg-purple-50 rounded-3xl p-6 border-2 border-dashed border-purple-200 group hover:bg-purple-100 transition-colors h-full flex flex-col justify-center">
+            <div class="relative bg-indigo-50 rounded-3xl p-6 border-2 border-dashed border-indigo-200 group hover:bg-indigo-100 transition-colors h-full flex flex-col justify-center">
                
-               <PhCloud weight="fill" class="absolute -top-6 -right-6 text-purple-200 text-6xl opacity-50" />
+               <PhCloud weight="fill" class="absolute -top-6 -right-6 text-indigo-200 text-6xl opacity-50" />
 
                <div class="flex flex-col items-center gap-3">
-                  <div class="w-16 h-16 rounded-full bg-white text-purple-400 flex items-center justify-center text-3xl mb-2 shadow-sm animate-float-slow">
+                  <div class="w-16 h-16 rounded-full bg-white text-indigo-400 flex items-center justify-center text-3xl mb-2 shadow-sm animate-float-slow">
                     <PhMapPin weight="fill" />
                   </div>
                   <div>
@@ -410,7 +377,7 @@
                       texto="Ver Mapa" 
                       :icono="PhMapPin" 
                       :url="datos.ubicacion.linkGps" 
-                      color="w-full bg-white text-purple-500 border-2 border-purple-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all rounded-xl font-bold py-3 uppercase tracking-wide text-sm" 
+                      color="w-full bg-white text-indigo-500 border-2 border-indigo-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all rounded-xl font-bold py-3 uppercase tracking-wide text-sm" 
                     />
                   </div>
                </div>
@@ -425,44 +392,45 @@
     <div v-if="!esArcoiris" class="py-8 px-4 text-center">
        <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 border-dashed px-5 py-3 rounded-full text-slate-500 text-sm">
           <PhLockKey weight="duotone" class="text-slate-400 text-lg" />
-          <span>Desbloquea el cronograma y la galería con el <strong class="text-rose-400">Plan Arcoíris</strong></span>
+          <span>Desbloquea el cronograma y la galería con el <strong class="text-indigo-400">Plan Arcoíris</strong></span>
        </div>
     </div>
 
     <section v-if="esArcoiris && datos.agenda" class="py-16 px-4 bg-white relative overflow-hidden">
-        <PhCloud weight="fill" class="absolute top-5 -left-10 text-rose-50 text-9xl opacity-40" />
-        <PhSparkle weight="fill" class="absolute bottom-10 -right-5 text-rose-100 text-6xl animate-pulse" />
+        <PhCloud weight="fill" class="absolute top-5 -left-10 text-sky-50 text-9xl opacity-40" />
+        <PhSparkle weight="fill" class="absolute bottom-10 -right-5 text-sky-100 text-6xl animate-pulse" />
 
         <div class="max-w-2xl mx-auto relative z-10">
           <div class="text-center mb-12">
-              <h2 class="text-4xl font-black text-rose-400 font-pacifico">Momentos Mágicos</h2>
-              <div class="w-20 h-1 bg-rose-200 mx-auto rounded-full mt-2"></div>
+              <h2 class="text-4xl font-black text-sky-400 font-pacifico">Momentos Divertidos</h2>
+              <div class="w-20 h-1 bg-sky-200 mx-auto rounded-full mt-2"></div>
               <p class="text-slate-400 mt-3 font-medium uppercase tracking-widest text-xs">No te pierdas de nada</p>
           </div>
 
           <CronogramaInfantil 
             :eventos="datos.agenda"
-            colorPunto="bg-white border-rose-300" 
-            colorCardBg="bg-white border border-rose-100"
-            colorIcono="text-rose-400"
+            colorPunto="bg-white border-sky-300" 
+            colorCardBg="bg-white border border-sky-100"
+            colorIcono="text-sky-400"
             tamanoCirculo="w-16 h-16"
+            colorHora="text-blue-500"
           />
         </div>
     </section>
 
     <section v-if="esArcoiris && datos.galeria" class="py-20 px-4 bg-white relative overflow-hidden">
       
-      <div class="absolute top-0 right-0 w-80 h-80 bg-rose-50 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-      <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-60 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-80 h-80 bg-sky-50 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-teal-50 rounded-full blur-3xl opacity-60 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
       
-      <PhImages weight="duotone" class="absolute top-10 left-4 text-rose-200 text-6xl rotate-[-12deg] opacity-50 animate-pulse-slow" />
-      <PhStar weight="fill" class="absolute bottom-20 right-4 text-yellow-200 text-5xl rotate-[12deg] opacity-50 animate-spin-slow" />
+      <PhImages weight="duotone" class="absolute top-10 left-4 text-sky-200 text-6xl rotate-[-12deg] opacity-50 animate-pulse-slow" />
+      <PhStar weight="fill" class="absolute bottom-20 right-4 text-yellow-300 text-5xl rotate-[12deg] opacity-50 animate-spin-slow" />
 
       <div class="max-w-6xl mx-auto text-center relative z-10">
         
         <div class="mb-16">
-          <h2 class="text-4xl md:text-5xl font-black mb-2 font-pacifico text-rose-400 drop-shadow-sm">Mis Aventuras</h2>
-          <div class="w-24 h-1.5 bg-rose-200 mx-auto rounded-full rotate-[-2deg]"></div>
+          <h2 class="text-4xl md:text-5xl font-black mb-2 font-pacifico text-sky-400 drop-shadow-sm">Mis Aventuras</h2>
+          <div class="w-24 h-1.5 bg-sky-200 mx-auto rounded-full rotate-[-2deg]"></div>
           <p class="text-slate-400 mt-4 font-fredoka text-lg">¡Mira cuánto he crecido!</p>
         </div>
 
@@ -480,7 +448,7 @@
             >
               
               <div 
-                 class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-rose-200/40 backdrop-blur-sm z-10 shadow-sm"
+                 class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-sky-200/40 backdrop-blur-sm z-10 shadow-sm"
                  :class="index % 2 === 0 ? 'rotate-[-2deg]' : 'rotate-[2deg]'"
               ></div>
 
@@ -492,13 +460,13 @@
               </div>
 
               <div v-if="obtenerDescFoto(foto)" class="absolute bottom-2 left-0 w-full text-center px-2">
-                 <p class="font-pacifico text-rose-400 text-lg leading-none truncate opacity-80 group-hover:opacity-100 transition-opacity">
+                 <p class="font-pacifico text-sky-400 text-lg leading-none truncate opacity-80 group-hover:opacity-100 transition-opacity">
                    {{ obtenerDescFoto(foto) }}
                  </p>
               </div>
 
-              <div class="absolute -bottom-4 -right-2 text-rose-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                 <PhHeart weight="fill" size="32" class="drop-shadow-md" />
+              <div class="absolute -bottom-4 -right-2 text-sky-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                 <PhStar weight="fill" size="32" class="drop-shadow-md" />
               </div>
 
             </div>
@@ -508,8 +476,8 @@
 
         <div v-if="!esMagico && datos.galeria.length > 6" class="mt-12">
            <div class="inline-block relative group">
-             <div class="absolute inset-0 bg-rose-200 rounded-full blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
-             <p class="relative bg-white text-rose-400 text-sm font-bold px-6 py-3 rounded-full border-2 border-rose-100 shadow-sm flex items-center gap-2">
+             <div class="absolute inset-0 bg-sky-200 rounded-full blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
+             <p class="relative bg-white text-sky-400 text-sm font-bold px-6 py-3 rounded-full border-2 border-sky-100 shadow-sm flex items-center gap-2">
                <PhImages weight="bold" />
                + {{ datos.galeria.length - 6 }} fotitos más en el Plan Mágico
              </p>
@@ -518,25 +486,25 @@
       </div>
     </section>
 
-    <section class="py-20 px-4 bg-rose-50 relative overflow-hidden">
+    <section class="py-20 px-4 bg-sky-50 relative overflow-hidden">
       
       <div class="absolute inset-0 z-0 opacity-30" 
-           style="background-image: radial-gradient(#fecdd3 1px, transparent 1px); background-size: 20px 20px;">
+           style="background-image: radial-gradient(#bae6fd 1px, transparent 1px); background-size: 20px 20px;">
       </div>
 
       <div class="max-w-4xl mx-auto space-y-16 relative z-10">
         
         <div v-if="esMagico && datos.videoYoutube" class="text-center">
            
-           <h3 class="font-pacifico text-3xl text-rose-400 mb-6 flex items-center justify-center gap-2">
-             <PhPlayCircle weight="fill" class="text-rose-300" />
+           <h3 class="font-pacifico text-3xl text-sky-400 mb-6 flex items-center justify-center gap-2">
+             <PhPlayCircle weight="fill" class="text-sky-300" />
              Un pedacito de mi historia
            </h3>
 
-           <div class="bg-white p-3 rounded-[2rem] shadow-2xl shadow-rose-200/50 relative inline-block w-full max-w-2xl transform hover:scale-[1.01] transition-transform duration-500">
+           <div class="bg-white p-3 rounded-[2rem] shadow-2xl shadow-sky-200/50 relative inline-block w-full max-w-2xl transform hover:scale-[1.01] transition-transform duration-500">
               
               <PhStar weight="fill" class="absolute -top-4 -right-4 text-yellow-300 text-5xl animate-spin-slow z-20 drop-shadow-sm" />
-              <PhHeart weight="fill" class="absolute -bottom-4 -left-4 text-rose-400 text-4xl animate-bounce-slow z-20 drop-shadow-sm" />
+              <PhRocket weight="fill" class="absolute -bottom-4 -left-4 text-indigo-400 text-4xl animate-bounce-slow z-20 drop-shadow-sm" />
 
               <div class="aspect-video w-full rounded-[1.5rem] overflow-hidden bg-black relative z-10">
                 <iframe 
@@ -552,10 +520,10 @@
         </div>
 
         <div v-if="esArcoiris && !esMagico" class="max-w-lg mx-auto mb-10 px-4">
-           <div class="border-2 border-dashed border-rose-200 rounded-2xl p-6 bg-rose-50/50 text-center">
+           <div class="border-2 border-dashed border-sky-200 rounded-2xl p-6 bg-sky-50/50 text-center">
               <p class="text-slate-500 text-sm flex flex-col md:flex-row items-center justify-center gap-2">
-                 <PhLockKey weight="duotone" class="text-rose-300 text-xl" />
-                 <span>Muestra tu video <strong>Save the Date</strong> con el <span class="text-purple-400 font-bold">Plan Mágico</span></span>
+                 <PhLockKey weight="duotone" class="text-sky-300 text-xl" />
+                 <span>Muestra tu video <strong>Save the Date</strong> con el <span class="text-indigo-400 font-bold">Plan Mágico</span></span>
               </p>
            </div>
         </div>
@@ -564,25 +532,25 @@
            
            <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-20">
               <div class="bg-white p-3 rounded-full shadow-md">
-                 <PhGift weight="duotone" class="text-rose-400 text-5xl animate-wiggle" />
+                 <PhGift weight="duotone" class="text-sky-400 text-5xl animate-wiggle" />
               </div>
            </div>
 
-           <div class="bg-white rounded-[2.5rem] p-8 md:p-12 text-center shadow-xl shadow-rose-100 border-4 border-rose-100 relative overflow-hidden">
+           <div class="bg-white rounded-[2.5rem] p-8 md:p-12 text-center shadow-xl shadow-sky-100 border-4 border-sky-100 relative overflow-hidden">
               
-              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-rose-50/50 -z-0"></div>
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-sky-50/50 -z-0"></div>
 
               <div class="relative z-10">
                 <h3 class="text-3xl font-bold text-slate-700 mb-4 font-pacifico">Mesa de Regalos</h3>
                 
                 <p class="text-slate-500 text-sm md:text-base mb-8 leading-relaxed font-fredoka">
                   El mejor regalo es tu presencia ✨<br>
-                  Pero si deseas tener un detalle especial conmigo, aquí te dejo algunas opciones que me harían muy feliz.
+                  Pero si deseas tener un detalle, aquí hay algunas opciones.
                 </p>
 
                 <button 
                   @click="modalRegalosOpen = true"
-                  class="w-full md:w-auto px-8 py-4 rounded-full font-bold text-white shadow-lg shadow-rose-200 transform transition-all duration-300 active:scale-95 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-r from-rose-400 to-pink-400 flex items-center justify-center gap-2 group"
+                  class="w-full md:w-auto px-8 py-4 rounded-full font-bold text-white shadow-lg shadow-sky-200 transform transition-all duration-300 active:scale-95 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-r from-sky-400 to-blue-500 flex items-center justify-center gap-2 group"
                 >
                   <PhGift weight="fill" class="group-hover:rotate-12 transition-transform" />
                   Ver Opciones
@@ -590,57 +558,57 @@
               </div>
            </div>
            
-           <div class="w-3/4 h-4 bg-rose-900/5 mx-auto rounded-[100%] blur-md mt-4"></div>
+           <div class="w-3/4 h-4 bg-sky-900/5 mx-auto rounded-[100%] blur-md mt-4"></div>
 
         </div>
 
       </div>
     </section>
 
-    <footer class="bg-gradient-to-br from-rose-400 to-pink-500 text-white py-20 px-4 text-center rounded-t-[3rem] relative z-20 overflow-hidden -mt-8">
+    <footer class="bg-gradient-to-br from-sky-400 to-blue-600 text-white py-20 px-4 text-center rounded-t-[3rem] relative z-20 overflow-hidden -mt-8">
        
        <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" 
             :style="{ backgroundImage: `url(${datos.imgFondoPattern || '/assets/pattern-dots.png'})`, backgroundSize: '100px' }">
        </div>
 
        <PhSparkle weight="fill" class="absolute top-10 left-10 text-yellow-200 text-4xl animate-pulse-slow opacity-60" />
-       <PhHeart weight="fill" class="absolute top-20 right-8 text-rose-200 text-5xl rotate-12 opacity-40" />
+       <PhRocket weight="fill" class="absolute top-20 right-8 text-sky-200 text-5xl rotate-12 opacity-40" />
 
        <div class="max-w-md mx-auto space-y-10 relative z-10">
-          
-          <div>
-            <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-4 py-1 mb-4 border border-white/30">
-               <p class="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-2">
-                 <PhWhatsappLogo weight="fill" /> RSVP
-               </p>
-            </div>
-            
-            <h3 class="text-3xl md:text-4xl font-bold mb-4 font-pacifico leading-tight">
-               ¡Espero verte ahí!
-            </h3>
-            <p class="text-rose-100 text-base mb-8 font-fredoka leading-relaxed px-4">
-               Por favor avísanos si podrás venir para tener lista tu sorpresita. 🎁
+         
+         <div>
+           <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-4 py-1 mb-4 border border-white/30">
+              <p class="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-2">
+                <PhWhatsappLogo weight="fill" /> RSVP
+              </p>
+           </div>
+           
+           <h3 class="text-3xl md:text-4xl font-bold mb-4 font-pacifico leading-tight">
+              ¡Espero verte ahí!
+           </h3>
+           <p class="text-sky-100 text-base mb-8 font-fredoka leading-relaxed px-4">
+              Por favor avísanos si podrás venir para esperarte. 🎈
+           </p>
+           
+           <BotonAccion 
+              texto="Confirmar por WhatsApp" 
+              :icono="PhWhatsappLogo" 
+              :url="`https://wa.me/${datos.contacto.whatsapp}?text=${encodeURIComponent('¡Hola! 🦕 Quiero confirmar mi asistencia al cumpleaños de ' + datos.nombre + '. \n\nNombre: \nCantidad de personas: ')}`" 
+              color="bg-white text-blue-500 w-full justify-center rounded-2xl shadow-[0_6px_0_rgba(0,0,0,0.1)] hover:translate-y-[2px] hover:shadow-[0_3px_0_rgba(0,0,0,0.1)] font-bold py-4 text-lg border-2 border-white/50 active:scale-95 transition-all" 
+            />
+         </div>
+
+         <div class="pt-10 border-t border-white/20">
+            <p class="text-sm font-bold text-white mb-2">
+              Celebrando a {{ datos.nombre }}
             </p>
             
-            <BotonAccion 
-               texto="Confirmar por WhatsApp" 
-               :icono="PhWhatsappLogo" 
-               :url="`https://wa.me/${datos.contacto.whatsapp}?text=${encodeURIComponent('¡Hola! 🦄 Quiero confirmar mi asistencia al cumpleaños de ' + datos.nombre + '. ¡Gracias por la invitación!')}`" 
-               color="bg-white text-rose-500 w-full justify-center rounded-2xl shadow-[0_6px_0_rgba(0,0,0,0.1)] hover:translate-y-[2px] hover:shadow-[0_3px_0_rgba(0,0,0,0.1)] font-bold py-4 text-lg border-2 border-white/50 active:scale-95 transition-all" 
-             />
-          </div>
-
-          <div class="pt-10 border-t border-white/20">
-             <p class="text-sm font-bold text-white mb-2">
-               Celebrando a {{ datos.nombre }}
-             </p>
-             
-             <a href="#" class="inline-flex items-center gap-2 text-[10px] text-rose-100 opacity-80 hover:opacity-100 hover:text-white transition-all bg-black/10 px-3 py-1.5 rounded-full">
-               <span>Hecho con magia por</span>
-               <span class="font-black uppercase tracking-wide">Yupa Studio</span>
-               <PhSparkle weight="fill" class="text-yellow-300" />
-             </a>
-          </div>
+            <a href="#" class="inline-flex items-center gap-2 text-[10px] text-sky-100 opacity-80 hover:opacity-100 hover:text-white transition-all bg-black/10 px-3 py-1.5 rounded-full">
+              <span>Hecho con magia por</span>
+              <span class="font-black uppercase tracking-wide">Yupa Studio</span>
+              <PhSparkle weight="fill" class="text-yellow-300" />
+            </a>
+         </div>
 
        </div>
     </footer>
@@ -648,7 +616,7 @@
     <ReproductorMusica 
       v-if="datos.musica" 
       :songUrl="datos.musica"
-      colorBoton="bg-rose-400 border-2 border-white shadow-xl animate-bounce-slow hover:bg-pink-500 hover:border-rose-200"
+      colorBoton="bg-sky-400 border-2 border-white shadow-xl animate-bounce-slow hover:bg-blue-500 hover:border-sky-200"
       colorIcono="text-white"
       clasesTamano="w-14 h-14"
       :tamanoIcono="28"
@@ -658,6 +626,19 @@
     <ModalRegalosInfantil 
       :isOpen="modalRegalosOpen"
       :listaRegalos="datos.regalos || []" 
+      colorHeader="bg-sky-100 border-sky-200"
+      colorTitulo="text-sky-500"
+      colorSubtitulo="text-sky-400"
+      colorPestanaActiva="text-sky-500"
+      colorBarraPestana="bg-sky-400"
+      colorBotonActivo="bg-white text-sky-500"
+      colorIconoBanco="bg-sky-50 text-sky-400"
+      colorBordeLateral="border-sky-100"
+      colorBotonCopiar="bg-sky-100 text-sky-500 hover:bg-sky-200"
+      colorTextoDestacado="text-sky-400"
+      colorBordeDashed="border-sky-200"
+      colorFondoOverlay="bg-slate-900/60"
+    
       @close="modalRegalosOpen = false"
     />
 
@@ -675,13 +656,13 @@
     <div v-if="esAdmin && esMagico" class="fixed bottom-24 left-4 z-[90]">
        <button 
          @click="showGenerador = true"
-         class="bg-slate-900 text-white px-4 py-3 rounded-full shadow-2xl shadow-purple-500/50 flex items-center gap-3 border-2 border-purple-400 hover:scale-105 transition-transform group"
+         class="bg-slate-900 text-white px-4 py-3 rounded-full shadow-2xl shadow-indigo-500/50 flex items-center gap-3 border-2 border-indigo-400 hover:scale-105 transition-transform group"
        >
-          <div class="bg-purple-500 rounded-full p-1 group-hover:animate-spin-slow">
+          <div class="bg-indigo-500 rounded-full p-1 group-hover:animate-spin-slow">
              <PhMagicWand weight="fill" />
           </div>
           <div class="text-left leading-none pr-2">
-             <p class="text-[9px] text-purple-300 font-bold uppercase tracking-wider">Modo Anfitrión</p>
+             <p class="text-[9px] text-indigo-300 font-bold uppercase tracking-wider">Modo Anfitrión</p>
              <p class="text-sm font-bold">Crear Invitación</p>
           </div>
        </button>
@@ -691,8 +672,10 @@
        :isOpen="showGenerador"
        :urlBase="urlActual"
        :nombreFestejado="datos.nombre"
-      
-       tipoEvento="infantil"  colorHeader="bg-gradient-to-r from-rose-400 to-pink-500" @close="showGenerador = false"
+       
+       tipoEvento="infantil" 
+       colorHeader="bg-gradient-to-r from-sky-400 to-blue-600" 
+       @close="showGenerador = false"
     />
 
   </div>
@@ -714,73 +697,46 @@
 .animate-bounce-slow { animation: bounce 3s infinite; }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 40px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+  from { opacity: 0; transform: translate3d(0, 40px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
-.animate-fade-in-up {
-  animation: fadeInUp 1s ease-out forwards;
-}
+.animate-fade-in-up { animation: fadeInUp 1s ease-out forwards; }
 
-/* Flotar suavemente (Para el círculo de fecha) */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.animate-float-delayed {
-  animation: float 5s ease-in-out infinite 1s; /* Retraso para que no vaya igual que otros */
-}
-
-/* Giro muy lento para la estrellita */
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.animate-spin-slow {
-  animation: spin-slow 10s linear infinite;
-}
+.animate-spin-slow { animation: spin-slow 10s linear infinite; }
 
-/* Variante 1: Sube oscilando a la derecha */
+/* GLOBOS (Mismos keyframes) */
 @keyframes balloonRise1 {
   0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
   50% { transform: translateY(-50vh) translateX(20px) rotate(5deg); }
   100% { transform: translateY(-120vh) translateX(-10px) rotate(-5deg); opacity: 0; }
 }
-.animate-balloon-rise-1 {
-  animation: balloonRise1 8s ease-in infinite;
-}
+.animate-balloon-rise-1 { animation: balloonRise1 8s ease-in infinite; }
 
-/* Variante 2: Sube oscilando a la izquierda, más lento */
 @keyframes balloonRise2 {
   0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
   50% { transform: translateY(-60vh) translateX(-30px) rotate(-5deg); }
   100% { transform: translateY(-130vh) translateX(10px) rotate(5deg); opacity: 0; }
 }
-.animate-balloon-rise-2 {
-  animation: balloonRise2 12s ease-in infinite 1s; /* Retraso de 1s */
-}
+.animate-balloon-rise-2 { animation: balloonRise2 12s ease-in infinite 1s; }
 
-/* Variante 3: Sube más recto y rápido */
 @keyframes balloonRise3 {
   0% { transform: translateY(0) translateX(0); opacity: 0.9; }
   100% { transform: translateY(-110vh) translateX(10px); opacity: 0; }
 }
-.animate-balloon-rise-3 {
-  animation: balloonRise3 7s linear infinite 0.5s; /* Retraso de 0.5s */
-}
+.animate-balloon-rise-3 { animation: balloonRise3 7s linear infinite 0.5s; }
 </style>
 
 <style>
-body.scroll-kids-soft-pink::-webkit-scrollbar { width: 12px; }
-body.scroll-kids-soft-pink::-webkit-scrollbar-track { background: #fff1f2; } /* rose-50 */
-body.scroll-kids-soft-pink::-webkit-scrollbar-thumb { 
-  background-color: #fb7185; /* rose-400 */
+/* NUEVO SCROLL AZUL */
+body.scroll-kids-soft-blue::-webkit-scrollbar { width: 12px; }
+body.scroll-kids-soft-blue::-webkit-scrollbar-track { background: #f0f9ff; } /* sky-50 */
+body.scroll-kids-soft-blue::-webkit-scrollbar-thumb { 
+  background-color: #38bdf8; /* sky-400 */
   border-radius: 10px; 
-  border: 3px solid #fff1f2;
+  border: 3px solid #f0f9ff;
 }
 </style>

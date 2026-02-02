@@ -1,37 +1,72 @@
 <script setup>
-  import { PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, PhMagnifyingGlassPlus, PhX, PhMusicNotes, PhCrown } from '@phosphor-icons/vue'
+  import { 
+    PhWhatsappLogo, PhMapPin, PhCalendarCheck, PhSparkle, PhMagnifyingGlassPlus, PhX, PhMusicNotes, PhCrown,
+    PhLockKey, PhMagicWand // Agregamos los iconos nuevos necesarios
+  } from '@phosphor-icons/vue'
+  
   import { ref, computed, onMounted, onUnmounted } from 'vue'
+  import { useRoute } from 'vue-router' // Importante para que no de error "route undefined"
+  
+  // Componentes
   import CuentaRegresiva from '../components/CuentaRegresiva.vue'
   import BotonAccion from '../components/BotonAccion.vue'
   import ReproductorMusica from '../components/ReproductorMusica.vue'
   import ModalRegalos15 from '../components/ModalRegalos15.vue'
   import Cronograma15 from '../components/Cronograma15.vue'
   import CodigoVestimenta15 from '../components/CodigoVestimenta15.vue'
-  import MenuNavegacion from '../components/MenuNavegacion.vue'
   import IconoAnimado from '../components/IconoAnimado.vue'
-  import DemoSwitcher from '../components/DemoSwitcher.vue'
+  
+  // Componentes Nuevos
+  import DemoSwitcher15 from '../components/DemoSwitcher15.vue'
+  import ModalGeneradorLinks from '../components/ModalGeneradorLinks.vue'
+  import Navbar from '../components/Navbar.vue'
 
   const props = defineProps({
     datos: { type: Object, required: true }
   })
 
+  // 1. DEFINIR ROUTE (Esto arregla el error "ReferenceError: route is not defined")
+  const route = useRoute()
+  
   const modalAbierto = ref(false)
+  const modalRegalosOpen = ref(false) // Alias por si acaso usas el otro nombre
 
-  // --- LOGICA DE PLANES ---
+  // --- LOGICA DE PLANES ACTUALIZADA (Party, Glow, Queen) ---
   const planVisualizado = ref(props.datos.esDemo ? 'queen' : props.datos.plan) 
   const actualizarPlan = (nuevoPlan) => { planVisualizado.value = nuevoPlan }
   
-  const esGold = computed(() => ['gold', 'premium', 'glow', 'queen'].includes(planVisualizado.value))
-  const esPremium = computed(() => ['premium', 'queen'].includes(planVisualizado.value))
+  // Variables NUEVAS
+  const esGlow = computed(() => ['glow', 'queen', 'gold', 'premium'].includes(planVisualizado.value)) 
+  const esQueen = computed(() => ['queen', 'premium'].includes(planVisualizado.value))
+
+  // --- VARIABLES DE COMPATIBILIDAD (Esto arregla el error "esGold/esPremium is not defined") ---
+  // Hacemos que esGold apunte a esGlow, y esPremium a esQueen. Así tu template viejo funciona.
+  const esGold = esGlow 
+  const esPremium = esQueen
 
   // --- GALERÍA INTELIGENTE ---
   const fotosVisibles = computed(() => {
     if (!props.datos.galeria) return []
-    if (esPremium.value) return props.datos.galeria
+    // Si es Queen -> Todas. Si es Glow -> 6. Si es Party -> 0.
+    if (esQueen.value) return props.datos.galeria
     return props.datos.galeria.slice(0, 6)
   })
 
-  // Efecto de escritura
+  // --- LÓGICA NOMBRE PERSONALIZADO (Solo en Queen) ---
+  const nombreInvitado = computed(() => {
+    // Si no es plan Queen/Premium, no mostramos nada
+    if (!esQueen.value) return null
+    
+    // Si viene en la URL
+    if (route.query.invitado) return route.query.invitado
+    
+    // Si es Demo
+    if (props.datos.esDemo) return 'Familia Pérez' 
+    
+    return null
+  })
+
+  // Efecto de escritura (Tipeo)
   const nombreMostrado = ref("")
   const cursorVisible = ref(true)
 
@@ -39,6 +74,9 @@
     const nombreCompleto = props.datos.nombre || props.datos.nombres 
     let i = 0
     nombreMostrado.value = ""
+    // Validación simple por si el nombre viene vacío
+    if (!nombreCompleto) return 
+
     const intervaloEscritura = setInterval(() => {
       if (i < nombreCompleto.length) {
         nombreMostrado.value += nombreCompleto.charAt(i)
@@ -50,8 +88,14 @@
     }, 150)
   }
 
+  // --- LÓGICA MODO ANFITRIÓN (GENERADOR) ---
+  const showGenerador = ref(false)
+  const esAdmin = computed(() => route.query.admin === 'true' || props.datos.esDemo)
+  const urlActual = computed(() => typeof window !== 'undefined' ? window.location.href : '')
+
+  // Lifecycle
   onMounted(() => {
-    document.title = `XV Años Real | ${props.datos.nombre}`
+    document.title = `XV Años | ${props.datos.nombre}`
     document.body.classList.add('scroll-royal') 
     iniciarEfectoEscritura()
   })
@@ -61,7 +105,7 @@
     document.title = 'Invitación Digital'
   })
 
-  // Lightbox
+  // Lightbox (Visor de fotos)
   const fotoEnGrande = ref(null)
   const abrirFoto = (foto) => {
     fotoEnGrande.value = foto
@@ -75,113 +119,114 @@
 
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-800 overflow-x-hidden font-serif">
-
-    <header class="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden px-4">
+    <header class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center overflow-hidden">
       
-      <div class="absolute inset-0 z-0 bg-white">
+      <div class="absolute inset-0 z-0 bg-slate-50">
         <img 
           :src="datos.fotoPortada" 
-          class="w-full h-full object-cover opacity-40 mix-blend-luminosity" 
-          alt="Quinceañera"
+          class="w-full h-full object-cover opacity-30 blur-sm mix-blend-luminosity scale-110" 
+          alt="Fondo Quinceañera"
         />
         
         <img 
           src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop" 
-          class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply" 
-          alt="Fondo Textura"
+          class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" 
+          alt="Textura"
         />
         
-        <div class="fondo-animado-aurora absolute inset-0 mix-blend-soft-light opacity-60"></div>
+        <div class="fondo-animado-aurora absolute inset-0 mix-blend-soft-light opacity-50"></div>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/80"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/60 via-white/20 to-white/90"></div>
       </div>
 
       <div class="absolute inset-0 z-20 pointer-events-none opacity-90">
          <img 
            src="/assets/marco-flores.png" 
            class="w-full h-full object-cover md:object-fill" 
-           alt="Marco floral completo" 
+           alt="Marco floral" 
          />
       </div>
 
       <div class="mariposas-azules absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <div v-for="n in 10" :key="n" class="mariposa-azul absolute opacity-80 text-blue-400">
+        <div v-for="n in 10" :key="n" class="mariposa-azul absolute opacity-70 text-blue-400">
            <svg viewBox="0 0 500 500" class="w-full h-full overflow-visible drop-shadow-sm">
-             <path 
-               class="fill-none stroke-current" 
-               stroke-width="8" 
-               stroke-linecap="round" 
-               stroke-linejoin="round" 
-               d="M135.16,55.11s-40.9,40.61-55.21,67.68c-9.77,18.48.1,16.73,12.28.19,12.18-16.53,25.81-33.07,4.93-75.99C76.28,4.06,50.76,11.89,49.02,13.34c-1.74,1.45-20.01,41.48-8.7,67.58,11.31,26.1,26.97,23.78,27.84,19.72.87-4.06-15.66-24.07-34.23-7.25C15.37,110.22,11.02,127.91,0,121.53c0,0,2.71,18.93,37.13,17.98,31.62-.87,66.42-42.76,75.7-69.74,9.28-26.97.87-60.49-10.44-69.77,0,0-13.92,2.9-17.69,21.46"
-             />
+             <path class="fill-none stroke-current" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M135.16,55.11s-40.9,40.61-55.21,67.68c-9.77,18.48.1,16.73,12.28.19,12.18-16.53,25.81-33.07,4.93-75.99C76.28,4.06,50.76,11.89,49.02,13.34c-1.74,1.45-20.01,41.48-8.7,67.58,11.31,26.1,26.97,23.78,27.84,19.72.87-4.06-15.66-24.07-34.23-7.25C15.37,110.22,11.02,127.91,0,121.53c0,0,2.71,18.93,37.13,17.98,31.62-.87,66.42-42.76,75.7-69.74,9.28-26.97.87-60.49-10.44-69.77,0,0-13.92,2.9-17.69,21.46"/>
            </svg>
         </div>
       </div>
 
-      <transition name="fade">
-        <div v-if="esPremium" class="absolute top-5 z-30 animate-fade-in-up delay-700">
-           <div class="bg-white/60 backdrop-blur-sm border border-blue-200 px-6 py-2 rounded-full shadow-sm">
-             <p class="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase">
-               ✨ Estás invitado ✨
-             </p>
-           </div>
-        </div>
-      </transition>
-
-      <div class="relative z-30 space-y-4 md:space-y-8 animate-fade-in-up w-full max-w-4xl mx-auto flex flex-col items-center justify-evenly h-full py-20"> 
+      <div class="relative z-30 w-full max-w-4xl mx-auto flex flex-col items-center justify-center px-6 pt-20 pb-12 gap-6 md:gap-8"> 
         
+        <div class="min-h-[3rem] flex items-center justify-center">
+            <transition name="fade" mode="out-in">
+                <div v-if="esQueen && nombreInvitado" key="vip" class="animate-fade-in-up">
+                   <div class="bg-white/80 backdrop-blur-md border border-blue-200 px-6 py-2 rounded-full shadow-lg ring-1 ring-white/50">
+                     <p class="text-blue-600 text-xs md:text-sm font-bold tracking-[0.15em] uppercase flex items-center gap-2">
+                       <PhCrown weight="fill" class="text-amber-400 text-lg" /> Para {{ nombreInvitado }}
+                     </p>
+                   </div>
+                </div>
+
+                <div v-else-if="!esQueen && esGlow" class="absolute top-24 z-30">
+                   <p class="inline-flex items-center gap-2 text-[10px] font-bold text-slate-500 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/50 shadow-sm cursor-pointer hover:scale-105 transition-transform">
+                      <PhLockKey weight="fill" class="text-slate-400" />
+                      Personaliza nombres con el <span class="text-purple-500 font-black">Plan Queen</span>
+                   </p>
+                </div>
+            </transition>
+        </div>
+
         <div class="relative flex items-center justify-center">
-          
-          <div class="absolute z-20 w-[115%] h-[115%] pointer-events-none">
-            <img 
-              src="/assets/marco-flores-circular.png" 
-              class="w-full h-full object-contain" 
-              alt="Marco decorativo" 
-            />
+          <div class="absolute z-20 w-[140%] h-[140%] pointer-events-none -top-[20%] -left-[20%]">
+            <img src="/assets/marco-flores-circular.png" class="w-full h-full object-contain opacity-90" alt="Marco" />
           </div>
           
-          <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden z-10 border-4 border-white shadow-sm">
+          <div class="relative w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden z-10 border-[6px] border-white/90 shadow-xl">
             <img 
               :src="datos.fotoPortada" 
-              class="w-full h-full object-cover object-top" 
+              class="w-full h-full object-cover object-top hover:scale-110 transition-transform duration-700" 
               alt="Avatar Quinceañera"
             />
           </div>
 
-          <PhSparkle 
-            weight="fill" 
-            size="24" 
-            class="absolute -top-2 -right-2 text-blue-200 z-30 animate-pulse" 
-          />
+          <PhSparkle weight="fill" size="28" class="absolute -top-4 -right-4 text-blue-300 z-30 animate-pulse" />
         </div>
 
-        <div class="text-center space-y-2">
-          <div class="flex items-center justify-center gap-3 text-blue-500 font-cinzel text-lg md:text-xl tracking-widest uppercase">
-             <div class="h-[1px] w-8 bg-blue-400"></div>
+        <div class="text-center space-y-4 md:space-y-6 -mt-2">
+          
+          <div class="flex items-center justify-center gap-4 text-blue-500 font-cinzel text-base md:text-xl tracking-[0.2em] uppercase font-bold opacity-80">
+             <div class="h-[1px] w-8 md:w-16 bg-blue-400"></div>
              <span>Mis 15 Años</span>
-             <div class="h-[1px] w-8 bg-blue-400"></div>
+             <div class="h-[1px] w-8 md:w-16 bg-blue-400"></div>
           </div>
 
-          <h1 class="font-great-vibes text-7xl md:text-9xl text-blue-600 drop-shadow-sm py-2 leading-none transform -rotate-2 relative">
+          <h1 class="font-great-vibes text-6xl sm:text-7xl md:text-9xl text-blue-600 drop-shadow-sm leading-[0.9] py-2 relative z-20">
             {{ nombreMostrado }}
-            <PhSparkle weight="fill" class="absolute -top-2 -right-6 text-blue-300 w-8 h-8 animate-pulse" />
+            <PhSparkle weight="fill" class="absolute top-0 right-0 md:-right-8 text-amber-300 w-6 h-6 md:w-10 md:h-10 animate-spin-slow opacity-80" />
           </h1>
-        </div>
+          
+          <div class="space-y-4 max-w-lg mx-auto">
+             <div class="inline-block bg-white/40 backdrop-blur-sm border border-white/60 px-8 py-2 rounded-full shadow-sm">
+                <p class="font-cinzel text-xl md:text-2xl text-slate-800 font-bold tracking-wide capitalize">
+                  {{ new Date(datos.fecha).toLocaleDateString('es-BO', { month: 'long', day: 'numeric' }) }}
+                </p>
+             </div>
+             
+             <p class="font-playfair italic text-slate-600 leading-relaxed text-sm md:text-lg px-4 font-medium drop-shadow-sm">
+               "Te invito a celebrar conmigo este día tan especial lleno de magia y sueños."
+             </p>
+          </div>
 
-        <div class="space-y-4">
-           <p class="font-cinzel text-2xl md:text-3xl text-slate-700 font-bold tracking-wide bg-white/30 px-6 py-1 rounded-full backdrop-blur-sm">
-             {{ new Date(datos.fecha).toLocaleDateString('es-BO', { month: 'long', day: 'numeric' }) }}
-           </p>
-           
-           <p class="font-playfair italic text-slate-700 max-w-md mx-auto leading-relaxed text-sm md:text-base px-8 font-medium">
-             Te invito a celebrar conmigo este día tan especial lleno de magia y sueños.
-           </p>
         </div>
       </div>
 
-      <div class="absolute bottom-10 z-30 animate-bounce text-blue-400">
-         <PhSparkle weight="light" size="32" />
+      <div class="absolute bottom-8 z-30 animate-bounce text-blue-400 opacity-80">
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[10px] uppercase tracking-widest font-cinzel">Desliza</span>
+            <PhSparkle weight="light" size="24" />
+          </div>
       </div>
+
     </header>
 
     <section class="py-28 px-6 w-full relative overflow-hidden bg-[#0f172a]">
@@ -374,7 +419,16 @@
       </div>
     </section>
 
-    <section v-if="esGold && datos.galeria" class="py-28 bg-[#0f172a] relative overflow-hidden">
+    <section v-if="esGlow && datos.galeria" class="py-28 bg-[#0f172a] relative overflow-hidden">
+       <div v-if="!esQueen && datos.galeria.length > 6" class="text-center pt-8 relative z-30">
+        <div class="inline-block relative group cursor-pointer">
+          <div class="absolute inset-0 bg-blue-400 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+          <p class="relative text-blue-200 text-xs italic border border-blue-500/30 px-6 py-2 rounded-full uppercase tracking-wider bg-blue-900/80 flex items-center gap-2">
+            <PhLockKey weight="fill" />
+            + {{ datos.galeria.length - 6 }} fotos más en Plan Queen
+          </p>
+        </div>
+    </div>
       
       <div class="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-[#1e1b4b] to-[#0f172a]"></div>
       
@@ -452,8 +506,17 @@
       </Transition>
     </section>
 
+    <div v-if="!esGlow" class="py-12 bg-slate-900 text-center border-t border-slate-800">
+       <div class="inline-flex items-center gap-2 bg-slate-800 px-5 py-3 rounded-full border border-slate-700">
+          <PhLockKey weight="duotone" class="text-slate-500 text-lg" />
+          <span class="text-slate-400 text-xs uppercase tracking-widest">
+            Desbloquea Fotos con el <strong class="text-amber-400">Plan Glow</strong>
+          </span>
+       </div>
+    </div>
+
     <transition name="fade">
-      <section v-if="esGold" class="bg-slate-50 py-24 relative border-t border-slate-200 overflow-hidden">
+      <section v-if="esGlow" class="bg-slate-50 py-24 relative border-t border-slate-200 overflow-hidden">
           
           <div class="absolute top-1/2 left-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
@@ -507,9 +570,9 @@
       </section>
     </transition>
 
-    <div v-if="!esGold" class="py-12 bg-slate-100 text-center border-t border-slate-200">
-       <p class="text-slate-500 text-xs italic flex items-center justify-center gap-2 uppercase tracking-widest">
-         <PhSparkle weight="fill" class="text-amber-500" /> Plan Glow: Desbloquea Fotos y Cronograma
+    <div v-if="!esGlow" class="py-8 bg-slate-50 text-center">
+       <p class="text-slate-400 text-xs italic flex items-center justify-center gap-2">
+         <PhLockKey weight="fill" /> El cronograma está disponible en el Plan Glow
        </p>
     </div>
 
@@ -597,14 +660,35 @@
       claseOverlay="bg-slate-900/90 backdrop-blur-xl"
     />
 
-    <MenuNavegacion v-show="!modalAbierto && !fotoEnGrande" />
-
-    <DemoSwitcher 
+    <DemoSwitcher15 
       v-if="datos.esDemo" 
       @cambioPlan="actualizarPlan" 
-      class="font-sans" 
     />
 
+    <div v-if="esAdmin && esQueen" class="fixed bottom-24 left-4 z-[90]">
+       <button 
+         @click="showGenerador = true"
+         class="bg-slate-900 text-white px-4 py-3 rounded-full shadow-2xl shadow-purple-500/50 flex items-center gap-3 border-2 border-purple-500 hover:scale-105 transition-transform group"
+       >
+         <div class="bg-purple-500 rounded-full p-1 group-hover:animate-spin-slow">
+            <PhMagicWand weight="fill" />
+         </div>
+         <div class="text-left leading-none pr-2">
+            <p class="text-[9px] text-purple-200 font-bold uppercase tracking-wider">Modo Anfitrión</p>
+            <p class="text-sm font-bold">Crear Invitación</p>
+         </div>
+       </button>
+    </div>
+
+    <ModalGeneradorLinks 
+       :isOpen="showGenerador"
+       :urlBase="urlActual"
+       :nombreFestejado="datos.nombre || datos.nombres"
+       tipoEvento="xv" 
+       colorHeader="bg-gradient-to-r from-blue-600 to-purple-600" 
+       @close="showGenerador = false"
+    />    
+    <Navbar />
   </div>
 </template>
 

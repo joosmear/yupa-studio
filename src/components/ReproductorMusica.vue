@@ -7,9 +7,37 @@ const props = defineProps({
     type: String,
     required: true
   },
-  // COLORES PERSONALIZABLES (Por defecto: Rosa clásico)
-  colorBoton: { type: String, default: 'bg-rose-50 border-rose-200' },
-  colorIcono: { type: String, default: 'text-rose-600' }
+  // 1. CLASES DE COLOR Y HOVER (Fondo, Borde, Hover)
+  // Nota: Aquí puedes pasar 'hover:bg-color' para cambiar el color al pasar el mouse
+  colorBoton: { 
+    type: String, 
+    default: 'bg-rose-50 border-rose-200 hover:bg-rose-100' 
+  },
+  
+  // 2. CLASES DE ICONO (Color del icono y de la onda)
+  colorIcono: { 
+    type: String, 
+    default: 'text-rose-600' 
+  },
+
+  // 3. TAMAÑO DEL BOTÓN (Ancho y Alto)
+  // Usamos w-12 h-12 por defecto, pero puedes pasar w-16 h-16 o p-4
+  clasesTamano: {
+    type: String,
+    default: 'w-12 h-12' 
+  },
+
+  // 4. TAMAÑO DEL ICONO (Número)
+  tamanoIcono: {
+    type: Number,
+    default: 20
+  },
+
+  // 5. GROSOR DE LA ONDA (Ej: '1px', '2px', '4px')
+  grosorOnda: {
+    type: String,
+    default: '1px'
+  }
 })
 
 const audioPlayer = ref(null)
@@ -25,7 +53,7 @@ const togglePlay = () => {
   }
 }
 
-// --- LÓGICA DE AUTO-ENCENDIDO (Sin cambios) ---
+// --- LÓGICA DE AUTO-ENCENDIDO ---
 const intentarAutoplay = () => {
   if (!audioPlayer.value || isPlaying.value) return
   audioPlayer.value.play()
@@ -33,7 +61,7 @@ const intentarAutoplay = () => {
       isPlaying.value = true
       eliminarDetectores()
     })
-    .catch(() => { /* Navegador bloqueó autoplay */ })
+    .catch(() => { /* Autoplay bloqueado */ })
 }
 
 const eliminarDetectores = () => {
@@ -46,7 +74,7 @@ onMounted(() => {
   document.addEventListener('click', intentarAutoplay)
   document.addEventListener('touchstart', intentarAutoplay)
   document.addEventListener('scroll', intentarAutoplay)
-  setTimeout(intentarAutoplay, 100) // Pequeño delay para asegurar carga
+  setTimeout(intentarAutoplay, 100)
 })
 
 onUnmounted(() => { eliminarDetectores() })
@@ -58,12 +86,12 @@ onUnmounted(() => { eliminarDetectores() })
 
       <button 
         @click="togglePlay"
-        class="music-btn relative p-3 rounded-full shadow-xl border transition-all duration-300 hover:scale-105 flex items-center justify-center"
-        :class="[colorBoton, colorIcono, { 'is-playing': isPlaying }]"
+        class="music-btn relative rounded-full shadow-xl border transition-all duration-300 flex items-center justify-center hover:scale-105"
+        :class="[colorBoton, colorIcono, clasesTamano, { 'is-playing': isPlaying }]"
+        :style="{ '--ripple-width': grosorOnda }"
       >
-        <PhPause v-if="isPlaying" size="24" weight="fill" class="text-current" />
-
-        <PhMusicNotes v-else size="24" weight="fill" class="text-current" />
+        <PhPause v-if="isPlaying" :size="tamanoIcono" weight="fill" class="text-current" />
+        <PhMusicNotes v-else :size="tamanoIcono" weight="fill" class="text-current" />
       </button>
   </div>
 </template>
@@ -72,6 +100,7 @@ onUnmounted(() => { eliminarDetectores() })
 /* Definimos la animación base para el botón */
 .music-btn {
   --ripple-color: currentColor; 
+  /* --ripple-width se inyecta desde el style en línea */
 }
 
 /* Cuando está sonando, activamos los pseudo-elementos */
@@ -79,15 +108,15 @@ onUnmounted(() => { eliminarDetectores() })
 .music-btn.is-playing::after {
   content: '';
   position: absolute;
-  inset: -4px; /* Empiezan un poco más grandes que el botón */
-  border-radius: 9999px; /* Círculo perfecto */
-  border: 1px solid var(--ripple-color); /* Usan el color del icono */
+  inset: -4px;
+  border-radius: 9999px;
+  border-style: solid;
+  border-color: var(--ripple-color);
   opacity: 0;
-  pointer-events: none; /* No interfieren con el clic */
+  pointer-events: none;
   animation: rippleEffect 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* El segundo círculo sale con un pequeño retraso para dar efecto continuo */
 .music-btn.is-playing::after {
   animation-delay: 0.5s;
 }
@@ -96,11 +125,12 @@ onUnmounted(() => { eliminarDetectores() })
   0% {
     transform: scale(1);
     opacity: 0.7;
-    border-width: 1px;
+    /* Usamos la variable para el grosor inicial */
+    border-width: var(--ripple-width);
   }
   100% {
-    transform: scale(2); /* Se expande al doble */
-    opacity: 0; /* Se desvanece */
+    transform: scale(2);
+    opacity: 0;
     border-width: 0px;
   }
 }

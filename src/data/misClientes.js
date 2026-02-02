@@ -206,6 +206,13 @@ export const bodaCarlos = {
     "https://images.unsplash.com/photo-1597089180162-ffaaaefa4b14",
     "https://images.unsplash.com/photo-1596763760065-fbc8ae35b048",
     "https://images.unsplash.com/photo-1596474971433-44fc045bdff8",
+    "https://images.unsplash.com/photo-1596474971501-810dcd1218a7",
+    "https://images.unsplash.com/photo-1597175742183-c8def759077b",
+    "https://images.unsplash.com/photo-1597089180101-ab1bfff281cf",
+    "https://images.unsplash.com/photo-1596763759959-82b852f5158f",
+    "https://images.unsplash.com/photo-1597089180162-ffaaaefa4b14",
+    "https://images.unsplash.com/photo-1596763760065-fbc8ae35b048",
+    "https://images.unsplash.com/photo-1596474971433-44fc045bdff8",
     "https://images.unsplash.com/photo-1596474971501-810dcd1218a7"
   ],
 
@@ -361,6 +368,12 @@ export const demoValentina = {
   linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
   
   galeria: [
+    "https://images.pexels.com/photos/27815938/pexels-photo-27815938.jpeg",
+    "https://images.pexels.com/photos/27815947/pexels-photo-27815947.jpeg",
+    "https://images.pexels.com/photos/18461052/pexels-photo-18461052.jpeg",
+    "https://images.pexels.com/photos/17697229/pexels-photo-17697229.jpeg",
+    "https://images.pexels.com/photos/18461057/pexels-photo-18461057.png",
+    "https://images.pexels.com/photos/18461051/pexels-photo-18461051.jpeg",
     "https://images.pexels.com/photos/27815938/pexels-photo-27815938.jpeg",
     "https://images.pexels.com/photos/27815947/pexels-photo-27815947.jpeg",
     "https://images.pexels.com/photos/18461052/pexels-photo-18461052.jpeg",
@@ -564,7 +577,7 @@ export const demoSofia = {
 export const datosValeria = {
   id: 'valeria',
   esDemo: true, 
-  modelo:  'magico',
+  modelo:  'baby-unicornio',
   plan: 'magico',
   tipo: 'infatil',
   nombre: "Valeria",
@@ -593,6 +606,12 @@ export const datosValeria = {
   linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
 
   galeria: [
+    { url: "https://images.unsplash.com/photo-1719160233557-226f017fbfd7?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687", descripcion: 'Con la abuela ❤️' },
+    { url: "https://images.unsplash.com/photo-1719160276130-cb1f7e857072?q=80&w=687", descripcion: 'Ya sé gatear!' },
+    { url: "https://images.unsplash.com/photo-1719160276256-278749d129d3?q=80&w=687", descripcion: 'Dormilona 😴' },
+    { url: "https://images.unsplash.com/photo-1719160276127-b83ffa2c5e02?q=80&w=687", descripcion: 'Jugando en el parque' },
+    { url: "https://images.unsplash.com/photo-1719160232990-8f125e7728dc?q=80&w=687", descripcion: 'Mi sonrisa favorita' },
     { url: "https://images.unsplash.com/photo-1719160233557-226f017fbfd7?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
     { url: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687", descripcion: 'Con la abuela ❤️' },
     { url: "https://images.unsplash.com/photo-1719160276130-cb1f7e857072?q=80&w=687", descripcion: 'Ya sé gatear!' },
@@ -632,4 +651,162 @@ export const datosValeria = {
   },
 
   musica: "/songs/un-mundo-ideal.mp3"
+}
+
+export const datosPablo = {
+  id: 'pablo',
+  esDemo: true, 
+  modelo:  'baby-dino',
+  plan: 'magico',
+  tipo: 'infatil',
+  nombre: "Pablo",
+  fecha: "2026-10-25T16:00:00",
+  frase: "¡Llegó mi primer añito! Acompáñame a vivir una aventura mágica y salvaje.",
+  edad: "1",
+
+  fotoPortada: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=1170",
+  imgFondoPattern: "/assets/infantil/patrones-dino.jpeg",
+  videoYoutube: 'M56olVpyUz8',
+  
+    padres: {
+    padre: "Jorge Meza",
+    madre: "Ximena Callejas"
+  },
+  padrinos: {
+    nombres: "Javier Soria & Lucía Méndez"
+  },
+
+  ubicacion: {
+    nombreLugar: "Salón de Eventos 'Little Jungle'",
+    direccion: "Av. Las Palmeras #450, Zona Sur, La Paz",
+    linkGps: "https://goo.gl/maps/tu-link-aqui"
+  },
+
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
+
+  galeria: [
+    { url: "https://plus.unsplash.com/premium_photo-1661574712584-797eb6c25025?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://plus.unsplash.com/premium_photo-1661630927906-afc6af984b1c?q=80&w=1170", descripcion: 'Con la abuela ❤️' },
+    { url: "https://plus.unsplash.com/premium_photo-1661551839399-4e6eb24461fe?q=80&w=1170", descripcion: 'Ya sé gatear!' },
+    { url: "https://plus.unsplash.com/premium_photo-1661558512847-ed1be35cee5e?q=80&w=1170", descripcion: 'Dormilona 😴' },
+    { url: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=1170", descripcion: 'Jugando en el parque' },
+    { url: "https://plus.unsplash.com/premium_photo-1661574712584-797eb6c25025?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://plus.unsplash.com/premium_photo-1661630927906-afc6af984b1c?q=80&w=1170", descripcion: 'Con la abuela ❤️' },
+    { url: "https://plus.unsplash.com/premium_photo-1661551839399-4e6eb24461fe?q=80&w=1170", descripcion: 'Ya sé gatear!' },
+    { url: "https://plus.unsplash.com/premium_photo-1661558512847-ed1be35cee5e?q=80&w=1170", descripcion: 'Dormilona 😴' },
+    { url: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=1170", descripcion: 'Jugando en el parque' },
+    { url: "https://plus.unsplash.com/premium_photo-1661574712584-797eb6c25025?q=80&w=687", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://plus.unsplash.com/premium_photo-1661630927906-afc6af984b1c?q=80&w=1170", descripcion: 'Con la abuela ❤️' }
+  ],
+
+  agenda: [
+    { hora: '15:00', actividad: '¡Bienvenidos! (Recepción de invitados', icono: 'recepcion' },
+    { hora: '16:00', actividad: 'Juegos Divertidos (Show infantil o juegos)', icono: 'juegos' },
+    { hora: '17:00', actividad: 'Soplamos la Velita (Momento del Pastel)', icono: 'pastel' },
+    { hora: '18:00', actividad: 'Lluvia de Dulces (La Piñata)', icono: 'piñata' },
+    { hora: '19:00', actividad: 'Cajitas de Sorpresas (Fin de la fiesta)', icono: 'regalo' }
+  ],
+
+  regalos: [
+    {
+      tag: 'Mamá',
+      banco: "Banco Nacional",
+      titular: "Ximena Callejas",
+      cuenta: "123-456-7890",
+      qrImagen: '/qrs/qr-prueba.jpeg'
+    },
+    {
+      tag: 'Papá',
+      banco: "Yape / QR",
+      titular: "Jorge Meza",
+      cuenta: "77712345",
+      qrImagen: '/qrs/qr-prueba.jpeg'
+    }
+  ],
+
+  contacto: {
+    whatsapp: "59177712345", // Número para el botón de confirmar
+    mensajeDefault: "¡Hola! Quiero confirmar mi asistencia al cumple de Pablito 🦁"
+  },
+
+  musica: "/songs/bajo-el-mar.mp3"
+}
+
+export const datosKaren = {
+  id: 'karen',
+  esDemo: true, 
+  modelo:  'huntrix',
+  plan: 'magico',
+  tipo: 'infatil',
+  nombre: "Karen",
+  fecha: "2026-10-25T16:00:00",
+  frase: "¡Llegó mi primer añito! Acompáñame a vivir una aventura mágica y salvaje.",
+  edad: "5",
+
+  fotoPortada: "https://plus.unsplash.com/premium_photo-1663090820483-34c51673ced7?q=80&w=1111",
+  imgFondoPattern: "/assets/infantil/bg-huntrix.png",
+  videoYoutube: 'zfKTe9q2j80',
+  
+    padres: {
+    padre: "Alejandro Méndez",
+    madre: "Carolina Ríos"
+  },
+  padrinos: {
+    nombres: "Javier Soria & Lucía Méndez"
+  },
+
+  ubicacion: {
+    nombreLugar: "Salón de Eventos 'Little Jungle'",
+    direccion: "Av. Las Palmeras #450, Zona Sur, La Paz",
+    linkGps: "https://goo.gl/maps/tu-link-aqui"
+  },
+
+  linkCalendario: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Juan+y+Ana&dates=20260214T180000/20260214T230000&location=Parroquia+San+Miguel&details=¡Los+esperamos+para+celebrar!",
+
+  galeria: [
+    { url: "https://plus.unsplash.com/premium_photo-1663051286503-ec6fb173b1bd", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://plus.unsplash.com/premium_photo-1681840976928-6ea8847737d6", descripcion: 'Con la abuela ❤️' },
+    { url: "https://plus.unsplash.com/premium_photo-1681841051725-b7b1f132d940", descripcion: 'Ya sé gatear!' },
+    { url: "https://plus.unsplash.com/premium_photo-1681831107577-39bcad59acdc", descripcion: 'Dormilona 😴' },
+    { url: "https://plus.unsplash.com/premium_photo-1661433014722-5559f1b8729f", descripcion: 'Jugando en el parque' },
+    { url: "https://plus.unsplash.com/premium_photo-1681841169642-2fb7ace5c4ae", descripcion: 'Mi sonrisa favorita' },
+    { url: "https://plus.unsplash.com/premium_photo-1663051286503-ec6fb173b1bd", descripcion: 'Mi primer baño 🛁' },
+    { url: "https://plus.unsplash.com/premium_photo-1681840976928-6ea8847737d6", descripcion: 'Con la abuela ❤️' },
+    { url: "https://plus.unsplash.com/premium_photo-1681841051725-b7b1f132d940", descripcion: 'Ya sé gatear!' },
+    { url: "https://plus.unsplash.com/premium_photo-1681831107577-39bcad59acdc", descripcion: 'Dormilona 😴' },
+    { url: "https://plus.unsplash.com/premium_photo-1661433014722-5559f1b8729f", descripcion: 'Jugando en el parque' },
+    { url: "https://plus.unsplash.com/premium_photo-1681841169642-2fb7ace5c4ae", descripcion: 'Mi sonrisa favorita' }
+  ],
+
+  agenda: [
+    { hora: '15:00', actividad: '¡Bienvenidos! (Recepción de invitados', icono: 'recepcion' },
+    { hora: '16:00', actividad: 'Juegos Divertidos (Show infantil o juegos)', icono: 'juegos' },
+    { hora: '17:00', actividad: 'Soplamos la Velita (Momento del Pastel)', icono: 'pastel' },
+    { hora: '18:00', actividad: 'Lluvia de Dulces (La Piñata)', icono: 'piñata' },
+    { hora: '19:00', actividad: 'Cajitas de Sorpresas (Fin de la fiesta)', icono: 'regalo' }
+  ],
+
+  regalos: [
+    {
+      tag: 'Mamá',
+      banco: "Banco Nacional",
+      titular: "Carolina Ríos",
+      cuenta: "123-456-7890",
+      qrImagen: '/qrs/qr-prueba.jpeg'
+    },
+    {
+      tag: 'Papá',
+      banco: "Yape / QR",
+      titular: "Alejandro Méndez",
+      cuenta: "77712345",
+      qrImagen: '/qrs/qr-prueba.jpeg'
+    }
+  ],
+
+  contacto: {
+    whatsapp: "59177712345", // Número para el botón de confirmar
+    mensajeDefault: "¡Hola! Quiero confirmar mi asistencia al cumple de Karen 🦁"
+  },
+
+  musica: "/songs/golden-huntrix.mp3"
 }

@@ -4,30 +4,39 @@ import {
   PhX, PhGift, PhBank, PhCopy, PhCheck, PhQrCode, 
   PhCreditCard, PhSmiley, PhUser, PhCaretDown 
 } from '@phosphor-icons/vue'
-
-// IMPORTANTE: Importamos ImagenSegura para que el QR no falle
 import ImagenSegura from './ImagenSegura.vue' 
 
 const props = defineProps({
   isOpen: { type: Boolean, default: false },
-  listaRegalos: { type: Array, default: () => [] } 
+  listaRegalos: { type: Array, default: () => [] },
+  
+  // --- NUEVAS PROPS DE COLOR (Con valores por defecto ROSA para niña) ---
+  colorHeader: { type: String, default: 'bg-rose-100 border-rose-200' },
+  colorTitulo: { type: String, default: 'text-rose-500' },
+  colorSubtitulo: { type: String, default: 'text-rose-400' },
+  colorPestanaActiva: { type: String, default: 'text-rose-500' },
+  colorBarraPestana: { type: String, default: 'bg-rose-400' },
+  colorBotonActivo: { type: String, default: 'bg-white text-rose-500' },
+  colorIconoBanco: { type: String, default: 'bg-rose-50 text-rose-400' },
+  colorBordeLateral: { type: String, default: 'border-rose-100' },
+  colorBotonCopiar: { type: String, default: 'bg-rose-100 text-rose-500 hover:bg-rose-200' },
+  colorTextoDestacado: { type: String, default: 'text-rose-400' },
+  colorBordeDashed: { type: String, default: 'border-rose-200' },
+  colorFondoOverlay: { type: String, default: 'bg-rose-900/60' }
 })
 
 const emit = defineEmits(['close'])
 
 // ESTADO
-const indiceCuentaActiva = ref(0) // 0 = Primera cuenta (Papá), 1 = Segunda (Mamá)
-const verQR = ref(false)          // false = Ver Datos, true = Ver QR
+const indiceCuentaActiva = ref(0) 
+const verQR = ref(false) 
 const copiado = ref(false)
 
 // COMPUTADOS
-const cuentaActual = computed(() => {
-  return props.listaRegalos[indiceCuentaActiva.value] || {}
-})
-
+const cuentaActual = computed(() => props.listaRegalos[indiceCuentaActiva.value] || {})
 const tieneMultiplesCuentas = computed(() => props.listaRegalos.length > 1)
 
-// Reseteamos la vista al cambiar de cuenta
+// Reseteamos al cambiar
 watch(indiceCuentaActiva, () => {
   verQR.value = false
   copiado.value = false
@@ -38,9 +47,7 @@ const copiarCuenta = async (texto) => {
     await navigator.clipboard.writeText(texto)
     copiado.value = true
     setTimeout(() => copiado.value = false, 2000)
-  } catch (err) {
-    console.error('Error al copiar', err)
-  }
+  } catch (err) { console.error(err) }
 }
 </script>
 
@@ -48,17 +55,17 @@ const copiarCuenta = async (texto) => {
   <Transition name="modal-fade">
     <div v-if="isOpen" class="fixed inset-0 z-[100] flex items-center justify-center px-4">
       
-      <div class="absolute inset-0 bg-rose-900/60 backdrop-blur-sm transition-opacity" @click="$emit('close')"></div>
+      <div class="absolute inset-0 backdrop-blur-sm transition-opacity" :class="colorFondoOverlay" @click="$emit('close')"></div>
 
       <div class="bg-white w-full max-w-md rounded-[2rem] shadow-2xl relative z-10 overflow-hidden flex flex-col animate-modal-bounce max-h-[85vh]">
         
-        <div class="bg-rose-100 p-4 text-center relative shrink-0 border-b border-rose-200">
-           <button @click="$emit('close')" class="absolute top-4 right-4 bg-white/50 hover:bg-white text-rose-400 rounded-full p-2 transition-colors">
+        <div class="p-4 text-center relative shrink-0 border-b" :class="colorHeader">
+           <button @click="$emit('close')" class="absolute top-4 right-4 bg-white/50 hover:bg-white rounded-full p-2 transition-colors" :class="colorSubtitulo">
              <PhX weight="bold" size="20" />
            </button>
            
-           <h3 class="font-pacifico text-2xl text-rose-500 mt-2">Mesa de Regalos</h3>
-           <p class="text-xs text-rose-400 font-bold uppercase tracking-wider">Detalles bancarios</p>
+           <h3 class="font-pacifico text-2xl mt-2" :class="colorTitulo">Mesa de Regalos</h3>
+           <p class="text-xs font-bold uppercase tracking-wider" :class="colorSubtitulo">Detalles bancarios</p>
         </div>
 
         <div v-if="tieneMultiplesCuentas" class="flex border-b border-slate-100">
@@ -67,35 +74,37 @@ const copiarCuenta = async (texto) => {
              :key="index"
              @click="indiceCuentaActiva = index"
              class="flex-1 py-4 text-sm font-bold uppercase tracking-wide transition-colors relative"
-             :class="indiceCuentaActiva === index ? 'text-rose-500 bg-white' : 'text-slate-400 bg-slate-50 hover:bg-slate-100'"
+             :class="indiceCuentaActiva === index ? colorPestanaActiva + ' bg-white' : 'text-slate-400 bg-slate-50 hover:bg-slate-100'"
            >
              <span class="block mb-1 text-xl">
                {{ indiceCuentaActiva === index ? '⭐️' : '👤' }}
              </span>
              {{ regalo.tag || `Opción ${index + 1}` }}
 
-             <div v-if="indiceCuentaActiva === index" class="absolute bottom-0 left-0 w-full h-1 bg-rose-400 rounded-t-full"></div>
+             <div v-if="indiceCuentaActiva === index" class="absolute bottom-0 left-0 w-full h-1 rounded-t-full" :class="colorBarraPestana"></div>
            </button>
         </div>
 
         <div class="p-6 overflow-y-auto custom-scrollbar bg-white relative">
             
             <Transition name="fade-slide" mode="out-in">
-              <div :key="indiceCuentaActiva"> <div v-if="cuentaActual.banco">
+              <div :key="indiceCuentaActiva"> 
+                
+                <div v-if="cuentaActual.banco">
                     
                     <div v-if="cuentaActual.qrImagen" class="flex justify-center mb-6">
                         <div class="bg-slate-100 p-1 rounded-xl flex gap-1 shadow-inner">
                            <button 
                              @click="verQR = false"
                              class="px-6 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
-                             :class="!verQR ? 'bg-white text-rose-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'"
+                             :class="!verQR ? colorBotonActivo + ' shadow-sm' : 'text-slate-400 hover:text-slate-600'"
                            >
                              <PhCreditCard weight="bold" size="16"/> Datos
                            </button>
                            <button 
                              @click="verQR = true"
                              class="px-6 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
-                             :class="verQR ? 'bg-white text-rose-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'"
+                             :class="verQR ? colorBotonActivo + ' shadow-sm' : 'text-slate-400 hover:text-slate-600'"
                            >
                              <PhQrCode weight="bold" size="16"/> Ver QR
                            </button>
@@ -105,7 +114,7 @@ const copiarCuenta = async (texto) => {
                     <div v-if="!verQR" class="animate-fade-in space-y-5">
                         
                         <div class="flex items-center gap-4">
-                           <div class="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center text-rose-400 text-2xl">
+                           <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl" :class="colorIconoBanco">
                              <PhBank weight="duotone" />
                            </div>
                            <div>
@@ -114,7 +123,7 @@ const copiarCuenta = async (texto) => {
                            </div>
                         </div>
 
-                        <div class="pl-2 border-l-4 border-rose-100">
+                        <div class="pl-2 border-l-4" :class="colorBordeLateral">
                            <p class="text-xs text-slate-400 font-bold uppercase ml-2">Titular</p>
                            <p class="text-slate-600 font-medium ml-2">{{ cuentaActual.titular }}</p>
                         </div>
@@ -128,7 +137,7 @@ const copiarCuenta = async (texto) => {
                               <button 
                                 @click="copiarCuenta(cuentaActual.cuenta)"
                                 class="shrink-0 w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
-                                :class="copiado ? 'bg-green-500 text-white' : 'bg-rose-100 text-rose-500 hover:bg-rose-200'"
+                                :class="copiado ? 'bg-green-500 text-white' : colorBotonCopiar"
                               >
                                 <component :is="copiado ? PhCheck : PhCopy" weight="bold" size="20" />
                               </button>
@@ -141,7 +150,7 @@ const copiarCuenta = async (texto) => {
                     </div>
 
                     <div v-else class="animate-fade-in text-center py-4">
-                        <div class="bg-white p-3 rounded-2xl border-2 border-dashed border-rose-200 inline-block shadow-lg">
+                        <div class="bg-white p-3 rounded-2xl border-2 border-dashed inline-block shadow-lg" :class="colorBordeDashed">
                            <ImagenSegura 
                              :src="cuentaActual.qrImagen" 
                              clase="w-64 h-64 object-contain rounded-lg"
@@ -149,7 +158,7 @@ const copiarCuenta = async (texto) => {
                         </div>
                         <p class="text-sm text-slate-500 mt-4 px-4">
                           Escanea este código desde la app de tu banco para realizar la transferencia a 
-                          <span class="font-bold text-rose-400">{{ cuentaActual.titular }}</span>
+                          <span class="font-bold" :class="colorTextoDestacado">{{ cuentaActual.titular }}</span>
                         </p>
                     </div>
 
@@ -177,6 +186,7 @@ const copiarCuenta = async (texto) => {
 </template>
 
 <style scoped>
+/* (MISMOS ESTILOS QUE ANTES, SIN CAMBIOS) */
 .fade-slide-enter-active, .fade-slide-leave-active { transition: all 0.2s ease; }
 .fade-slide-enter-from { opacity: 0; transform: translateX(10px); }
 .fade-slide-leave-to { opacity: 0; transform: translateX(-10px); }

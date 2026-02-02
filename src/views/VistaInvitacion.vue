@@ -13,6 +13,8 @@ import PlantillaQuince01 from './PlantillaQuince01.vue'
 import PlantillaQuince02 from './PlantillaQuince02.vue'
 import PlantillaQuince03 from './PlantillaQuince03.vue'
 import PlantillaInfantil01 from './PlantillaInfantil01.vue'
+import PlantillaInfantil02 from './PlantillaInfantil02.vue'
+import PlantillaInfantil03 from './PlantillaInfantil03.vue'
 
 const route = useRoute()
 
@@ -45,7 +47,9 @@ const plantillaSeleccionada = computed(() => {
   const estilo = datosCliente.value.modelo 
   switch (estilo) {
     // --- INFANTIL ---
-    case 'magico': return PlantillaInfantil01
+    case 'baby-unicornio': return PlantillaInfantil01
+    case 'baby-dino': return PlantillaInfantil02
+    case 'huntrix': return PlantillaInfantil03
     // --- 15 AÑOS ---
     case 'xv-mariposa': return PlantillaQuince01
     case 'xv-neon': return PlantillaQuince02

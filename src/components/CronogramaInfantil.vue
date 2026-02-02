@@ -122,7 +122,7 @@ const obtenerIcono = (nombre) => {
       >
         
         <div 
-           class="shrink-0 rounded-full flex items-center justify-center border-4 shadow-sm z-10 overflow-hidden relative bg-white transition-transform duration-300 group-hover:scale-110"
+           class="shrink-0 rounded-full flex items-center justify-center border-4 shadow-sm z-10 overflow-hidden relative transition-transform duration-300 group-hover:scale-110"
            :class="[tamanoCirculo, colorPunto]"
         >
            <img 

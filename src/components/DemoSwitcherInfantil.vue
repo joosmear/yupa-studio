@@ -20,8 +20,8 @@ const planes = [
     color: 'text-yellow-400',
     border: 'border-yellow-400',
     bgActive: 'bg-yellow-500/20',
-    features: ['Invitación Digital', 'Cuenta Regresiva', 'Mapa', 'Confirmación WhatsApp'],
-    missing: ['Cronograma', 'Galería', 'Mesa Regalos', 'Video']
+    features: ['Diseño Temático (Personaje)', 'Cuenta Regresiva', 'Ubicación GPS', 'Mesa de Regalos', 'Confirmación WhatsApp'],
+    missing: ['Calendario', 'Cronograma', 'Galería de Fotos (6)', 'Música de Fondo']
   },
   {
     id: 'arcoiris',
@@ -31,8 +31,8 @@ const planes = [
     color: 'text-pink-400',
     border: 'border-pink-400',
     bgActive: 'bg-pink-500/20',
-    features: ['Todo lo de Chispitas', 'Cronograma', 'Galería (6)', 'Mesa de Regalos'],
-    missing: ['Video Invitación', 'Música', 'Galería Full', 'Pase VIP']
+    features: ['Todo lo de Chispitas', 'Cronograma', 'Galería de Fotos (6)', 'Música de Fondo'],
+    missing: ['Video Invitación', 'Galería Full', 'Invitación Personalizada']
   },
   {
     id: 'magico',
@@ -42,7 +42,7 @@ const planes = [
     color: 'text-purple-400',
     border: 'border-purple-400',
     bgActive: 'bg-purple-500/20',
-    features: ['Todo lo de Arcoíris', 'Video Cine', 'Música', 'Galería (12)', 'Pase VIP'],
+    features: ['Todo lo de Arcoíris', 'Video Invitación', 'Galería Full', 'Invitación Personalizada'],
     missing: []
   }
 ]
@@ -53,6 +53,7 @@ const infoPlanActual = computed(() => planes.find(p => p.id === planActivo.value
 const seleccionarPlan = (idPlan) => {
   planActivo.value = idPlan
   emit('cambioPlan', idPlan)
+  menuAbierto.value = false
 }
 </script>
 
