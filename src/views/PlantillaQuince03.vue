@@ -141,7 +141,7 @@
 
       <div class="absolute inset-0 z-20 pointer-events-none opacity-90">
          <img 
-           src="/assets/marco-flores.png" 
+           src="/assets/marco-flores.webp" 
            class="w-full h-full object-cover md:object-fill" 
            alt="Marco floral" 
          />
@@ -178,7 +178,7 @@
 
         <div class="relative flex items-center justify-center">
           <div class="absolute z-20 w-[140%] h-[140%] pointer-events-none -top-[20%] -left-[20%]">
-            <img src="/assets/marco-flores-circular.png" class="w-full h-full object-contain opacity-90" alt="Marco" />
+            <img src="/assets/marco-flores-circular.webp" class="w-full h-full object-contain opacity-90" alt="Marco" />
           </div>
           
           <div class="relative w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden z-10 border-[6px] border-white/90 shadow-xl">

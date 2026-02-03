@@ -113,7 +113,7 @@
       <div class="absolute inset-6 md:inset-12 border border-amber-200/10 z-10 pointer-events-none rounded-sm"></div>
 
       <div class="estrellas-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <img v-for="n in 15" :key="n" src="/assets/estrella.png" class="estrella absolute" alt="estrella" />
+        <img v-for="n in 15" :key="n" src="/assets/estrella.webp" class="estrella absolute" alt="estrella" />
       </div>
 
       <div class="absolute top-[12vh] z-30 w-full flex justify-center px-4">

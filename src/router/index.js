@@ -4,6 +4,7 @@ import BodasView from '../views/BodasView.vue'
 import QuinceView from '../views/QuinceView.vue'
 import InfantilesView from '../views/InfantilesView.vue'
 import VistaInvitacion from '../views/VistaInvitacion.vue'
+import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/invitacion/:id', 
       name: 'invitacion',
       component: VistaInvitacion
+    },
+    {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
     }
   ],
   scrollBehavior() {

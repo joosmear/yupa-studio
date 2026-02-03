@@ -113,10 +113,10 @@
       </div>
     
       <div class="absolute inset-0 z-20 pointer-events-none opacity-80 mix-blend-multiply">
-          <img src="/assets/marco-floral-lila.png" class="w-full h-full object-cover" />
+          <img src="/assets/marco-floral-lila.webp" class="w-full h-full object-cover" />
       </div>
       <div class="mariposas-container absolute inset-0 z-20 pointer-events-none overflow-hidden">
-        <img v-for="n in 8" :key="n" src="/assets/mariposa-lila.png" class="mariposa absolute opacity-50" />
+        <img v-for="n in 8" :key="n" src="/assets/mariposa-lila.webp" class="mariposa absolute opacity-50" />
       </div>
     
       <div class="absolute top-[12vh] z-50 w-full flex justify-center pointer-events-none">
@@ -345,7 +345,7 @@
       </div>
 
       <div class="mariposas-container absolute inset-0 z-20 pointer-events-none overflow-hidden">
-        <img v-for="n in 10" :key="n" src="/assets/mariposa-lila.png" class="mariposa absolute opacity-60" alt="mariposa"/>
+        <img v-for="n in 10" :key="n" src="/assets/mariposa-lila.webp" class="mariposa absolute opacity-60" alt="mariposa"/>
       </div>
 
       <div class="relative z-20 text-center mb-12">

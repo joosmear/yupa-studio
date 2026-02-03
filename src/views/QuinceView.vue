@@ -71,21 +71,21 @@ const modelos = [
   {
     titulo: "Euphoria Night",
     tag: "Neón / Moderno",
-    img: "/assets/xv-neon.jpeg", 
+    img: "/assets/xv-neon.webp", 
     link: "/invitacion/camila-xv",
     color: "bg-purple-600"
   },
   {
     titulo: "Rose Gold Dream",
     tag: "Elegante / Romántico",
-    img: "/assets/xv-rosas.jpeg", 
+    img: "/assets/xv-rosas.webp", 
     link: "/invitacion/valentina-xv",
     color: "bg-rose-500"
   },
   {
     titulo: "Golden Princess",
     tag: "Clásico / Dorado",
-    img: "/assets/xv-blue.jpeg", 
+    img: "/assets/xv-blue.webp", 
     link: "/invitacion/sofia-xv",
     color: "bg-amber-500"
   }

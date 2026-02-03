@@ -121,7 +121,7 @@
       </div>
 
       <div class="hojas-container absolute top-0 left-0 w-full h-[80vh] z-5 pointer-events-none overflow-hidden rounded-b-[50%]">
-        <img v-for="n in 12" :key="n" src="/assets/hoja-verde.png" class="hoja absolute" alt="hoja cayendo" />
+        <img v-for="n in 12" :key="n" src="/assets/hoja-verde.webp" class="hoja absolute" alt="hoja cayendo" />
       </div>
 
       <div class="absolute top-8 w-full left-0 z-30 flex justify-center pointer-events-none">

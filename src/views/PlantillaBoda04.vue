@@ -59,7 +59,7 @@
       </div>
 
       <div class="petalos-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <img v-for="n in 15" :key="n" src="/assets/petalo.png" class="petalo absolute" alt="pétalo" />
+        <img v-for="n in 15" :key="n" src="/assets/petalo.webp" class="petalo absolute" alt="pétalo" />
       </div>
 
       <div class="relative z-20 space-y-6 px-6 border-y border-stone-800/80 py-12 max-w-sm mx-auto">

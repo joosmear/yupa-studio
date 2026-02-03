@@ -60,7 +60,7 @@
        </div>
 
        <div class="confeti-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
-          <img v-for="n in 20" :key="n" src="/assets/petalo.png" class="confeti absolute" alt="confeti" />
+          <img v-for="n in 20" :key="n" src="/assets/petalo.webp" class="confeti absolute" alt="confeti" />
        </div>
 
        <div class="absolute bottom-0 left-0 w-full leading-none z-10 text-[#FFF5F5]">

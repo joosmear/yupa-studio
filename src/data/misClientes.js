@@ -586,7 +586,7 @@ export const datosValeria = {
   edad: "1",
 
   fotoPortada: "https://images.unsplash.com/photo-1719160233586-7b1da92f196d?q=80&w=687",
-  imgFondoPattern: "/assets/infantil/patrones-unicornio.jpeg",
+  imgFondoPattern: "/assets/infantil/patrones-unicornio.webp",
   videoYoutube: 'zfKTe9q2j80',
   
     padres: {
@@ -665,7 +665,7 @@ export const datosPablo = {
   edad: "1",
 
   fotoPortada: "https://plus.unsplash.com/premium_photo-1661636787018-50e9c004c5a3?q=80&w=1170",
-  imgFondoPattern: "/assets/infantil/patrones-dino.jpeg",
+  imgFondoPattern: "/assets/infantil/patrones-dino.webp",
   videoYoutube: 'M56olVpyUz8',
   
     padres: {
@@ -744,7 +744,7 @@ export const datosKaren = {
   edad: "5",
 
   fotoPortada: "https://plus.unsplash.com/premium_photo-1663090820483-34c51673ced7?q=80&w=1111",
-  imgFondoPattern: "/assets/infantil/bg-huntrix.png",
+  imgFondoPattern: "/assets/infantil/bg-huntrix.webp",
   videoYoutube: 'zfKTe9q2j80',
   
     padres: {

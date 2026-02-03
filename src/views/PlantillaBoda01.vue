@@ -116,7 +116,7 @@
       </div>
 
       <div class="petalos-container absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <img v-for="n in 12" :key="n" src="/assets/petalo.png" class="petalo absolute opacity-80" alt="pétalo"/>
+        <img v-for="n in 12" :key="n" src="/assets/petalo.webp" class="petalo absolute opacity-80" alt="pétalo"/>
       </div>
 
       <div class="absolute top-[12vh] z-30 w-full flex justify-center px-4">

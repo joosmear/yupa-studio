@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import * as baseDeDatos from '../data/misClientes.js'
 
 // Importar los diseños
@@ -17,51 +17,59 @@ import PlantillaInfantil02 from './PlantillaInfantil02.vue'
 import PlantillaInfantil03 from './PlantillaInfantil03.vue'
 
 const route = useRoute()
+const router = useRouter()
 
 // 2. BUSCADOR AUTOMÁTICO
 const datosCliente = computed(() => {
   const idBuscado = route.params.id
-  
-  // Convierte la base de datos en una lista y busca quién tiene ese ID
-  // No importa si agregas 100 clientes, esto los encontrará solos.
   return Object.values(baseDeDatos).find(cliente => cliente.id === idBuscado) || null
 })
 
-// 3. LÓGICA DE CADUCIDAD (NUEVO)
-const estaVencida = computed(() => {
-  if (!datosCliente.value) return false
-  
-  // Si no tiene fecha de expiración (como los demos), nunca vence
-  if (!datosCliente.value.expira) return false 
+  watchEffect(() => {
+    if (datosCliente.value === null) {
+      router.replace({ 
+        name: 'NotFound',
+        // Esto mantiene la URL errónea pero muestra el componente 404
+        params: { pathMatch: route.path.substring(1).split('/') } 
+      })
+    }
+  })
 
-  const hoy = new Date()
-  const fechaLimite = new Date(datosCliente.value.expira)
-  
-  return hoy > fechaLimite // Devuelve TRUE si ya pasó la fecha
-})
+  // 3. LÓGICA DE CADUCIDAD (NUEVO)
+  const estaVencida = computed(() => {
+    if (!datosCliente.value) return false
 
-// 4. ELEGIR PLANTILLA
-const plantillaSeleccionada = computed(() => {
-  if (!datosCliente.value) return null
-  
-  const estilo = datosCliente.value.modelo 
-  switch (estilo) {
-    // --- INFANTIL ---
-    case 'baby-unicornio': return PlantillaInfantil01
-    case 'baby-dino': return PlantillaInfantil02
-    case 'huntrix': return PlantillaInfantil03
-    // --- 15 AÑOS ---
-    case 'xv-mariposa': return PlantillaQuince01
-    case 'xv-neon': return PlantillaQuince02
-    case 'xv-royal': return PlantillaQuince03
-    // --- BODAS ---
-    case 'gala': return PlantillaBoda02
-    case 'boho': return PlantillaBoda03
-    case 'ligth': return PlantillaBoda04
-    case 'dreams': return PlantillaBoda05
-    case 'clasica': default: return PlantillaBoda01
-  }
-})
+    // Si no tiene fecha de expiración (como los demos), nunca vence
+    if (!datosCliente.value.expira) return false 
+
+    const hoy = new Date()
+    const fechaLimite = new Date(datosCliente.value.expira)
+
+    return hoy > fechaLimite // Devuelve TRUE si ya pasó la fecha
+  })
+
+  // 4. ELEGIR PLANTILLA
+  const plantillaSeleccionada = computed(() => {
+    if (!datosCliente.value) return null
+    
+    const estilo = datosCliente.value.modelo 
+    switch (estilo) {
+      // --- INFANTIL ---
+      case 'baby-unicornio': return PlantillaInfantil01
+      case 'baby-dino': return PlantillaInfantil02
+      case 'huntrix': return PlantillaInfantil03
+      // --- 15 AÑOS ---
+      case 'xv-mariposa': return PlantillaQuince01
+      case 'xv-neon': return PlantillaQuince02
+      case 'xv-royal': return PlantillaQuince03
+      // --- BODAS ---
+      case 'gala': return PlantillaBoda02
+      case 'boho': return PlantillaBoda03
+      case 'ligth': return PlantillaBoda04
+      case 'dreams': return PlantillaBoda05
+      case 'clasica': default: return PlantillaBoda01
+    }
+  })
 </script>
 
 <template>

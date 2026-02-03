@@ -356,7 +356,7 @@
               
               <div class="absolute -top-16 -left-6 w-24 h-24 md:w-32 md:h-32 z-20 animate-bounce-slow">
                  <ImagenSegura 
-                    src="/assets/infantil/unicornio-sentado.png" 
+                    src="/assets/infantil/unicornio-sentado.webp" 
                     clase="w-full h-full object-contain drop-shadow-md"
                   />
                  <PhSparkle weight="fill" class="absolute bottom-0 right-0 text-yellow-300 text-4xl animate-spin-slow" />

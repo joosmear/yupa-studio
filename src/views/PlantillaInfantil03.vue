@@ -65,8 +65,8 @@
 
   // TUS IMÁGENES PNG (Asegúrate que las rutas sean correctas)
   const misImagenesPng = [
-      '/assets/infantil/nota-1.png', 
-      '/assets/infantil/nota-2.png'
+      '/assets/infantil/nota-1.webp', 
+      '/assets/infantil/nota-2.webp'
   ];
 
   // --- FUNCIÓN: CREAR UNA GOTA DE IMAGEN ---
@@ -145,7 +145,7 @@
       <div class="absolute inset-0 z-0 bg-slate-950">
          <div 
           class="absolute inset-0 bg-cover bg-center bg-no-repeat animate-pulse-slow"
-          :style="{ backgroundImage: `url('/assets/infantil/bg-huntrix.png')` }"
+          :style="{ backgroundImage: `url('/assets/infantil/bg-huntrix.webp')` }"
         >
       </div>
       <div class="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-slate-900/80 to-slate-950/90"></div>
@@ -187,7 +187,7 @@
           <div class="absolute bottom-0 left-10 w-full h-3/4 bg-fuchsia-500/40 blur-[80px] rounded-full"></div>
       
           <img 
-            src="/assets/infantil/singer-huntrix.png" 
+            src="/assets/infantil/singer-huntrix.webp" 
             class="h-auto w-full object-contain object-bottom transform translate-y-20 translate-x-[0%] md:translate-x-10 md:scale-125 scale-150 origin-bottom drop-shadow-[0_0_60px_rgba(217,70,239,0.7)] filter brightness-100 contrast-110 saturate-100"
             alt="Huntrix Girls"
           />
@@ -294,7 +294,7 @@
 
               <div class="absolute -top-20 -right-4 md:-top-10 md:-right-24 w-32 h-32 md:w-44 md:h-44 z-20 animate-bounce-slow transform hover:scale-110 transition-transform duration-300">
                  <ImagenSegura 
-                    src="/assets/infantil/huntrix-chibi.png" 
+                    src="/assets/infantil/huntrix-chibi.webp" 
                     clase="w-full h-full object-contain drop-shadow-[0_5px_5px_rgba(0,0,0,0.2)] filter brightness-110" 
                  />
                  <div class="absolute -top-2 -left-4 bg-white text-fuchsia-600 text-[10px] font-black px-2 py-1 rounded-full border border-fuchsia-200 shadow-sm rotate-[-10deg]">
@@ -360,7 +360,7 @@
                
                <div class="absolute -top-16 -right-8 w-32 h-32 z-20 animate-float-slow transform group-hover:scale-110 transition-transform duration-300">
                   <img 
-                    src="/assets/infantil/bobby-huntrix.png" 
+                    src="/assets/infantil/bobby-huntrix.webp" 
                     class="w-full h-full object-contain drop-shadow-xl transform rotate-12" 
                     alt="Bobby Huntrix Manager"
                   />
@@ -410,7 +410,7 @@
       
       <div 
         class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none mix-blend-luminosity md:mix-blend-overlay"
-        style="background-image: url('/assets/infantil/bg-huntrix2.jpg');"
+        style="background-image: url('/assets/infantil/bg-huntrix2.webp');"
       ></div>
       <div class="absolute top-0 left-1/4 w-24 h-full bg-fuchsia-500/20 blur-xl transform -skew-x-12 z-0"></div>
       <div class="absolute top-0 right-1/4 w-24 h-full bg-purple-500/20 blur-xl transform skew-x-12 z-0"></div>
@@ -460,7 +460,7 @@
 
           <div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border-2 border-slate-700 relative overflow-hidden group hover:border-cyan-500 transition-colors">
              <div class="w-full h-32 mb-4 bg-slate-900 rounded-xl overflow-hidden relative border border-slate-600">
-                <ImagenSegura src="/assets/infantil/mapa-huntrix.jpeg" clase="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
+                <ImagenSegura src="/assets/infantil/mapa-huntrix.webp" clase="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
                 <div class="absolute inset-0 flex items-center justify-center">
                    <PhMapPin weight="fill" class="text-cyan-400 text-4xl animate-bounce" />
                 </div>
@@ -612,7 +612,7 @@
               <div class="absolute inset-0 bg-fuchsia-400 blur-3xl opacity-20 rounded-full"></div>
 
               <img 
-                src="/assets/infantil/huntrix-gift.png" 
+                src="/assets/infantil/huntrix-gift.webp" 
                 class="relative z-10 w-full h-auto object-contain drop-shadow-[0_20px_30px_rgba(217,70,239,0.3)] transform -rotate-3 hover:rotate-0 transition-transform duration-500" 
                 alt="Huntrix Girls"
               />

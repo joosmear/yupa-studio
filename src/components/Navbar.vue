@@ -52,15 +52,15 @@ const categoriasMenu = [
 
 // LISTA DE MODELOS
 const modelosParaMenu = [
-  { nombre: "Clásico Marsala", id: 'juan-y-ana', tipo: 'boda', img: "/assets/boda-clasico.jpeg", modelo: 'Clásica' },
-  { nombre: "Estilo Gala Luxury", id: 'carlos-y-sofia', tipo: 'boda', img: "/assets/boda-luxury.jpeg", modelo: 'Luxury' },
-  { nombre: "Estilo Boho Garden", id: 'miguel-y-elena', tipo: 'boda', img: "/assets/boda-boho.jpeg", modelo: 'Boho' },
-  { nombre: "Euphoria Night", id: 'camila-xv', tipo: 'xv', img: "/assets/xv-neon.jpeg", modelo: 'Euphoria Night' },
-  { nombre: "Golden Princess", id: 'sofia-xv', tipo: 'xv', img: "/assets/xv-blue.jpeg", modelo: 'Golden Princess' },
-  { nombre: "Rose Gold Dream", id: 'valentina-xv', tipo: 'xv', img: "/assets/xv-rosas.jpeg", modelo: 'Rose Gold Dream' },
-  { nombre: "Huntrix Tour", id: 'karen', tipo: 'infatil', img: "/assets/infantil-huntrix.jpeg", modelo: 'Huntrix' },
-  { nombre: "Baby Dino", id: 'pablo', tipo: 'infatil', img: "/assets/infantil-dino.jpeg", modelo: 'Baby' },
-  { nombre: "Baby Unicornio", id: 'valeria', tipo: 'infatil', img: "/assets/infantil-unicornio.jpeg", modelo: 'Baby Unicornio' }
+  { nombre: "Clásico Marsala", id: 'juan-y-ana', tipo: 'boda', img: "/assets/boda-clasico.webp", modelo: 'Clásica' },
+  { nombre: "Estilo Gala Luxury", id: 'carlos-y-sofia', tipo: 'boda', img: "/assets/boda-luxury.webp", modelo: 'Luxury' },
+  { nombre: "Estilo Boho Garden", id: 'miguel-y-elena', tipo: 'boda', img: "/assets/boda-boho.webp", modelo: 'Boho' },
+  { nombre: "Euphoria Night", id: 'camila-xv', tipo: 'xv', img: "/assets/xv-neon.webp", modelo: 'Euphoria Night' },
+  { nombre: "Golden Princess", id: 'sofia-xv', tipo: 'xv', img: "/assets/xv-blue.webp", modelo: 'Golden Princess' },
+  { nombre: "Rose Gold Dream", id: 'valentina-xv', tipo: 'xv', img: "/assets/xv-rosas.webp", modelo: 'Rose Gold Dream' },
+  { nombre: "Huntrix Tour", id: 'karen', tipo: 'infatil', img: "/assets/infantil-huntrix.webp", modelo: 'Huntrix' },
+  { nombre: "Baby Dino", id: 'pablo', tipo: 'infatil', img: "/assets/infantil-dino.webp", modelo: 'Baby' },
+  { nombre: "Baby Unicornio", id: 'valeria', tipo: 'infatil', img: "/assets/infantil-unicornio.webp", modelo: 'Baby Unicornio' }
 ]
 
 const modelosMostrados = computed(() => {

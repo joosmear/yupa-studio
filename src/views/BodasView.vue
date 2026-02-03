@@ -71,15 +71,15 @@ const features = [
 const modelos = [
   { titulo: "Estilo Clásico (Marsala)",
     tag: "Elegante / Atemporal",
-    img: "/assets/boda-clasico.jpeg",
+    img: "/assets/boda-clasico.webp",
     link: "/invitacion/juan-y-ana" },
   { titulo: "Estilo Gala Luxury",
     tag: "Minimalista / Black",
-    img: "/assets/boda-luxury.jpeg",
+    img: "/assets/boda-luxury.webp",
     link: "/invitacion/carlos-y-sofia" },
   { titulo: "Estilo Boho Garden",
     tag: "Rustico / Exterior",
-    img: "/assets/boda-boho.jpeg",
+    img: "/assets/boda-boho.webp",
     link: "/invitacion/miguel-y-elena" },
 ]
 
