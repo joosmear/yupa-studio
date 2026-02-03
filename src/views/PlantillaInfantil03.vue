@@ -182,13 +182,13 @@
         <PhMusicNotes weight="fill" class="absolute bottom-[30%] right-[20%] text-purple-400/50 text-6xl animate-float-slow rotate-[45deg] blur-[1px]" />
     </div>
     
-      <div class="absolute bottom-0 left-0 w-full md:w-3/5 h-[100%] md:h-[100%] z-20 flex items-end justify-start pointer-events-none">
+      <div class="absolute bottom-0 left-0 w-full md:w-3/5 h-[100%] md:h-[100%] z-10 flex items-end justify-start pointer-events-none overflow-hidden">
 
           <div class="absolute bottom-0 left-10 w-full h-3/4 bg-fuchsia-500/40 blur-[80px] rounded-full"></div>
       
           <img 
             src="/assets/infantil/singer-huntrix.png" 
-            class="h-full w-auto object-contain object-bottom transform translate-x-[0%] md:translate-x-10 md:scale-125 scale-200 origin-bottom drop-shadow-[0_0_60px_rgba(217,70,239,0.7)] filter brightness-100 contrast-110 saturate-100"
+            class="h-auto w-full object-contain object-bottom transform translate-y-20 translate-x-[0%] md:translate-x-10 md:scale-125 scale-150 origin-bottom drop-shadow-[0_0_60px_rgba(217,70,239,0.7)] filter brightness-100 contrast-110 saturate-100"
             alt="Huntrix Girls"
           />
       </div>
@@ -257,24 +257,26 @@
             </div>
         </div>
       
-        <div class="bg-slate-900/60 backdrop-blur-xl border border-white/30 rounded-2xl p-1 flex items-stretch shadow-[0_0_25px_rgba(139,92,246,0.3)] mt-6 hover:border-cyan-400/80 hover:bg-slate-800/80 transition-all duration-300 group cursor-default">
-            <div class="bg-white text-slate-900 px-5 py-2 rounded-xl flex flex-col justify-center items-center min-w-[75px] shadow-inner">
-                <span class="text-3xl font-black leading-none group-hover:scale-110 transition-transform">{{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: 'numeric' }) }}</span>
-                <span class="text-[9px] font-bold uppercase tracking-wider">{{ new Date(datos.fecha).toLocaleDateString('es-BO', { month: 'short' }) }}</span>
-            </div>
-            <div class="px-6 py-2 flex flex-col justify-center text-left">
-                <span class="text-white font-mono font-bold text-sm tracking-tight drop-shadow-md">
-                    {{ new Date(datos.fecha).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' }) }}
-                </span>
-                <span class="text-fuchsia-300 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                    Live Show
-                </span>
-            </div>
-        </div>
+        <div class="relative z-30 mb-32 md:mb-0 bg-slate-900/60 backdrop-blur-xl border border-white/30 rounded-2xl p-1 flex items-stretch shadow-[0_0_25px_rgba(139,92,246,0.3)] mt-6 hover:border-cyan-400/80 hover:bg-slate-800/80 transition-all duration-300 group cursor-default">
+    
+    <div class="bg-white text-slate-900 px-5 py-2 rounded-xl flex flex-col justify-center items-center min-w-[75px] shadow-inner">
+        <span class="text-3xl font-black leading-none group-hover:scale-110 transition-transform">{{ new Date(datos.fecha).toLocaleDateString('es-BO', { day: 'numeric' }) }}</span>
+        <span class="text-[9px] font-bold uppercase tracking-wider">{{ new Date(datos.fecha).toLocaleDateString('es-BO', { month: 'short' }) }}</span>
+    </div>
+    
+    <div class="px-6 py-2 flex flex-col justify-center text-left">
+        <span class="text-white font-mono font-bold text-sm tracking-tight drop-shadow-md">
+            {{ new Date(datos.fecha).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' }) }}
+        </span>
+        <span class="text-fuchsia-300 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            </span>
+            Live Show
+        </span>
+    </div>
+</div>
           
         </div>
       </div>
@@ -512,7 +514,7 @@
 
         <CronogramaInfantil 
           :eventos="datos.agenda"
-          colorPunto="bg-transparent border-none" 
+          colorPunto="bg-slate-950 border-none" 
           colorCardBg="bg-slate-900/80 backdrop-blur-md border border-fuchsia-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] hover:border-cyan-400/50 transition-colors text-white"
           colorIcono="text-yellow-300 drop-shadow-sm"
           colorHora="text-slate-900 font-black text-2xl font-mono"
