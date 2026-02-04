@@ -1,5 +1,7 @@
 <script setup>
-import { PhCheckCircle, PhStar, PhHeart, PhCrown, PhMonitorPlay, PhSparkle, PhImage, PhMusicNote, PhMapPin, PhWhatsappLogo } from '@phosphor-icons/vue'
+import { PhCheckCircle, PhStar, PhHeart, PhCrown, PhMonitorPlay,
+   PhSparkle, PhImage, PhMusicNote, PhMapPin, PhWhatsappLogo,
+  PhCaretDown, PhArrowRight } from '@phosphor-icons/vue'
 import Navbar from '../components/Navbar.vue'
 import Footer from '../components/Footer.vue'
 import Testimonios from '../components/Testimonios.vue'
@@ -55,7 +57,6 @@ const planes = [
       "Personalización por Invitado (Nombres en portada)",
       "Generador de Links (Para enviar fácil)",
       "Galería Extendida (Más fotos)",
-      "Filtro de Instagram (Opcional)",
       "Soporte Prioritario VIP"
     ]
   }
@@ -266,6 +267,10 @@ const faqsBodas = [
                <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">{{ modelo.tag }}</span>
             </div>
           </div>
+        </div>
+        <div class="text-center mt-16">
+           <p class="text-stone-400 text-sm mb-4">¿Buscas algo más personalizado?</p>
+           <a href="https://wa.me/59164042420" class="inline-flex items-center gap-2 text-stone-800 font-bold border-b-2 border-purple-500 hover:text-purple-600 transition-colors pb-1">Hablemos por WhatsApp <PhArrowRight /></a>
         </div>
       </div>
     </section>

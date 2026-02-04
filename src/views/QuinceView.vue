@@ -52,7 +52,6 @@ const planes = [
     caracteristicas: [
       "Todo lo del Plan Glow",
       "Pases Personalizados (Nombre del invitado)",
-      "Filtro de Instagram (Link directo)",
       "Galería Extendida (Más fotos)",
       "Generador de Links",
       "Soporte Prioritario"
@@ -196,7 +195,6 @@ const faqsQuince = [
           <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">Métodos de Pago</p>
           <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-500 font-medium">
             <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span> QR Simple</span>
-            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span> Tigo Money</span>
             <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span> Transferencia</span>
           </div>
         </div>

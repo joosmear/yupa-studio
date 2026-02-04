@@ -53,7 +53,7 @@ const pasos = [
   },
   { 
     titulo: "Envía tus Datos", 
-    desc: "Te pediremos las fotos y la ubicación por WhatsApp para personalizar todo.", 
+    desc: "Te pediremos las fotos y la ubicación por gmail ó WhatsApp para personalizar todo.", 
     icono: PhNumberCircleTwo
   },
   { 
@@ -161,7 +161,7 @@ const testimoniosHome = [
         <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-6 tracking-tight leading-[1.1] drop-shadow-2xl">
           Invitaciones que <br>
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-fuchsia-300 to-sky-300 animate-gradient-text">
-            emocionan.
+            emocionan
           </span>
         </h1>
       
