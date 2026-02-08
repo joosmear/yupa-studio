@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://yupa-studio.vercel.app/</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/bodas</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/15-anos</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/infantiles</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/juan-y-ana</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/carlos-y-sofia</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/miguel-y-elena</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/camila-xv</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/sofia-xv</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/valentina-xv</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/karen</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/pablo</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yupa-studio.vercel.app/invitacion/valeria</loc>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

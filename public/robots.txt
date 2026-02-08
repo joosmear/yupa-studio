@@ -1,0 +1,6 @@
+# Permitir que todos los buscadores rastreen el sitio
+User-agent: *
+Allow: /
+
+# Indicar dónde está tu sitemap (opcional pero recomendado)
+Sitemap: https://yupa-studio.vercel.app/sitemap.xml
