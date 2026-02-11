@@ -1,9 +1,8 @@
 <script setup>
 import { computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useHead } from '@unhead/vue'
 import * as baseDeDatos from '../data/misClientes.js'
-
-// Importar los diseños
 import PlantillaBoda01 from './PlantillaBoda01.vue'
 import PlantillaBoda02 from './PlantillaBoda02.vue'
 import PlantillaBoda03 from './PlantillaBoda03.vue'
@@ -19,7 +18,17 @@ import PlantillaInfantil03 from './PlantillaInfantil03.vue'
 const route = useRoute()
 const router = useRouter()
 
-// 2. BUSCADOR AUTOMÁTICO
+useHead({
+  title: computed(() => datosCliente.value ? `Invitación: ${datosCliente.value.nombre}` : 'Yupa Studio'),
+  meta: [
+    {
+      name: 'description',
+      content: computed(() => datosCliente.value ? `Estás invitado al evento de ${datosCliente.value.nombre}. Mira los detalles aquí.` : 'Invitaciones Digitales Premium')
+    }
+  ]
+})
+
+// BUSCADOR AUTOMÁTICO
 const datosCliente = computed(() => {
   const idBuscado = route.params.id
   return Object.values(baseDeDatos).find(cliente => cliente.id === idBuscado) || null
@@ -29,26 +38,24 @@ const datosCliente = computed(() => {
     if (datosCliente.value === null) {
       router.replace({ 
         name: 'NotFound',
-        // Esto mantiene la URL errónea pero muestra el componente 404
         params: { pathMatch: route.path.substring(1).split('/') } 
       })
     }
   })
 
-  // 3. LÓGICA DE CADUCIDAD (NUEVO)
+  // LÓGICA DE CADUCIDAD
   const estaVencida = computed(() => {
     if (!datosCliente.value) return false
 
-    // Si no tiene fecha de expiración (como los demos), nunca vence
     if (!datosCliente.value.expira) return false 
 
     const hoy = new Date()
     const fechaLimite = new Date(datosCliente.value.expira)
 
-    return hoy > fechaLimite // Devuelve TRUE si ya pasó la fecha
+    return hoy > fechaLimite
   })
 
-  // 4. ELEGIR PLANTILLA
+  // ELEGIR PLANTILLA
   const plantillaSeleccionada = computed(() => {
     if (!datosCliente.value) return null
     
@@ -75,7 +82,7 @@ const datosCliente = computed(() => {
 <template>
   <div v-if="datosCliente && estaVencida" class="h-screen flex flex-col items-center justify-center bg-stone-100 px-6 text-center">
     <div class="bg-white p-10 rounded-2xl shadow-xl max-w-md">
-      <h1 class="text-4xl font-bold text-stone-300 mb-4">⌛</h1>
+      <h1 class="text-4xl font-bold text-stone-300 mb-4" role="img" aria-label="Reloj de arena">⌛</h1>
       <h2 class="text-2xl font-bold text-stone-800 mb-2">Invitación Caducada</h2>
       <p class="text-stone-500 mb-6">El tiempo de visualización de esta invitación ha finalizado.</p>
       <router-link to="/" class="text-rose-600 font-bold hover:underline">Ir a Yupa Studio</router-link>

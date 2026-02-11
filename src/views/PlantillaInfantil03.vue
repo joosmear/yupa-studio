@@ -226,7 +226,7 @@
             
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-[4px] bg-gradient-to-tr from-white via-cyan-300 to-fuchsia-500 relative z-10 shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                 <div class="w-full h-full rounded-full overflow-hidden border-2 border-white/80 bg-slate-800">
-                    <img :src="datos.fotoPortada" class="w-full h-full object-cover filter brightness-110 contrast-110" />
+                    <img :src="datos.fotoPortada" :alt="'Portada de la invitación de ' + datos.nombre" class="w-full h-full object-cover filter brightness-110 contrast-110" />
                 </div>
             </div>
 

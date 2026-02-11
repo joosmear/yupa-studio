@@ -184,7 +184,7 @@
            <div class="absolute inset-3 border-2 border-dashed border-sky-100 rounded-[2rem] pointer-events-none"></div>
            <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-44 h-44">
              <div class="w-full h-full rounded-full overflow-hidden border-[6px] border-white shadow-lg bg-white relative z-20">
-               <img :src="datos.fotoPortada" class="w-full h-full object-cover" />
+               <img :src="datos.fotoPortada" :alt="'Portada de la invitación de ' + datos.nombre" class="w-full h-full object-cover" />
              </div>
              <div class="absolute bottom-2 -right-2 text-sky-400 text-4xl drop-shadow-md animate-spin-slow z-30">
                 <PhStar weight="fill" />

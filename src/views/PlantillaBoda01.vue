@@ -111,7 +111,9 @@
     <header class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center overflow-hidden">
       
       <div class="absolute inset-0 z-0">
-        <img :src="datos.fotoPortada" class="w-full h-full object-cover grayscale-[30%] brightness-[0.85]" />
+        <img :src="datos.fotoPortada"
+        :alt="'Portada de la invitación de ' + datos.nombre"
+        class="w-full h-full object-cover grayscale-[30%] brightness-[0.85]" />
         <div class="absolute inset-0 bg-black/20"></div>
       </div>
 
@@ -269,7 +271,12 @@
             class="relative group cursor-pointer overflow-hidden rounded-lg break-inside-avoid"
             @click="abrirFoto(foto)"
           >
-             <img :src="foto" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+             <img 
+              :src="foto"
+              :alt="'Foto ' + (index + 1) + ' de la celebración de ' + datos.nombre"
+              class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy" 
+             />
              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                 <PhMagnifyingGlassPlus size="32" />
              </div>

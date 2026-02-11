@@ -20,7 +20,7 @@ const planes = [
     caracteristicas: [
       "Diseño Responsivo (Móvil/PC)",
       "Ubicación GPS (Google Maps)",
-      "Sección Padrinos y Padres", // <--- MOVIDO AQUÍ
+      "Sección Padrinos y Padres",
       "Cuenta Regresiva",
       "Confirmación a WhatsApp",
       "Sección de Regalos (QR/Bancos)",
@@ -255,7 +255,11 @@ const faqsBodas = [
             
             <div class="relative w-full max-w-[280px] aspect-[9/18] rounded-[2.5rem] border-[8px] border-stone-200 bg-stone-100 shadow-2xl overflow-hidden transform transition-all duration-500 group-hover:-translate-y-4 group-hover:shadow-rose-100">
               <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-stone-200 rounded-b-2xl z-20"></div>
-              <img :src="modelo.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img
+                :src="modelo.img" 
+                :alt="'Diseño de invitación digital: ' + modelo.titulo"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              />
               
               <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 backdrop-blur-[1px]">
                 <router-link :to="modelo.link" class="bg-white text-stone-900 px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform">Ver Demo</router-link>

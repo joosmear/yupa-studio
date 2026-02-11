@@ -216,7 +216,7 @@ const faqsQuince = [
           <div v-for="modelo in modelos" :key="modelo.titulo" class="group flex flex-col items-center">
             <div class="relative w-full max-w-[280px] aspect-[9/18] rounded-[2.5rem] border-[8px] border-stone-900 bg-stone-900 shadow-2xl overflow-hidden transform transition-all duration-500 group-hover:-translate-y-4 group-hover:shadow-purple-200/50 group-hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)]">
               <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-stone-900 rounded-b-2xl z-20"></div>
-              <img :src="modelo.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img :src="modelo.img" :alt="'Diseño de invitación digital: ' + modelo.titulo" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 backdrop-blur-[2px]">
                 <router-link :to="modelo.link" class="bg-white text-stone-900 px-6 py-3 rounded-full font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 shadow-xl"><PhEye weight="bold" /> Ver Demo</router-link>
               </div>

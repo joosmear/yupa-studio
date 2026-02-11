@@ -77,7 +77,8 @@ onUnmounted(() => window.removeEventListener('keydown', manejarTeclado))
           @click="abrirGaleria(index)"
         >
           <img 
-            :src="foto" 
+            :src="foto"
+            :alt="'Imagen ' + (index + 1) + ' de la galería del evento'"
             class="w-full h-auto transition-transform duration-700 group-hover:scale-105" 
             loading="lazy"
             alt="Foto Boda"

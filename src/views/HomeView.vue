@@ -180,11 +180,8 @@ const testimoniosHome = [
     </header>
 
     <section class="relative z-20 -mt-24 pb-20 w-full px-4 md:px-10">
-  
       <div class="w-full max-w-[1800px] mx-auto">
-
         <div class="grid md:grid-cols-3 gap-6 lg:gap-10">
-
           <div 
             v-for="(cat, index) in categorias" 
             :key="index"
@@ -193,7 +190,8 @@ const testimoniosHome = [
 
             <div class="h-80 overflow-hidden relative">
               <img 
-                :src="cat.imagen" 
+                :src="cat.imagen"
+                :alt="'Invitaciones Digitales para ' + cat.titulo + ' - Yupa Studio'"
                 class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1" 
               />
 
@@ -230,18 +228,15 @@ const testimoniosHome = [
                   {{ cat.textoBoton }} 
                   <PhArrowRight weight="light" size="24" />
                 </router-link>
-              </div>
-            
+              </div>            
             </div>
           </div>
-        
         </div>
       </div>
     </section>
 
     <section class="py-20 px-6 bg-stone-50 border-t border-stone-100">
       <div class="max-w-5xl mx-auto">
-        
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold text-stone-800">¿Cómo funciona?</h2>
           <p class="text-stone-500 mt-2">Tener tu invitación digital es muy simple.</p>
@@ -264,14 +259,12 @@ const testimoniosHome = [
             <h3 class="text-xl font-bold text-stone-800 mb-2">{{ paso.titulo }}</h3>
             <p class="text-stone-500 text-sm px-4 leading-relaxed">{{ paso.desc }}</p>
           </div>
-
         </div>
       </div>
     </section>
 
     <section class="py-24 px-6 bg-white relative border-t border-stone-100 overflow-hidden">
       <div class="max-w-7xl mx-auto relative z-10">
-
         <div class="text-center mb-16">
           <h3 class="text-stone-400 font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-3">
             Experiencia Yupa Studio
@@ -314,19 +307,16 @@ const testimoniosHome = [
       temaColor="bg-rose-500"
       temaTexto="text-rose-400"
     />
-
     <PreguntasFrecuentes 
       :datos="faqsHome" 
       tema="text-rose-500"
       fondoActivo="bg-rose-50"
     />
-
     <Footer />
   </div>
 </template>
 
 <style scoped>
-/* Animación de movimiento lento de fondo */
 @keyframes pan-slow {
   0% { transform: scale(1.05) translate(0, 0); }
   50% { transform: scale(1.1) translate(-1%, -1%); }
@@ -335,8 +325,6 @@ const testimoniosHome = [
 .animate-pan-slow {
   animation: pan-slow 20s ease-in-out infinite alternate;
 }
-
-/* Animación de pulsación lenta para las luces */
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.1); }
@@ -344,8 +332,6 @@ const testimoniosHome = [
 .animate-pulse-slow {
   animation: pulse-slow 8s ease-in-out infinite;
 }
-
-/* Animación de entrada suave hacia arriba */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }

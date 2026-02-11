@@ -269,6 +269,7 @@ const faqsKids = [
 
               <img 
                 :src="modelo.img" 
+                :alt="'Diseño de invitación digital: ' + modelo.titulo"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
               />
               

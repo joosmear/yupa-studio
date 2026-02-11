@@ -148,7 +148,7 @@
             <div class="absolute -inset-2 bg-gradient-to-tr from-fuchsia-500 to-cyan-400 rounded-full blur-lg opacity-40 animate-pulse"></div>
             <div class="relative w-28 h-28 md:w-56 md:h-56 rounded-full p-[2px] bg-gradient-to-br from-cyan-400 to-fuchsia-500 shadow-2xl">
                <div class="w-full h-full rounded-full overflow-hidden border-4 border-black bg-black">
-                  <img :src="datos.fotoPortada" class="w-full h-full object-cover object-top" alt="Avatar" />
+                  <img :src="datos.fotoPortada" :alt="'Portada de la invitación de ' + datos.nombre" class="w-full h-full object-cover object-top" alt="Avatar" />
                </div>
             </div>
             <div class="absolute -bottom-1 -right-1 bg-black border border-cyan-400 p-1.5 rounded-full shadow-[0_0_10px_#22d3ee]">

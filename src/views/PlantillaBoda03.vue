@@ -116,7 +116,7 @@
 
     <header class="relative min-h-screen flex flex-col justify-end pb-20 px-6 overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-[70vh] bg-stone-200 rounded-b-[50%] overflow-hidden z-0 shadow-xl">
-         <img :src="datos.fotoPortada" class="w-full h-full object-cover" />
+         <img :src="datos.fotoPortada" :alt="'Portada de la invitación de ' + datos.nombre" class="w-full h-full object-cover" />
          <div class="absolute inset-0 bg-black/20"></div>
       </div>
 

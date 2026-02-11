@@ -147,7 +147,7 @@
 
             <div class="relative w-48 h-48 md:w-[22rem] md:h-[22rem] rounded-full p-1.5 bg-gradient-to-br from-rose-100 to-purple-200 shadow-[0_10px_40px_rgba(117,82,126,0.3)]">
                <div class="w-full h-full rounded-full overflow-hidden border-4 border-white bg-white">
-                  <img :src="datos.fotoPortada" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-1000" />
+                  <img :src="datos.fotoPortada" :alt="'Portada de la invitación de ' + datos.nombre" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-1000" />
                </div>
             </div>
 
