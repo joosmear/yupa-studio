@@ -1,7 +1,6 @@
 <script setup>
 import { computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useHead } from '@unhead/vue'
 import * as baseDeDatos from '../data/misClientes.js'
 import PlantillaBoda01 from './PlantillaBoda01.vue'
 import PlantillaBoda02 from './PlantillaBoda02.vue'
@@ -17,16 +16,6 @@ import PlantillaInfantil03 from './PlantillaInfantil03.vue'
 
 const route = useRoute()
 const router = useRouter()
-
-useHead({
-  title: computed(() => datosCliente.value ? `Invitación: ${datosCliente.value.nombre}` : 'Yupa Studio'),
-  meta: [
-    {
-      name: 'description',
-      content: computed(() => datosCliente.value ? `Estás invitado al evento de ${datosCliente.value.nombre}. Mira los detalles aquí.` : 'Invitaciones Digitales Premium')
-    }
-  ]
-})
 
 // BUSCADOR AUTOMÁTICO
 const datosCliente = computed(() => {
