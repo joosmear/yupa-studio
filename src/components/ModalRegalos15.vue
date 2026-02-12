@@ -66,6 +66,7 @@ const copiarNumero = async () => {
         
         <button 
           @click="emit('cerrar')"
+          aria-label="Cerrar detalles bancarios"
           class="absolute top-4 right-4 z-20 p-2 text-stone-400 hover:text-rose-400 bg-white/80 hover:bg-white rounded-full transition-all shadow-sm"
         >
           <PhX size="24" weight="bold" />
@@ -96,7 +97,7 @@ const copiarNumero = async () => {
              
              <div v-if="cuentaActual.qr" class="relative group animate-fade-in">
                 <div class="w-48 h-48 mx-auto bg-white p-2 rounded-xl border-2 border-dashed shadow-sm flex items-center justify-center" :class="claseColorPrincipal">
-                   <img :src="cuentaActual.qr" alt="QR" class="w-full h-full object-contain rounded-lg" />
+                   <img :src="cuentaActual.qr" :alt="'Código QR para depósito a ' + cuentaActual.banco" class="w-full h-full object-contain rounded-lg" />
                 </div>
                 <p class="text-[10px] uppercase tracking-widest mt-2" :class="claseTextoSuave">QR de Pago</p>
              </div>
@@ -122,6 +123,7 @@ const copiarNumero = async () => {
 
              <button 
                @click="copiarNumero"
+               :aria-label="copiado ? 'Número copiado' : 'Copiar número de cuenta bancaria'"
                class="w-full mt-6 py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 shadow-sm border group"
                :class="copiado 
                  ? 'bg-emerald-50 text-emerald-600 border-emerald-200' 

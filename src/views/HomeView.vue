@@ -213,7 +213,7 @@ const testimoniosHome = [
 
               <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 rounded-b-full opacity-50 transition-colors duration-300" :class="cat.claseBoton"></div>
             
-              <h3 class="text-4xl font-extrabold text-stone-800 mb-4 tracking-tight">{{ cat.titulo }}</h3>
+              <h2 class="text-4xl font-extrabold text-stone-800 mb-4 tracking-tight">{{ cat.titulo }}</h2>
 
               <p class="text-stone-500 mb-10 text-lg leading-relaxed font-light">
                 {{ cat.descripcion }}
@@ -266,9 +266,9 @@ const testimoniosHome = [
     <section class="py-24 px-6 bg-white relative border-t border-stone-100 overflow-hidden">
       <div class="max-w-7xl mx-auto relative z-10">
         <div class="text-center mb-16">
-          <h3 class="text-stone-400 font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-3">
+          <span class="text-stone-500 font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-3">
             Experiencia Yupa Studio
-          </h3>
+          </span>
           <h2 class="text-3xl md:text-4xl font-extrabold text-stone-800 tracking-tight">
             Todo lo que necesitas, <br class="md:hidden"> en un solo link
           </h2>
@@ -289,9 +289,9 @@ const testimoniosHome = [
               />
             </div>
             <div>
-               <h4 class="font-bold text-lg text-stone-800 mb-1 group-hover:text-stone-600 transition-colors">
+               <h3 class="font-bold text-lg text-stone-800 mb-1 group-hover:text-stone-600 transition-colors">
                  {{ ben.texto }}
-               </h4>
+               </h3>
                <p class="text-sm text-stone-400 font-light">
                  {{ ben.subtexto }}
                </p>

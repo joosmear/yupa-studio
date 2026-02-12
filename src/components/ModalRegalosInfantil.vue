@@ -60,7 +60,7 @@ const copiarCuenta = async (texto) => {
       <div class="bg-white w-full max-w-md rounded-[2rem] shadow-2xl relative z-10 overflow-hidden flex flex-col animate-modal-bounce max-h-[85vh]">
         
         <div class="p-4 text-center relative shrink-0 border-b" :class="colorHeader">
-           <button @click="$emit('close')" class="absolute top-4 right-4 bg-white/50 hover:bg-white rounded-full p-2 transition-colors" :class="colorSubtitulo">
+           <button @click="$emit('close')" aria-label="Cerrar mesa de regalos" class="absolute top-4 right-4 bg-white/50 hover:bg-white rounded-full p-2 transition-colors" :class="colorSubtitulo">
              <PhX weight="bold" size="20" />
            </button>
            
@@ -73,6 +73,7 @@ const copiarCuenta = async (texto) => {
              v-for="(regalo, index) in listaRegalos" 
              :key="index"
              @click="indiceCuentaActiva = index"
+             :aria-label="'Ver cuenta de ' + (regalo.tag || 'Opción ' + (index + 1))"
              class="flex-1 py-4 text-sm font-bold uppercase tracking-wide transition-colors relative"
              :class="indiceCuentaActiva === index ? colorPestanaActiva + ' bg-white' : 'text-slate-400 bg-slate-50 hover:bg-slate-100'"
            >
@@ -96,6 +97,7 @@ const copiarCuenta = async (texto) => {
                         <div class="bg-slate-100 p-1 rounded-xl flex gap-1 shadow-inner">
                            <button 
                              @click="verQR = false"
+                             aria-label="Mostrar datos bancarios en texto"
                              class="px-6 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
                              :class="!verQR ? colorBotonActivo + ' shadow-sm' : 'text-slate-400 hover:text-slate-600'"
                            >
@@ -103,6 +105,7 @@ const copiarCuenta = async (texto) => {
                            </button>
                            <button 
                              @click="verQR = true"
+                             aria-label="Mostrar código QR para escanear"
                              class="px-6 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
                              :class="verQR ? colorBotonActivo + ' shadow-sm' : 'text-slate-400 hover:text-slate-600'"
                            >
@@ -136,6 +139,7 @@ const copiarCuenta = async (texto) => {
                               </span>
                               <button 
                                 @click="copiarCuenta(cuentaActual.cuenta)"
+                                :aria-label="copiado ? 'Número de cuenta copiado' : 'Copiar número de cuenta bancaria'"
                                 class="shrink-0 w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
                                 :class="copiado ? 'bg-green-500 text-white' : colorBotonCopiar"
                               >
@@ -153,6 +157,7 @@ const copiarCuenta = async (texto) => {
                         <div class="bg-white p-3 rounded-2xl border-2 border-dashed inline-block shadow-lg" :class="colorBordeDashed">
                            <ImagenSegura 
                              :src="cuentaActual.qrImagen" 
+                             :alt="'Código QR para transferencia a ' + cuentaActual.titular"
                              clase="w-64 h-64 object-contain rounded-lg"
                            />
                         </div>

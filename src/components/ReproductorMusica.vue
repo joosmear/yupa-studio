@@ -86,6 +86,7 @@ onUnmounted(() => { eliminarDetectores() })
 
       <button 
         @click="togglePlay"
+        :aria-label="isPlaying ? 'Pausar música' : 'Reproducir música'"
         class="music-btn relative rounded-full shadow-xl border transition-all duration-300 flex items-center justify-center hover:scale-105"
         :class="[colorBoton, colorIcono, clasesTamano, { 'is-playing': isPlaying }]"
         :style="{ '--ripple-width': grosorOnda }"

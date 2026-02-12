@@ -78,6 +78,7 @@ onUnmounted(() => {
             v-for="(t, index) in datos" 
             :key="index"
             @click="testimonioActual = index"
+            :aria-label="'Ver testimonio ' + (index + 1)"
             class="w-3 h-3 rounded-full transition-all duration-300"
             :class="testimonioActual === index ? `${temaColor} w-8 shadow-[0_0_15px_rgba(255,255,255,0.3)]` : 'bg-white/20 hover:bg-white/40'"
           ></button>

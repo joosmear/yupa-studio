@@ -90,7 +90,7 @@ const restaurarMensaje = () => {
       <div class="bg-white w-full max-w-md md:rounded-[2rem] rounded-t-[2rem] shadow-2xl relative z-10 overflow-hidden animate-slide-up flex flex-col max-h-[90vh]">
         
         <div class="p-6 text-white text-center relative shrink-0" :class="colorHeader">
-          <button @click="$emit('close')" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors">
+          <button @click="$emit('close')" aria-label="Cerrar ventana" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors">
             <PhX weight="bold" />
           </button>
           
@@ -154,6 +154,7 @@ const restaurarMensaje = () => {
 
              <button 
                @click="copiarLink"
+               :aria-label="copiado ? 'Enlace copiado con éxito' : 'Copiar enlace de la invitación al portapapeles'"
                class="w-full bg-white border-2 border-slate-100 hover:border-slate-300 text-slate-500 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
              >
                <component :is="copiado ? PhCheck : PhLink" weight="bold" :class="copiado ? 'text-green-500' : ''"/>

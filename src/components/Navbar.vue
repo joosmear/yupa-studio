@@ -152,7 +152,7 @@ const toggleMenu = () => {
               :class="[
                 'bg-slate-900/40 border-white/20 text-white hover:bg-white hover:text-rose-500 hover:scale-110'
               ]"
-              aria-label="Abrir menú"
+              :aria-label="menuAbierto ? 'Cerrar menú' : 'Abrir menú'"
             >
               <PhList size="26" weight="bold" />
             </button>
@@ -169,7 +169,7 @@ const toggleMenu = () => {
         
         <div class="w-full max-w-md p-6 flex justify-between items-center border-b border-white/10">
            <img src="/logo.png" alt="Yupa Studio" class="h-8 md:h-10 w-auto object-contain drop-shadow-lg" />
-           <button @click="toggleMenu" class="text-white/70 hover:text-rose-400 p-2 rounded-full hover:bg-white/10 transition">
+           <button @click="toggleMenu" aria-label="Cerrar menú" class="text-white/70 hover:text-rose-400 p-2 rounded-full hover:bg-white/10 transition">
              <PhX size="32" weight="light" />
            </button>
         </div>

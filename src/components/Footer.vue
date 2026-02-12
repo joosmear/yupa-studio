@@ -1,5 +1,5 @@
 <script setup>
-import { PhInstagramLogo, PhFacebookLogo, PhTiktokLogo, PhWhatsappLogo, PhEnvelopeSimple } from '@phosphor-icons/vue'
+import { PhFacebookLogo, PhTiktokLogo, PhWhatsappLogo, PhEnvelopeSimple } from '@phosphor-icons/vue'
 
 const redes = [
   { nombre: "Facebook", url: "https://www.tiktok.com/@yupa.studio", icono: PhFacebookLogo },
@@ -8,7 +8,7 @@ const redes = [
 </script>
 
 <template>
-  <footer class="bg-[#0F1420] text-stone-400 py-16 border-t border-white/5 relative overflow-hidden">
+  <footer class="bg-[#0F1420] text-stone-300 py-16 border-t border-white/5 relative overflow-hidden">
     
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
@@ -34,6 +34,9 @@ const redes = [
           v-for="red in redes" 
           :key="red.nombre"
           :href="red.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="'Síguenos en ' + red.nombre"
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-rose-600 hover:text-white transition-all duration-300 group"
         >
           <component 

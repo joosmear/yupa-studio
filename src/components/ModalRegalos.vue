@@ -32,7 +32,7 @@ const copiarCuenta = (numero) => {
     <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl relative">
       
       <div class="bg-white p-2 relative flex justify-end">
-        <button @click="emit('cerrar')" class="p-2 text-gray-400 hover:text-rose-500">
+        <button @click="emit('cerrar')" aria-label="Cerrar ventana de regalos" class="p-2 text-gray-400 hover:text-rose-500">
           <PhX size="24" weight="bold" />
         </button>
         </div>
@@ -51,7 +51,9 @@ const copiarCuenta = (numero) => {
 
       <div class="p-6 pt-4">
         <div class="bg-white p-2 rounded-xl border-2 border-dashed border-gray-200 mb-5 flex justify-center shadow-sm">
-          <img :src="cuentas[indiceActivo].qr" class="w-48 h-48 object-contain mix-blend-multiply" alt="QR" />
+          <img :src="cuentas[indiceActivo].qr" 
+          :alt="'Código QR para transferencia a cuenta ' + cuentas[indiceActivo].nombre"
+          class="w-48 h-48 object-contain mix-blend-multiply" alt="QR" />
         </div>
 
         <div class="space-y-3 text-sm">
@@ -69,7 +71,7 @@ const copiarCuenta = (numero) => {
             <div class="text-xs text-gray-500">Nro. de Cuenta</div>
             <div class="flex items-center gap-2">
               <span class="font-mono font-bold text-lg text-gray-800 select-all">{{ cuentas[indiceActivo].cuenta }}</span>
-              <button @click="copiarCuenta(cuentas[indiceActivo].cuenta)" class="bg-white p-2 rounded-full shadow-sm  hover:bg-rose-50 transition" title="Copiar número" :class="colorBoton">
+              <button @click="copiarCuenta(cuentas[indiceActivo].cuenta)" aria-label="Copiar número de cuenta al portapapeles" class="bg-white p-2 rounded-full shadow-sm  hover:bg-rose-50 transition" title="Copiar número" :class="colorBoton">
                 <PhCopy size="20" weight="bold"/>
               </button>
             </div>
