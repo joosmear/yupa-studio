@@ -10,7 +10,7 @@ const categorias = [
   {
     titulo: "Bodas",
     descripcion: "Elegancia atemporal, mapas GPS y confirmación de asistencia.",
-    imagen: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=500&format=webp",
     ruta: "/bodas",
     icono: PhHeart,
     // Colores Yupa: Rose
@@ -22,7 +22,7 @@ const categorias = [
   {
     titulo: "15 Años",
     descripcion: "Brillo, música, cuenta regresiva y estilo moderno.",
-    imagen: "https://images.unsplash.com/photo-1705626308236-490402f6c1cd?q=80&w=681",
+    imagen: "https://images.unsplash.com/photo-1705626308236-490402f6c1cd?q=80&w=500&format=webp",
     ruta: "/15-anos",
     icono: PhConfetti,
     // Colores Yupa: Fuchsia
@@ -34,7 +34,7 @@ const categorias = [
   {
     titulo: "Infantiles",
     descripcion: "Diseños tiernos y divertidos para celebrar la vida.",
-    imagen: "https://images.unsplash.com/photo-1748813792164-41696e6173b6?q=80&w=1170",
+    imagen: "https://images.unsplash.com/photo-1748813792164-41696e6173b6?q=80&w=500&format=webp",
     ruta: "/infantiles",
     icono: PhBaby,
     // Colores Yupa: Sky
@@ -138,9 +138,11 @@ const testimoniosHome = [
 
       <div class="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1920&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=&w=1000&format=webp&q=80" 
           class="w-full h-full object-cover opacity-20 scale-105 animate-pan-slow"
           alt="Fondo Textura"
+          fetchpriority="high" 
+          loading="eager"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[#0F1420] via-[#0F1420]/80 to-transparent"></div>
       </div>
@@ -192,6 +194,7 @@ const testimoniosHome = [
               <img 
                 :src="cat.imagen"
                 :alt="'Invitaciones Digitales para ' + cat.titulo + ' - Yupa Studio'"
+                loading="lazy"
                 class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1" 
               />
 
