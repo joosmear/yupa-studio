@@ -10,7 +10,7 @@ const categorias = [
   {
     titulo: "Bodas",
     descripcion: "Elegancia atemporal, mapas GPS y confirmación de asistencia.",
-    imagen: "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&format=webp&q=50",
+    imagen: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=60&w=400&format=webp",
     ruta: "/bodas",
     icono: PhHeart,
     // Colores Yupa: Rose
@@ -22,7 +22,7 @@ const categorias = [
   {
     titulo: "15 Años",
     descripcion: "Brillo, música, cuenta regresiva y estilo moderno.",
-    imagen: "https://images.unsplash.com/photo-1705626308236-490402f6c1cd?w=400&format=webp&q=50",
+    imagen: "https://images.unsplash.com/photo-1705626308236-490402f6c1cd?q=60&w=400&format=webp",
     ruta: "/15-anos",
     icono: PhConfetti,
     // Colores Yupa: Fuchsia
@@ -34,7 +34,7 @@ const categorias = [
   {
     titulo: "Infantiles",
     descripcion: "Diseños tiernos y divertidos para celebrar la vida.",
-    imagen: "https://images.unsplash.com/photo-1748813792164-41696e6173b6?w=400&format=webp&q=50",
+    imagen: "https://images.unsplash.com/photo-1748813792164-41696e6173b6?q=60&w=400&format=webp",
     ruta: "/infantiles",
     icono: PhBaby,
     // Colores Yupa: Sky
@@ -138,7 +138,7 @@ const testimoniosHome = [
 
       <div class="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&format=webp&q=40" 
+          src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=40&w=800&format=webp" 
           class="w-full h-full object-cover opacity-20 scale-105 animate-pan-slow"
           alt="Fondo Textura"
           fetchpriority="high" 
