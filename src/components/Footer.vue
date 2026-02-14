@@ -16,10 +16,13 @@ const redes = [
       
       <router-link to="/" class="mb-6 inline-block hover:opacity-80 transition-opacity">
         <img 
-          src="/logo.png" 
-          alt="Yupa Studio" 
-          class="h-12 w-auto object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
-        />
+          src="/logo.webp" 
+          alt="Logo Yupa Studio" 
+          width="150" 
+          height="50"
+          loading="lazy"
+          class="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+        >
       </router-link>
 
       <nav class="flex flex-wrap justify-center gap-6 md:gap-10 mb-10 text-sm font-medium tracking-wide">

@@ -786,8 +786,6 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;700;900&family=Pacifico&display=swap');
-
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
 .font-pacifico { font-family: 'Pacifico', cursive; }
 

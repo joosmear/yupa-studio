@@ -644,13 +644,9 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@900&display=swap');
-
-/* TIPOGRAFÍA */
 .font-modern { font-family: 'Montserrat', sans-serif; font-weight: 900; }
 .font-vibes { font-family: 'Great Vibes', cursive; }
 
-/* EFECTO NEÓN TEXTO */
 .neon-text-pink {
   color: #fff;
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #d946ef, 0 0 40px #d946ef;

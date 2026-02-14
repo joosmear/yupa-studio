@@ -1,18 +1,23 @@
 <script setup>
-import { computed, watchEffect } from 'vue'
+import { computed, watchEffect, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as baseDeDatos from '../data/misClientes.js'
-import PlantillaBoda01 from './PlantillaBoda01.vue'
-import PlantillaBoda02 from './PlantillaBoda02.vue'
-import PlantillaBoda03 from './PlantillaBoda03.vue'
-import PlantillaBoda04 from './PlantillaBoda04.vue'
-import PlantillaBoda05 from './PlantillaBoda05.vue'
-import PlantillaQuince01 from './PlantillaQuince01.vue'
-import PlantillaQuince02 from './PlantillaQuince02.vue'
-import PlantillaQuince03 from './PlantillaQuince03.vue'
-import PlantillaInfantil01 from './PlantillaInfantil01.vue'
-import PlantillaInfantil02 from './PlantillaInfantil02.vue'
-import PlantillaInfantil03 from './PlantillaInfantil03.vue'
+
+const PlantillaBoda01 = defineAsyncComponent(() => import('./PlantillaBoda01.vue'))
+const PlantillaBoda02 = defineAsyncComponent(() => import('./PlantillaBoda02.vue'))
+const PlantillaBoda03 = defineAsyncComponent(() => import('./PlantillaBoda03.vue'))
+const PlantillaBoda04 = defineAsyncComponent(() => import('./PlantillaBoda04.vue'))
+const PlantillaBoda05 = defineAsyncComponent(() => import('./PlantillaBoda05.vue'))
+
+// --- 15 AÑOS ---
+const PlantillaQuince01 = defineAsyncComponent(() => import('./PlantillaQuince01.vue'))
+const PlantillaQuince02 = defineAsyncComponent(() => import('./PlantillaQuince02.vue'))
+const PlantillaQuince03 = defineAsyncComponent(() => import('./PlantillaQuince03.vue'))
+
+// --- INFANTIL ---
+const PlantillaInfantil01 = defineAsyncComponent(() => import('./PlantillaInfantil01.vue'))
+const PlantillaInfantil02 = defineAsyncComponent(() => import('./PlantillaInfantil02.vue'))
+const PlantillaInfantil03 = defineAsyncComponent(() => import('./PlantillaInfantil03.vue'))
 
 const route = useRoute()
 const router = useRouter()
@@ -29,9 +34,11 @@ const datosCliente = computed(() => {
         name: 'NotFound',
         params: { pathMatch: route.path.substring(1).split('/') } 
       })
-    }
-  })
-
+    }else {
+        // Actualizar título sin librerías
+        document.title = `Invitación: ${datosCliente.value.nombre} | Yupa Studio`
+      }
+    })
   // LÓGICA DE CADUCIDAD
   const estaVencida = computed(() => {
     if (!datosCliente.value) return false

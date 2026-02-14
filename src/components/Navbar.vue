@@ -13,33 +13,36 @@ const menuAbierto = ref(false)
 // --- VARIABLES REACTIVAS PARA EL SCROLL ---
 const isTop = ref(true)      // ¿Estamos arriba del todo? (Para el Logo)
 const menuOculto = ref(false) // ¿Debemos esconder la hamburguesa? (Smart Hide)
-let lastScrollY = 0          // Variable interna para calcular dirección
 
-const handleScroll = () => {
+let lastScrollY = 0
+let ticking = false
+
+const updateNavbar = () => {
   const currentScrollY = window.scrollY
-  
-  // 1. Detectar si estamos en el tope (zona segura de 50px)
-  // Si currentScrollY es menor a 50, isTop es TRUE -> MOSTRAR LOGO
   isTop.value = currentScrollY < 50
 
-  // 2. Lógica Smart Hide para la Hamburguesa
   if (currentScrollY > 50) {
     if (currentScrollY > lastScrollY) {
-      // Bajando -> Ocultar Hamburguesa
       menuOculto.value = true
     } else {
-      // Subiendo -> Mostrar Hamburguesa
       menuOculto.value = false
     }
   } else {
-    // Si estamos arriba, siempre mostrar la hamburguesa en su sitio
     menuOculto.value = false
   }
 
   lastScrollY = currentScrollY
+  ticking = false
 }
 
-onMounted(() => window.addEventListener('scroll', handleScroll))
+const handleScroll = () => {
+  if (!ticking) {
+    window.requestAnimationFrame(updateNavbar)
+    ticking = true
+  }
+}
+
+onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 const esPlantilla = computed(() => route.path.includes('/invitacion/'))
@@ -120,8 +123,10 @@ const toggleMenu = () => {
       >
         <router-link to="/">
           <img 
-            src="/logo.png" 
-            alt="Yupa Studio" 
+            src="/logo.webp" 
+            alt="Yupa Studio"
+            width="250" 
+            height="85"
             class="h-10 md:h-12 w-auto object-contain drop-shadow-md hover:opacity-90 transition-opacity" 
           />
         </router-link>

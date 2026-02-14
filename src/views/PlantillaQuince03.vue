@@ -693,11 +693,10 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital@0;1&display=swap');
-
 .font-cinzel { font-family: 'Cinzel', serif; }
 .font-great-vibes { font-family: 'Great Vibes', cursive; }
 .font-playfair { font-family: 'Playfair Display', serif; }
+
 .fade-enter-active, .fade-leave-active { transition: opacity 0.5s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 

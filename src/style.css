@@ -113,6 +113,82 @@
   font-family: 'The Seasons', serif;
   font-weight: 400; /* Normal */
 }
+/* 6. The Seasons */
+@font-face {
+  font-family: 'The Seasons';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url('/fonts/TheSeasons-Regular.ttf') format('truetype');
+}
+/* 7. Fredoka (Infantil) */
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/fredoka-v17-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/fredoka-v17-latin-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/fredoka-v17-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/fredoka-v17-latin-700.woff2') format('woff2');
+}
+
+/* 8. Pacifico (Títulos divertidos) */
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/pacifico-v23-latin-regular.woff2') format('woff2');
+}
+/* 9. Monserrrat  */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/montserrat-v31-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/montserrat-v31-latin-900.woff2') format('woff2');
+}
+/* 9. Cinzel  */
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/cinzel-v26-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/cinzel-v26-latin-700.woff2') format('woff2');
+}
 
 @layer utilities {
   .font-boda { font-family: 'Great Vibes', cursive; }
